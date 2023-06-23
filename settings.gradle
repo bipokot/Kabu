@@ -1,0 +1,18 @@
+
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+    }
+}
+
+rootProject.name = 'Kabu'
+
+include(
+        "annotations",
+        "backend",
+        "runtime",
+        "frontend:ksp:processor",
+        "frontend:ksp:testing",
+)
+

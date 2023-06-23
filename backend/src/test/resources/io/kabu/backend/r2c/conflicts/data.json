@@ -1,0 +1,67 @@
+[
+  {
+    "raw" : "s * b + s2 * b2  // s b s2 b2",
+    "sample" : "\"abc\" * false + \"cde\" * true",
+    "termination" : "abc, false, cde, true"
+  },
+  {
+    "raw" : "{s * b} + {s2 * b2}  // s b s2 b2",
+    "sample" : "{\"aaa\" * false} + {\"bbb\" * true}  // s b s2 b2",
+    "termination" : "aaa, false, bbb, true"
+  },
+  {
+    "raw" : "{{s * b}} + {{s2 * b2}}  // s b s2 b2",
+    "sample" : "{{\"aaa\" * false}} + {{\"bbb\" * true}}  // s b s2 b2",
+    "termination" : "aaa, false, bbb, true"
+  },
+  {
+    "raw" : "s * b + s2 * b2 + s3 * b3  // s b s2 b2 s3 b3",
+    "sample" : "\"aaa\" * false + \"bbb\" * true + \"ccc\" * false  // s b s2 b2",
+    "termination" : "aaa, false, bbb, true, ccc, false"
+  },
+  {
+    "raw" : "{ s % i } * b - x({ s2 % i2 } * b2) // s i b s2 i2 b2",
+    "sample" : "{ \"abc\" % 1 } * false - x({ \"cde\" % 333 } * true)",
+    "termination" : "abc, 1, false, cde, 333, true"
+  },
+  {
+    "raw" : "{ s % i } * b - x({ s2 % i2 } * b2) + y({ s3 % i3 } * b3) // s i b s2 i2 b2 s3 i3 b3",
+    "sample" : "{ \"abc\" % 1 } * false - x({ \"cde\" % 333 } * true) + y({ \"ghi\" % 444 } * false)",
+    "termination" : "abc, 1, false, cde, 333, true, ghi, 444, false"
+  },
+  {
+    "raw" : "x X i X x // i",
+    "sample" : "x X 5 X x",
+    "termination" : "5"
+  },
+  {
+    "raw" : "i * b - x(i2 * b2) // i b i2 b2",
+    "sample" : "100 * true - x(1 * false)",
+    "termination" : "100, true, 1, false"
+  },
+  {
+    "raw" : "x(s * b, s2 * b2) + y(s3 * b3, s4 * b4)  // s b s2 b2 s3 b3 s4 b4",
+    "sample" : "x(\"aaa\" * false, \"bbb\" * true) + y(\"ccc\" * false, \"ddd\" * true)",
+    "termination" : "aaa, false, bbb, true, ccc, false, ddd, true"
+  },
+  {
+    "raw" : "x(s * b, s2 * b2) + x(s3 * b3, s4 * b4)  // s b s2 b2 s3 b3 s4 b4",
+    "sample" : "x(\"aaa\" * false, \"bbb\" * true) + x(\"ccc\" * false, \"ddd\" * true)",
+    "termination" : "aaa, false, bbb, true, ccc, false, ddd, true"
+  },
+  {
+    "raw" : "xxx(s * b) + s2 * b2 + s3 * b3  // s b s2 b2 s3 b3",
+    "sample" : "xxx(\"aaa\" * false) + \"bbb\" * true + \"ccc\" * false",
+    "termination" : "aaa, false, bbb, true, ccc, false"
+  },
+  {
+    "raw" : "{ W h y } S o { S e r i o u s }",
+    "sample" : "{ W h y } S o { S e r i o u s }",
+    "termination" : ""
+  },
+  {
+    "raw" : "s * b + s2.x * b2  // s b s2 b2",
+    "sample" : "\"abc\" * false + \"cde\".x * true",
+    "termination" : "abc, false, cde, true"
+  }
+]

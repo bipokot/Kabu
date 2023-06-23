@@ -1,0 +1,8 @@
+val raw = "!c{ +((a > b) in (d > e)) }"
+!11{ +(("qwe" > false) in ("rty" < true)) }
+
+val raw = "!c{ (a > b > d) / f }"
+!11{ ("qwe" > false < "rty" )/ 3 }
+
+val raw = "!c{ -(a > b > c > d) }"
+!7{ -("aaa" > true < 19 > "bbb") }

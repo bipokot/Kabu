@@ -4,3 +4,4 @@
 .gradle
 /local.properties
 /antlr/
+**/Generated.kt

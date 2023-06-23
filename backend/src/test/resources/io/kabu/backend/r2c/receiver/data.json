@@ -1,0 +1,27 @@
+[
+  {
+    "raw" : "x + s // i . s",
+    "sample" : "with(11) { x + \"abc\" }",
+    "termination" : "11; abc"
+  },
+  {
+    "raw" : "s % i - func { i2 } // b . s i i2",
+    "sample" : "with(false) { \"abcdef\" % 11 - func { 345 } }",
+    "termination" : "false; abcdef, 11, 345"
+  },
+  {
+    "raw" : "b * i - {{ i2..x }} // s . b i i2",
+    "sample" : "with(\"xyz\") { true * 53 - {{ 97..x }} }",
+    "termination" : "xyz; true, 53, 97"
+  },
+  {
+    "raw" : "action % s / b // i . b s",
+    "sample" : "with(1) { action % \"abc\" / true }",
+    "termination" : "1; true, abc"
+  },
+  {
+    "raw" : "xxx % s * b - i2 // i . s b i2",
+    "sample" : "with(101) { xxx % \"sss\" * false - 11 }",
+    "termination" : "101; sss, false, 11"
+  }
+]

@@ -1,0 +1,6 @@
+//{a }() // invoke on functional type is shadowed
+//{ "abcdef" }()
+
+//b++()
+//true++()
+//a--(b)++

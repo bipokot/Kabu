@@ -1,0 +1,12 @@
+[
+  {
+    "containingType" : {
+      "@type" : "RegularSerializedType",
+      "packageName" : "kotlin",
+      "className" : "String",
+      "typeParameters" : [ ],
+      "nullable" : false
+    },
+    "name" : "length"
+  }
+]

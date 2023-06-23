@@ -1,0 +1,132 @@
+[
+  {
+    "raw" : "s-b // s b",
+    "sample" : "\"abc\" - false",
+    "termination" : "abc, false"
+  },
+  {
+    "raw" : "b+s // b s",
+    "sample" : "true + \"abc\"",
+    "termination" : "true, abc"
+  },
+  {
+    "raw" : "b+s1 - (i+ s2) // b s1 i s2 ",
+    "sample" : "false + \"abc\" - (43+\"def\")",
+    "termination" : "false, abc, 43, def"
+  },
+  {
+    "raw" : "s1-b + i -s2 // s1 b i s2",
+    "sample" : "\"qwerty\"-true + 23 -\"def\"",
+    "termination" : "qwerty, true, 23, def"
+  },
+  {
+    "raw" : "s * b // s b",
+    "sample" : "\"abc\" * true",
+    "termination" : "abc, true"
+  },
+  {
+    "raw" : "s/b // s b",
+    "sample" : "\"def\"/false",
+    "termination" : "def, false"
+  },
+  {
+    "raw" : "s %b // s b",
+    "sample" : "\"abc\" %true",
+    "termination" : "abc, true"
+  },
+  {
+    "raw" : "s %b /  i *s2% b2 // s b i s2 b2",
+    "sample" : "\"cdef\" %false /  41 *\"abc\"% true",
+    "termination" : "cdef, false, 41, abc, true"
+  },
+  {
+    "raw" : "s *b % (i *s2)% b2 // s b i s2 b2",
+    "sample" : "\"aaa\" *true % (17 *\"bbb\")% false",
+    "termination" : "aaa, true, 17, bbb, false"
+  },
+  {
+    "raw" : "s..b // s b",
+    "sample" : "\"aaa\"..false",
+    "termination" : "aaa, false"
+  },
+  {
+    "raw" : "s..b + i // s b i",
+    "sample" : "\"bbb\"..true + 13",
+    "termination" : "bbb, true, 13"
+  },
+  {
+    "raw" : "s..b ..i // s b i",
+    "sample" : "\"abc\"..false ..19",
+    "termination" : "abc, false, 19"
+  },
+  {
+    "raw" : "s..b ..i .. s2 // s b i s2",
+    "sample" : "\"bbb\"..true ..7 .. \"ccc\"",
+    "termination" : "bbb, true, 7, ccc"
+  },
+  {
+    "raw" : "s func b // s b",
+    "sample" : "\"abc\" func false",
+    "termination" : "abc, false"
+  },
+  {
+    "raw" : "s * b func i // s b i",
+    "sample" : "\"abcdef\" * true func 11",
+    "termination" : "abcdef, true, 11"
+  },
+  {
+    "raw" : "b func i + s // b i s",
+    "sample" : "true func 37 + \"abc\"",
+    "termination" : "true, 37, abc"
+  },
+  {
+    "raw" : "b func i func2 s // b i s",
+    "sample" : "false func 3 func2 \"aaa\"",
+    "termination" : "false, 3, aaa"
+  },
+  {
+    "raw" : "b func i func2 (s func3 b2) // b i s b2",
+    "sample" : "true func 5 func2 (\"abcdef\" func3 false)",
+    "termination" : "true, 5, abcdef, false"
+  },
+  {
+    "raw" : "s* b+ i // s b i",
+    "sample" : "\"qwerty\"* true+ 100",
+    "termination" : "qwerty, true, 100"
+  },
+  {
+    "raw" : "(s * b + i / s2) % b2 + i2 // s b i s2 b2 i2",
+    "sample" : "(\"abc\" * false + 0 / \"def\") % true + 43",
+    "termination" : "abc, false, 0, def, true, 43"
+  },
+  {
+    "raw" : "b % (s .. b2 + i / s2) // b s b2 i s2",
+    "sample" : "false % (\"qwerty\" .. true + 7 / \"abc\")",
+    "termination" : "false, qwerty, true, 7, abc"
+  },
+  {
+    "raw" : "(s .. b * i ) % b2 + i2 .. s2 // s b i b2 i2 s2",
+    "sample" : "(\"aaa\" .. false * 9 ) % true + 53 .. \"bbb\"",
+    "termination" : "aaa, false, 9, true, 53, bbb"
+  },
+  {
+    "raw" : "s..i() // s i",
+    "sample" : "\"abc\"..1001()",
+    "termination" : "abc, 1001"
+  },
+  {
+    "raw" : "x1..x2()",
+    "sample" : "x1..x2()",
+    "termination" : ""
+  },
+  {
+    "raw" : "b1 ..< b2 // b1 b2",
+    "sample" : "true ..< false",
+    "termination" : "true, false"
+  },
+  {
+    "raw" : "b1 ..< s1 ..< i1 // b1 s1 i1",
+    "sample" : "true ..< \"abc\" ..< 41",
+    "termination" : "true, abc, 41"
+  }
+]

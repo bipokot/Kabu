@@ -1,0 +1,92 @@
+[
+  {
+    "raw" : "b += s // b s",
+    "sample" : "true += \"abc\"",
+    "termination" : "true, abc"
+  },
+  {
+    "raw" : "b -= s // b s",
+    "sample" : "true -= \"aaa\"",
+    "termination" : "true, aaa"
+  },
+  {
+    "raw" : "b *= s // b s",
+    "sample" : "true *= \"aaa\"",
+    "termination" : "true, aaa"
+  },
+  {
+    "raw" : "b /= i // b i",
+    "sample" : "true /= 31",
+    "termination" : "true, 31"
+  },
+  {
+    "raw" : "s %= i // s i",
+    "sample" : "\"abcdef\" %= 31",
+    "termination" : "abcdef, 31"
+  },
+  {
+    "raw" : "b += s * i // b s i",
+    "sample" : "true += \"abc\" * 11",
+    "termination" : "true, abc, 11"
+  },
+  {
+    "raw" : "b += { s } // b s",
+    "sample" : "true += { \"abcdef\" }",
+    "termination" : "true, abcdef"
+  },
+  {
+    "raw" : "b[i] += s // b i s",
+    "sample" : "false[9] += \"Leo\"",
+    "termination" : "false, 9, Leo"
+  },
+  {
+    "raw" : "b(i) += s // b i s",
+    "sample" : "false(9) += \"Leo\"",
+    "termination" : "false, 9, Leo"
+  },
+  {
+    "raw" : "(b / i) += s // b i s",
+    "sample" : "(false / 0) += \"with parentheses\"",
+    "termination" : "false, 0, with parentheses"
+  },
+  {
+    "raw" : "(b / i) += s // b i s",
+    "sample" : "false / 0 += \"without parentheses\"",
+    "termination" : "false, 0, without parentheses"
+  },
+  {
+    "raw" : "{ b * i } += { s } // b i s",
+    "sample" : "{ true * 1 } += { \"aaa\" }",
+    "termination" : "true, 1, aaa"
+  },
+  {
+    "raw" : "(b / i) /= s / s2 // b i s s2",
+    "sample" : "(true / 0) /= \"path\" / \"file\"",
+    "termination" : "true, 0, path, file"
+  },
+  {
+    "raw" : "(b / i) /= s / s2 // b i s s2",
+    "sample" : "true / 0 /= \"path\" / \"file\"",
+    "termination" : "true, 0, path, file"
+  },
+  {
+    "raw" : "x { s += i } x { b += s2 } // s i b s2",
+    "sample" : "x { \"abc\" += 3 } x { true += \"def\" }",
+    "termination" : "abc, 3, true, def"
+  },
+  {
+    "raw" : "x { b %= i } // b i",
+    "sample" : "x { true %= 1 }",
+    "termination" : "true, 1"
+  },
+  {
+    "raw" : "x { (b + s) %= i } // b s i",
+    "sample" : "x { true + \"abc\" %= 23 }",
+    "termination" : "true, abc, 23"
+  },
+  {
+    "raw" : "x1 { x2 {(b + s) *= i } x3 { b2 -= s2 } } // b s i b2 s2",
+    "sample" : "x1 { x2 { true + \"abc\" *= 23 } x3 { false -= \"def\" } }",
+    "termination" : "true, abc, 23, false, def"
+  }
+]

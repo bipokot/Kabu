@@ -1,0 +1,22 @@
+[
+  {
+    "raw" : "i1 + s1 // i1? s1?",
+    "sample" : "3 + \"abc\"",
+    "termination" : "3, abc"
+  },
+  {
+    "raw" : "i1 + s1 // i1? s1?",
+    "sample" : "null + null",
+    "termination" : "null, null"
+  },
+  {
+    "raw" : "i1 + s1 // i1? s1?",
+    "sample" : "3 + null",
+    "termination" : "3, null"
+  },
+  {
+    "raw" : "-!i // i?",
+    "sample" : "-!30",
+    "termination" : "30"
+  }
+]

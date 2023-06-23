@@ -1,0 +1,252 @@
+[
+  {
+    "raw" : "s{ b in b2 * i } // s b incl b2 i",
+    "sample" : "\"abcdef\"{ false !in true * 53 }",
+    "termination" : "abcdef, false, NOT_IN, true, 53"
+  },
+  {
+    "raw" : "i{ (b in b2) + (s < i2) } // i b incl b2 s rank i2",
+    "sample" : "41{ (false !in true) + (\"abc\" > 4) }",
+    "termination" : "41, false, NOT_IN, true, abc, GREATER, 4"
+  },
+  {
+    "raw" : "!i{ (s > b) * s2 } // i s rank b s2",
+    "sample" : "!101{ (\"abc\" > false) * \"def\" }",
+    "termination" : "101, abc, GREATER, false, def"
+  },
+  {
+    "raw" : "!i{ (s > b) * (s2 < b2) } // i s rank b s2 rank2 b2",
+    "sample" : "!45{ (\"qwerty\" < true) * (\"def\" < false) }",
+    "termination" : "45, qwerty, LESS, true, def, LESS, false"
+  },
+  {
+    "raw" : "!i{ (s > b > s2) / i2 } // i s rank b rank2 s2 i2",
+    "sample" : "!11{ (\"aaa\" < true > \"bbb\") / 43 }",
+    "termination" : "11, aaa, LESS, true, GREATER, bbb, 43"
+  },
+  {
+    "raw" : "!i{ +(b in i2) } // i b incl i2",
+    "sample" : "!21{ +(true in 2) }",
+    "termination" : "21, true, IN, 2"
+  },
+  {
+    "raw" : "!i{ +(b in b2 in i2) } // i b incl b2 incl2 i2",
+    "sample" : "!0{ +(false in true !in 1) }",
+    "termination" : "0, false, IN, true, NOT_IN, 1"
+  },
+  {
+    "raw" : "!i{ (b in b2) * s  } // i b incl b2 s",
+    "sample" : "!4{ (true !in false) * \"qwerty\"  }",
+    "termination" : "4, true, NOT_IN, false, qwerty"
+  },
+  {
+    "raw" : "!i{ -(s > (b > i2 > s2)) } // i s rank b rank2 i2 rank3 s2",
+    "sample" : "!88{ -(\"abc\" > (true < 23 < \"string\")) }",
+    "termination" : "88, abc, GREATER, true, LESS, 23, LESS, string"
+  },
+  {
+    "raw" : "!i{ -(s > b > i2 > s2) } // i s rank1 b rank2 i2 rank3 s2",
+    "sample" : "!99{ -(\"a\" > true > 7 > \"b\") }",
+    "termination" : "99, a, GREATER, true, GREATER, 7, GREATER, b"
+  },
+  {
+    "raw" : "!i{ (s > b > s2) / i2 } // i s rank1 b rank2 s2 i2",
+    "sample" : "!19{ (\"abc\" < false < \"def\") / 37 }",
+    "termination" : "19, abc, LESS, false, LESS, def, 37"
+  },
+  {
+    "raw" : "!i{ +(b in b2 in i2 < s2 voila i3) } // i b incl b2 incl2 i2 rank s2 i3",
+    "sample" : "!17{ +(true in false !in 0 > \"ggg\" voila 5) }",
+    "termination" : "17, true, IN, false, NOT_IN, 0, GREATER, ggg, 5"
+  },
+  {
+    "raw" : "i{ s < b } // i s rank b",
+    "sample" : "7{ \"qwerty\" < true }",
+    "termination" : "7, qwerty, LESS, true"
+  },
+  {
+    "raw" : "i{ b in b2 } // i b incl b2",
+    "sample" : "3{ false !in true }",
+    "termination" : "3, false, NOT_IN, true"
+  },
+  {
+    "raw" : "i{ {b in b2} } // i b incl b2",
+    "sample" : "6{ {false in true} }",
+    "termination" : "6, false, IN, true"
+  },
+  {
+    "raw" : "i{ {{b in b2}} } // i b incl b2",
+    "sample" : "99{ {{true !in true}} }",
+    "termination" : "99, true, NOT_IN, true"
+  },
+  {
+    "raw" : "i{b in b2} * s // i b incl b2 s",
+    "sample" : "21{false !in false} * \"abc\"",
+    "termination" : "21, false, NOT_IN, false, abc"
+  },
+  {
+    "raw" : "s{b in b2} * { i % s2 } // s b incl b2 i s2",
+    "sample" : "\"aaa\"{true in false} * { 222 % \"bbb\" }",
+    "termination" : "aaa, true, IN, false, 222, bbb"
+  },
+  {
+    "raw" : "i { { s } > i2 } // i s rank i2",
+    "sample" : "12 { { \"abc\" } > 3 }",
+    "termination" : "12, abc, GREATER, 3"
+  },
+  {
+    "raw" : "s1{ s2 * b < i } // s1 s2 b i",
+    "sample" : "\"abc\"{ \"def\" * false > 17 } // s1 s2 b i",
+    "termination" : "abc, def, false, 17"
+  },
+  {
+    "raw" : "s { b !in b2 * i } // s b incl b2 i",
+    "sample" : "\"abcdef\"{ false !in true * 53 }",
+    "termination" : "abcdef, false, NOT_IN, true, 53"
+  },
+  {
+    "raw" : "x { { b1 !in b2 } * i } //b1 incl b2 i",
+    "sample" : "x { { false !in true } * 53 }",
+    "termination" : "false, NOT_IN, true, 53"
+  },
+  {
+    "raw" : "s{ b in b2 * i } // s b incl b2 i",
+    "sample" : "\"abc\"{ true in false * 11 }",
+    "termination" : "abc, true, IN, false, 11"
+  },
+  {
+    "raw" : "!s{ {b in i} * b2 } // s b incl i b2",
+    "sample" : "!\"aaa\"{ {true in 123} * false }",
+    "termination" : "aaa, true, IN, 123, false"
+  },
+  {
+    "raw" : "!i{ {b1 in b2} * { i2 % s } } // i b1 incl b2 i2 s",
+    "sample" : "!0{ {false in false} * { 1001 % \"abc\" } }",
+    "termination" : "0, false, IN, false, 1001, abc"
+  },
+  {
+    "raw" : "x1 { b < s } * { s2 < b2 } // b rank s s2 strict b2",
+    "sample" : "x1 { true < \"abc\" } * { \"def\" < false }",
+    "termination" : "true, LESS, abc, def, STRICT, false"
+  },
+  {
+    "raw" : "i{ b * { i2 in i3 } } // i b i2 incl2 i3",
+    "sample" : "11{ true * { 3 in 5 } }",
+    "termination" : "11, true, 3, IN, 5"
+  },
+  {
+    "raw" : "i{ {b} * { i2 in i3 } } // i b i2 incl2 i3",
+    "sample" : "1{ {false} * { 3 in 4 } }",
+    "termination" : "1, false, 3, IN, 4"
+  },
+  {
+    "raw" : "i{ {b in b2} * { i2 in i3 } } // i b incl1 b2 i2 incl2 i3",
+    "sample" : "1{ {false in true} * { 3 in 4 } }",
+    "termination" : "1, false, IN, true, 3, IN, 4"
+  },
+  {
+    "raw" : "i{ {b in b2} * { i2 in i3 < s } } // i b incl1 b2 i2 incl2 i3 s",
+    "sample" : "1{ {false in true} * { 3 in 4 > \"abc\"} }",
+    "termination" : "1, false, IN, true, 3, IN, 4, abc"
+  },
+  {
+    "raw" : "i{ +( { i2 in i3 } ) } // i i2 incl2 i3",
+    "sample" : "1{ +( { 3 in 4 } ) }",
+    "termination" : "1, 3, IN, 4"
+  },
+  {
+    "raw" : "x { { b > s } > i } // b s i",
+    "sample" : "x { { true > \"abc\" } > 11 } // b s i",
+    "termination" : "true, abc, 11"
+  },
+  {
+    "raw" : "x { i < { b > s } } // i b s",
+    "sample" : "x { 1 < { false > \"aaa\" } } // i b s",
+    "termination" : "1, false, aaa"
+  },
+  {
+    "raw" : "x { s / b < { b2 > s2 } } // s b b2 s2",
+    "sample" : "x { \"aaa\" / true < { false > \"bbb\" } } // s b b2 s2",
+    "termination" : "aaa, true, false, bbb"
+  },
+  {
+    "raw" : "x { { b2 > s2 } in s / b } // b2 s2 s b",
+    "sample" : "x { { true > \"abc\" } in \"xyz\" / false }",
+    "termination" : "true, abc, xyz, false"
+  },
+  {
+    "raw" : "x { s / b in y{ b2 > s2 } } // s b b2 s2",
+    "sample" : "x { \"abc\" / false in y{ true > \"xyz\" } }",
+    "termination" : "abc, false, true, xyz"
+  },
+  {
+    "raw" : "x { s / b in { b2 > s2 } } // s b b2 s2",
+    "sample" : "x { \"abc\" / false in { true > \"xyz\" } }",
+    "termination" : "abc, false, true, xyz"
+  },
+  {
+    "raw" : "i{ (b in b2) + (s < i2) { b3 in b4 } / (i3 in s2) } // i b incl b2 s rank i2 b3 incl2 b4 i3 s2",
+    "sample" : "1{ (true !in false) + (\"abc\" < 2) { false in false } / (3 in \"def\") }",
+    "termination" : "1, true, NOT_IN, false, abc, LESS, 2, false, IN, false, 3, def"
+  },
+  {
+    "raw" : "i{ {(b in b2) + (s < i2) {{{ b3 in b4 }}} / (i3 in s2)} } // i b incl b2 s rank i2 b3 incl2 b4 i3 s2",
+    "sample" : "1{ {(true !in false) + (\"abc\" < 2) {{{ false in false }}} / (3 in \"def\") }}",
+    "termination" : "1, true, NOT_IN, false, abc, LESS, 2, false, IN, false, 3, def"
+  },
+  {
+    "raw" : "x { y in b } // b",
+    "sample" : "x { y in false }",
+    "termination" : "false"
+  },
+  {
+    "raw" : "x { b in y } // b",
+    "sample" : "x { true in y }",
+    "termination" : "true"
+  },
+  {
+    "raw" : "x { b > y } // b",
+    "sample" : "x { false > y }",
+    "termination" : "false"
+  },
+  {
+    "raw" : "x { y > b } // b",
+    "sample" : "x { y > true }",
+    "termination" : "true"
+  },
+  {
+    "raw" : "x { b > y } // b rank",
+    "sample" : "x { false < y } // b rank",
+    "termination" : "false, LESS"
+  },
+  {
+    "raw" : "x { y > z } //",
+    "sample" : "x { y > z }",
+    "termination" : ""
+  },
+  {
+    "raw" : "x { y in z } //",
+    "sample" : "x { y in z }",
+    "termination" : ""
+  },
+  {
+    "raw" : "x { y = b < s }  // b strict s",
+    "sample" : "x { y = false <= \"aaa\" }  // b strict s",
+    "termination" : "false, RELAXED, aaa"
+  },
+  {
+    "raw" : "x { b < i1 > i2 } // b rank1 i1 i2",
+    "sample" : "x { true > 1 > 2 }",
+    "termination" : "true, GREATER, 1, 2"
+  },
+  {
+    "raw" : "x { b1 < s1 - b2 > s2 } // b1 strict s1 b2 rank s2",
+    "sample" : "x { true <= \"s1\" - false < \"s2\" }",
+    "termination" : "true, RELAXED, s1, false, LESS, s2"
+  },
+  {
+    "raw" : "x { b < s }.y.z // b s",
+    "sample" : "x { false < \"abcdef\" }.y.z",
+    "termination" : "false, abcdef"
+  }
+]

@@ -1,0 +1,222 @@
+[
+  {
+    "raw" : "b - i[b2 withOption i2, s1 % s2] // b i b2 i2 s1 s2",
+    "sample" : "false - 31[true withOption 2, \"abc\" % \"def\"]",
+    "termination" : "false, 31, true, 2, abc, def"
+  },
+  {
+    "raw" : "s(b / i % s2, b2-i2*s3) // s b i s2 b2 i2 s3",
+    "sample" : "\"abc\" (true / 7 % \"def\", false - 29*\"qwerty\")",
+    "termination" : "abc, true, 7, def, false, 29, qwerty"
+  },
+  {
+    "raw" : "b % (s .. b2 withOption s2 * i1 / s3) withSome i2 // b s b2 s2 i1 s3 i2",
+    "sample" : "false % (\"abcdef\" .. false withOption \"def\" * 11 / \"qweerty\") withSome 91",
+    "termination" : "false, abcdef, false, def, 11, qweerty, 91"
+  },
+  {
+    "raw" : "s / b * i + b2 // s b i b2",
+    "sample" : "\"aaa\" / false * 23 + false",
+    "termination" : "aaa, false, 23, false"
+  },
+  {
+    "raw" : "s * b / i // s b i",
+    "sample" : "\"abc\" * true / 13",
+    "termination" : "abc, true, 13"
+  },
+  {
+    "raw" : "s[b - i * s2, b2 withOption i2 % s3] // s b i s2 b2 i2 s3",
+    "sample" : "\"abc\"[false - 17 * \"def\", true withOption 9 % \"ghjk\"]",
+    "termination" : "abc, false, 17, def, true, 9, ghjk"
+  },
+  {
+    "raw" : "!i on -s / +-b // i s b",
+    "sample" : "!3 on -\"abc\" / +-true",
+    "termination" : "3, abc, true"
+  },
+  {
+    "raw" : "-s / +-b // s b",
+    "sample" : "-\"def\" / +-false",
+    "termination" : "def, false"
+  },
+  {
+    "raw" : "-s / +b // s b",
+    "sample" : "-\"aaa\" / +true",
+    "termination" : "aaa, true"
+  },
+  {
+    "raw" : "-s // s",
+    "sample" : "-\"qwerty\"",
+    "termination" : "qwerty"
+  },
+  {
+    "raw" : "-+!+-s // s",
+    "sample" : "-+!+-\"abcdef\"",
+    "termination" : "abcdef"
+  },
+  {
+    "raw" : "!!s - !!i // s i",
+    "sample" : "!!\"aaa\" - !!81",
+    "termination" : "aaa, 81"
+  },
+  {
+    "raw" : "-s .. -b // s b",
+    "sample" : "-\"abc\" .. -false",
+    "termination" : "abc, false"
+  },
+  {
+    "raw" : "!s[+b approved i(s2 % b2)] // s b i s2 b2",
+    "sample" : "!\"def\"[+false approved 22(\"abc\" % true)]",
+    "termination" : "def, false, 22, abc, true"
+  },
+  {
+    "raw" : "{} { s } // s",
+    "sample" : "{} { \"abcdef\" }",
+    "termination" : "abcdef"
+  },
+  {
+    "raw" : "{} { s % b } // s b",
+    "sample" : "{} { \"abc\" % true }",
+    "termination" : "abc, true"
+  },
+  {
+    "raw" : "{}[s,b,i] // s b i",
+    "sample" : "{}[\"aaa\",false,21]",
+    "termination" : "aaa, false, 21"
+  },
+  {
+    "raw" : "s({}) // s",
+    "sample" : "\"abc\"({})",
+    "termination" : "abc"
+  },
+  {
+    "raw" : "s{} // s",
+    "sample" : "\"abcdef\"{}",
+    "termination" : "abcdef"
+  },
+  {
+    "raw" : "s({},{}) // s",
+    "sample" : "\"qwerty\"({},{})",
+    "termination" : "qwerty"
+  },
+  {
+    "raw" : "s[{ b[{},{}] }, {i}] // s b i",
+    "sample" : "\"abc\"[{ false[{},{}] }, {1}]",
+    "termination" : "abc, false, 1"
+  },
+  {
+    "raw" : "!{}[s,b,i] // s b i",
+    "sample" : "!{}[\"poiuy\",true, 12]",
+    "termination" : "poiuy, true, 12"
+  },
+  {
+    "raw" : "!{}[i]() // i",
+    "sample" : "!{}[23]()",
+    "termination" : "23"
+  },
+  {
+    "raw" : "!{}[i] // i",
+    "sample" : "!{}[7]",
+    "termination" : "7"
+  },
+  {
+    "raw" : "!{ s / b } * { i } // s b i",
+    "sample" : "!{ \"abc\" / false } * { 87 }",
+    "termination" : "abc, false, 87"
+  },
+  {
+    "raw" : "!{ -s / b option +s2 } * { i } // s b s2 i",
+    "sample" : "!{ -\"def\" / true option +\"abc\" } * { 19 }",
+    "termination" : "def, true, abc, 19"
+  },
+  {
+    "raw" : "!{{ s % b } - { i abc s2 }} // s b i s2",
+    "sample" : "!{{ \"abc\" % false } - { 12 abc \"def\" }}",
+    "termination" : "abc, false, 12, def"
+  },
+  {
+    "raw" : "!{{{ b }}} // b",
+    "sample" : "!{{{ false }}}",
+    "termination" : "false"
+  },
+  {
+    "raw" : "{{{ b }}}(i) // b i",
+    "sample" : "{{{ true }}}(0)",
+    "termination" : "true, 0"
+  },
+  {
+    "raw" : "+{{ b }[s,i](b2)} // b s i b2",
+    "sample" : "+{{ false }[\"abc\",55](true)}",
+    "termination" : "false, abc, 55, true"
+  },
+  {
+    "raw" : "b[i]() // b i",
+    "sample" : "true[3]()",
+    "termination" : "true, 3"
+  },
+  {
+    "raw" : "b[i](s) // b i s",
+    "sample" : "false[9](\"Messi\")",
+    "termination" : "false, 9, Messi"
+  },
+  {
+    "raw" : "!i{ { { i2 % s } } } // i i2 s",
+    "sample" : "!2{ { { 5 % \"five\" } } }",
+    "termination" : "2, 5, five"
+  },
+  {
+    "raw" : "i{ i2 % s } // i i2 s",
+    "sample" : "1001{ 101 % \"course\" }",
+    "termination" : "1001, 101, course"
+  },
+  {
+    "raw" : "i infixTest { b } // i b",
+    "sample" : "19 infixTest { true }",
+    "termination" : "19, true"
+  },
+  {
+    "raw" : "!i{ { i2 % s } } // i i2 s",
+    "sample" : "!123{ { 4 % \"aabsd\" } }",
+    "termination" : "123, 4, aabsd"
+  },
+  {
+    "raw" : "!{{ b }} // b",
+    "sample" : "!{{ false }}",
+    "termination" : "false"
+  },
+  {
+    "raw" : "x1 { x2 { (b + s) *= i } x3 { b2 -= s2 } } // b s i b2 s2",
+    "sample" : "x1 { x2 { true + \"abc\" *= 23 } x3 { false -= \"def\" } }",
+    "termination" : "true, abc, 23, false, def"
+  },
+  {
+    "raw" : "x { s1[b1 > i1, b2 < i2] } //  s1 b1 rank i1 b2 rank2 i2",
+    "sample" : "x { \"abc\"[false > 11, true < 101] }",
+    "termination" : "abc, false, GREATER, 11, true, LESS, 101"
+  },
+  {
+    "raw" : "ᘤ [ᘎ, s1, +ᒣ {!s2{ᐳƧ}*s3}] - ϾϿ(-s4[Ⲷ]){ s5 Ⴖ Ϟ % ᘃ(ᗏ) ᗊ -ᓬ[s6] } // s1 s2 s3 s4 s5 s6",
+    "sample" : "ᘤ [ᘎ, \"K\", +ᒣ {!\"o\"{ᐳƧ}*\"t\"}] - ϾϿ(-\"l\"[Ⲷ]){ \"i\" Ⴖ Ϟ % ᘃ(ᗏ) ᗊ -ᓬ[\"n\"] }",
+    "termination" : "K, o, t, l, i, n"
+  },
+  {
+    "raw" : "ᘤ [ᘎ, +ᒣ {!{ᐳᙂ}}] - { ᘳ % ᘃ(ᗏ) ᗊ -ᓬ }",
+    "sample" : "ᘤ [ᘎ, +ᒣ {!{ᐳᙂ}}] - { ᘳ % ᘃ(ᗏ) ᗊ -ᓬ }",
+    "termination" : ""
+  },
+  {
+    "raw" : "ᆞ ᐸ i ᐳ ᆞ // i",
+    "sample" : "ᆞ ᐸ 1000 ᐳ ᆞ",
+    "termination" : "1000"
+  },
+  {
+    "raw" : "!{ -s / b } * { i } // s b i",
+    "sample" : "!{ -\"abc\" / false } * { -3 }",
+    "termination" : "abc, false, -3"
+  },
+  {
+    "raw" : "!{ -s / b option +s2 } * { i } // s b s2 i",
+    "sample" : "!{ -\"aaa\" / false option +\"bbb\" } * { 97 }",
+    "termination" : "aaa, false, bbb, 97"
+  }
+]

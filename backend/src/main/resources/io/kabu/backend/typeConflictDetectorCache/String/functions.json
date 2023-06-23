@@ -1,0 +1,157 @@
+[
+  {
+    "containingType" : {
+      "@type" : "RegularSerializedType",
+      "packageName" : "kotlin",
+      "className" : "String",
+      "typeParameters" : [ ],
+      "nullable" : false
+    },
+    "name" : "compareTo",
+    "receiver" : null,
+    "parameterTypes" : [
+      {
+        "@type" : "RegularSerializedType",
+        "packageName" : "kotlin",
+        "className" : "String",
+        "typeParameters" : [ ],
+        "nullable" : false
+      }
+    ]
+  },
+  {
+    "containingType" : {
+      "@type" : "RegularSerializedType",
+      "packageName" : "kotlin",
+      "className" : "String",
+      "typeParameters" : [ ],
+      "nullable" : false
+    },
+    "name" : "get",
+    "receiver" : null,
+    "parameterTypes" : [
+      {
+        "@type" : "RegularSerializedType",
+        "packageName" : "kotlin",
+        "className" : "Int",
+        "typeParameters" : [ ],
+        "nullable" : false
+      }
+    ]
+  },
+  {
+    "containingType" : {
+      "@type" : "RegularSerializedType",
+      "packageName" : "kotlin",
+      "className" : "String",
+      "typeParameters" : [ ],
+      "nullable" : false
+    },
+    "name" : "plus",
+    "receiver" : null,
+    "parameterTypes" : [
+      {
+        "@type" : "RegularSerializedType",
+        "packageName" : "kotlin",
+        "className" : "Any",
+        "typeParameters" : [ ],
+        "nullable" : true
+      }
+    ]
+  },
+  {
+    "containingType" : {
+      "@type" : "RegularSerializedType",
+      "packageName" : "kotlin",
+      "className" : "String",
+      "typeParameters" : [ ],
+      "nullable" : false
+    },
+    "name" : "subSequence",
+    "receiver" : null,
+    "parameterTypes" : [
+      {
+        "@type" : "RegularSerializedType",
+        "packageName" : "kotlin",
+        "className" : "Int",
+        "typeParameters" : [ ],
+        "nullable" : false
+      },
+      {
+        "@type" : "RegularSerializedType",
+        "packageName" : "kotlin",
+        "className" : "Int",
+        "typeParameters" : [ ],
+        "nullable" : false
+      }
+    ]
+  },
+  {
+    "containingType" : {
+      "@type" : "RegularSerializedType",
+      "packageName" : "kotlin",
+      "className" : "String",
+      "typeParameters" : [ ],
+      "nullable" : false
+    },
+    "name" : "chars",
+    "receiver" : null,
+    "parameterTypes" : [ ]
+  },
+  {
+    "containingType" : {
+      "@type" : "RegularSerializedType",
+      "packageName" : "kotlin",
+      "className" : "String",
+      "typeParameters" : [ ],
+      "nullable" : false
+    },
+    "name" : "codePoints",
+    "receiver" : null,
+    "parameterTypes" : [ ]
+  },
+  {
+    "containingType" : {
+      "@type" : "RegularSerializedType",
+      "packageName" : "kotlin",
+      "className" : "String",
+      "typeParameters" : [ ],
+      "nullable" : false
+    },
+    "name" : "equals",
+    "receiver" : null,
+    "parameterTypes" : [
+      {
+        "@type" : "RegularSerializedType",
+        "packageName" : "kotlin",
+        "className" : "Any",
+        "typeParameters" : [ ],
+        "nullable" : true
+      }
+    ]
+  },
+  {
+    "containingType" : {
+      "@type" : "RegularSerializedType",
+      "packageName" : "kotlin",
+      "className" : "String",
+      "typeParameters" : [ ],
+      "nullable" : false
+    },
+    "name" : "hashCode",
+    "receiver" : null,
+    "parameterTypes" : [ ]
+  },
+  {
+    "containingType" : {
+      "@type" : "RegularSerializedType",
+      "packageName" : "kotlin",
+      "className" : "String",
+      "typeParameters" : [ ],
+      "nullable" : false
+    },
+    "name" : "toString",
+    "receiver" : null,
+    "parameterTypes" : [ ]
+  }
+]

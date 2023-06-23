@@ -1,0 +1,17 @@
+[
+  {
+    "raw" : "{ i }() // i",
+    "outcome" : "fail",
+    "origin" : "[col. 5..6] \"()\""
+  },
+  {
+    "raw" : "{ s }() // s",
+    "outcome" : "fail",
+    "origin" : "[col. 5..6] \"()\""
+  },
+  {
+    "raw" : "{ s } + b // s b",
+    "outcome" : "ok",
+    "origin" : ""
+  }
+]

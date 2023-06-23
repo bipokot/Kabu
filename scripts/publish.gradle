@@ -1,0 +1,30 @@
+
+afterEvaluate {
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+//                groupId = rootProject.group
+//                artifactId publishingName
+//                version publishingVersion
+
+                from components.java
+            }
+        }
+    }
+    if (project.hasProperty('artifactoryUrl')) {
+        artifactory {
+            contextUrl = artifactoryUrl
+            publish {
+                repository {
+                    repoKey = artifactoryRepoKey
+                    username = artifactoryUser
+                    password = artifactoryPassword
+                    maven = true
+                }
+                defaults {
+                    publications('mavenJava')
+                }
+            }
+        }
+    }
+}

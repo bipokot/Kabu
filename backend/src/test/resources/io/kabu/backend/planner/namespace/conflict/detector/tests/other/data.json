@@ -1,0 +1,27 @@
+[
+  {
+    "raw" : "s // s",
+    "outcome" : "fail",
+    "origin" : "=>  \"s\" =>  [col. 0] \"s\""
+  },
+  {
+    "raw" : "{ s } // s",
+    "outcome" : "fail",
+    "origin" : "=>  \"{ s }\" =>  [col. 0..4] \"{ s }\""
+  },
+  {
+    "raw" : "x //",
+    "outcome" : "ok",
+    "origin" : ""
+  },
+  {
+    "raw" : "{ s }{ b }{ i } // s b i",
+    "outcome" : "fail",
+    "origin" : "=>  \"{ s }{ b }{ i }\" =>  [col. 0..9] \"{ s }{ b }\"\n =>  \"{ s }{ b }{ i }\" =>  [col. 10..14] \"{ i }\""
+  },
+  {
+    "raw" : "!{ s2 * { s }{ b/i2 }{ !i }} // s b i s2 i2",
+    "outcome" : "fail",
+    "origin" : "=>  \"!{ s2 * { s }{ b/i2 }{ !i }}\" =>  [col. 8..20] \"{ s }{ b/i2 }\"\n =>  \"!{ s2 * { s }{ b/i2 }{ !i }}\" =>  [col. 21..26] \"{ !i }\""
+  }
+]

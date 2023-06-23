@@ -1,0 +1,157 @@
+[
+  {
+    "raw" : "i { b.x = s } // i b s",
+    "sample" : "100 { false.x = \"abcdef\" }",
+    "termination" : "100, false, abcdef"
+  },
+  {
+    "raw" : "i { b.x.y = s } // i b s",
+    "sample" : "100 { false.x.y = \"abcdef\" }",
+    "termination" : "100, false, abcdef"
+  },
+  {
+    "raw" : "i { b.x.y = s.z } // i b s",
+    "sample" : "100 { false.x.y = \"abcdef\".z }",
+    "termination" : "100, false, abcdef"
+  },
+  {
+    "raw" : "i { b[x,i1,y] = s } // i i1 b s",
+    "sample" : "11 { true[x, -5, y] = \"aaa\" }",
+    "termination" : "11, -5, true, aaa"
+  },
+  {
+    "raw" : "i { b[x,y] = s } // i b s",
+    "sample" : "17 { false[x,y] = \"ttt\" }",
+    "termination" : "17, false, ttt"
+  },
+  {
+    "raw" : "i { b[x,i1,y] = s } - { s2.x[y] = i2 } // i i1 b s s2 i2",
+    "sample" : "1 { false[x, 2, y] = \"aaa\" } - { \"bbb\".x[y] = 3 }",
+    "termination" : "1, 2, false, aaa, bbb, 3"
+  },
+  {
+    "raw" : "x = s // s",
+    "sample" : "x = \"abcdef\"",
+    "termination" : "abcdef"
+  },
+  {
+    "raw" : "x = y - s { z[zz] = i } // s i",
+    "sample" : "x = y - \"abc\" { z[zz] = 3 }",
+    "termination" : "abc, 3"
+  },
+  {
+    "raw" : "x[b] = s // b s",
+    "sample" : "x[false] = \"abc\"",
+    "termination" : "false, abc"
+  },
+  {
+    "raw" : "x[ {y} * i] = s // s i",
+    "sample" : "x[ {y} * 1] = \"abc\"",
+    "termination" : "abc, 1"
+  },
+  {
+    "raw" : "x[ {y} * i, b1 - b2] = s // s i b1 b2",
+    "sample" : "x[{ y } * 1, false - true] = \"abc\"",
+    "termination" : "abc, 1, false, true"
+  },
+  {
+    "raw" : "x = { z /= s } // s",
+    "sample" : "x = { z /= \"abc\" }",
+    "termination" : "abc"
+  },
+  {
+    "raw" : "x.y = s // s",
+    "sample" : "x.y = \"abc\"",
+    "termination" : "abc"
+  },
+  {
+    "raw" : "{ b}.x = s // s b",
+    "sample" : "{ true }.x = \"aaa\"",
+    "termination" : "aaa, true"
+  },
+  {
+    "raw" : "{ b - {i} }.x = s // s b",
+    "sample" : "{ true - { i } }.x = \"aaa\"",
+    "termination" : "aaa, true"
+  },
+  {
+    "raw" : "{ b - {i} }.x = s // s b i",
+    "sample" : "{ true - { 100 } }.x = \"aaa\"",
+    "termination" : "aaa, true, 100"
+  },
+  {
+    "raw" : "i { y = b } // i b",
+    "sample" : "1 { y = true }",
+    "termination" : "1, true"
+  },
+  {
+    "raw" : "z { y = b } // b",
+    "sample" : "z { y = false }",
+    "termination" : "false"
+  },
+  {
+    "raw" : "z { y = b }.x = s // s b",
+    "sample" : "z { y = true }.x = \"abc\"",
+    "termination" : "abc, true"
+  },
+  {
+    "raw" : "{i - b}.y = { z /= s } // i b s",
+    "sample" : "{111 - false}.y = { z /= \"abc\" }",
+    "termination" : "111, false, abc"
+  },
+  {
+    "raw" : "x = { z /= !s } // s",
+    "sample" : "x = { z /= !\"abcdef\" }",
+    "termination" : "abcdef"
+  },
+  {
+    "raw" : "x[ {y} * i, b] = { z /= !s } // s i b",
+    "sample" : "x[ {y} * 123, true] = { z /= !\"abcd\" }",
+    "termination" : "abcd, 123, true"
+  },
+  {
+    "raw" : "x[ {y} * i, b] = { z /= { !s } } // s i b",
+    "sample" : "x[ {y} * 0, false] = { z /= { !\"abc\" } } // s i b",
+    "termination" : "abc, 0, false"
+  },
+  {
+    "raw" : "x = s {y = i} // s i",
+    "sample" : "x = \"aaa\" {y = -1}",
+    "termination" : "aaa, -1"
+  },
+  {
+    "raw" : "x[{y = i}] = s // s i",
+    "sample" : "x[{y = 100}] = \"abcdef\"",
+    "termination" : "abcdef, 100"
+  },
+  {
+    "raw" : "x { b[x,y] /= s } // b s",
+    "sample" : "x { false[x, y] /= \"asdad\" }",
+    "termination" : "false, asdad"
+  },
+  {
+    "raw" : "x { y /= b } // b",
+    "sample" : "x { y /= true }",
+    "termination" : "true"
+  },
+  {
+    "raw" : "x { b /= y } // b",
+    "sample" : "x { true /= y }",
+    "termination" : "true"
+  },
+  {
+    "raw" : "b[x] = s // b s",
+    "sample" : "false[x] = \"aaaa\"",
+    "termination" : "false, aaaa"
+  },
+  {
+    "raw" : "i { b1[x] = s1 * { b2[x] = s2 }  } // i b1 b2 s1 s2",
+    "sample" : "1 { false[x] = \"aaa\" * { true[x] = \"bbb\" } }",
+    "termination" : "1, false, true, aaa, bbb"
+  },
+  {
+    "raw" : "x[ {y} * i] = s // s i",
+    "sample" : "x[{ y } * 123] = \"aaa\"",
+    "termination" : "aaa, 123"
+  }
+]

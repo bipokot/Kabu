@@ -1,0 +1,45 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm'
+    id 'maven-publish'
+    id "com.jfrog.artifactory"
+}
+
+group 'io.kabu'
+version rootProject.version
+
+repositories {
+    mavenCentral()
+    google()
+}
+
+dependencies {
+    testImplementation "junit:junit:4.13.2"
+    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.11.0'
+    implementation project(":annotations")
+    implementation project(":runtime")
+
+    // https://mvnrepository.com/artifact/org.antlr/antlr4-runtime
+    implementation "org.antlr:antlr4-runtime:4.11.1"
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation "org.jetbrains.kotlin:kotlin-reflect"
+    implementation "com.squareup:kotlinpoet:$kotlinPoetVersion"
+    api "io.github.microutils:kotlin-logging:1.7.6"
+    implementation "org.slf4j:slf4j-simple:1.7.9"
+
+    testImplementation "org.jetbrains.kotlin:kotlin-scripting-jvm:$kotlinVersion"
+    testImplementation "org.jetbrains.kotlin:kotlin-scripting-jvm-host:$kotlinVersion"
+
+    implementation "org.barfuin.texttree:text-tree:2.1.2"
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.freeCompilerArgs = ["-Xallow-result-return-type", "-Xopt-in=kotlin.RequiresOptIn"]
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.freeCompilerArgs = ["-Xallow-result-return-type", "-Xopt-in=kotlin.RequiresOptIn"]
+}
+
+configurePublishing(getProject())

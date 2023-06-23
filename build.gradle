@@ -1,0 +1,53 @@
+
+buildscript {
+    repositories {
+        mavenCentral()
+        google()
+    }
+    dependencies {
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.24.14"
+    }
+}
+
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version "$kotlinVersion"
+    id "io.gitlab.arturbosch.detekt" version "1.22.0"
+}
+
+apply plugin: 'idea'
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
+
+group 'io.kabu'
+version '0.20.0'
+
+allprojects {
+    apply from: "$rootDir/detekt/detekt.gradle"
+    repositories {
+        mavenCentral()
+        google()
+    }
+}
+
+def configurePublishing(Project project) {
+    project.apply from: file('scripts/publish.gradle')
+}
+
+task detektProjectBaseline(type: io.gitlab.arturbosch.detekt.DetektCreateBaselineTask) {
+    description = "Overrides current baseline."
+    ignoreFailures.set(true)
+    parallel.set(true)
+    buildUponDefaultConfig.set(false)
+    setSource(files(rootDir))
+    config.setFrom(files("$rootDir/detekt/detekt-config-v1.yml"))
+    baseline.set(file("$rootDir/detekt/detekt-baseline.xml"))
+    include("**/*.kt")
+    include("**/*.kts")
+    exclude("**/resources/**")
+    exclude("**/build/**")
+}

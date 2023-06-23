@@ -1,0 +1,138 @@
+[
+  {
+    "containingType" : {
+      "@type" : "RegularSerializedType",
+      "packageName" : "kotlin",
+      "className" : "Boolean",
+      "typeParameters" : [ ],
+      "nullable" : false
+    },
+    "name" : "and",
+    "receiver" : null,
+    "parameterTypes" : [
+      {
+        "@type" : "RegularSerializedType",
+        "packageName" : "kotlin",
+        "className" : "Boolean",
+        "typeParameters" : [ ],
+        "nullable" : false
+      }
+    ]
+  },
+  {
+    "containingType" : {
+      "@type" : "RegularSerializedType",
+      "packageName" : "kotlin",
+      "className" : "Boolean",
+      "typeParameters" : [ ],
+      "nullable" : false
+    },
+    "name" : "compareTo",
+    "receiver" : null,
+    "parameterTypes" : [
+      {
+        "@type" : "RegularSerializedType",
+        "packageName" : "kotlin",
+        "className" : "Boolean",
+        "typeParameters" : [ ],
+        "nullable" : false
+      }
+    ]
+  },
+  {
+    "containingType" : {
+      "@type" : "RegularSerializedType",
+      "packageName" : "kotlin",
+      "className" : "Boolean",
+      "typeParameters" : [ ],
+      "nullable" : false
+    },
+    "name" : "not",
+    "receiver" : null,
+    "parameterTypes" : [ ]
+  },
+  {
+    "containingType" : {
+      "@type" : "RegularSerializedType",
+      "packageName" : "kotlin",
+      "className" : "Boolean",
+      "typeParameters" : [ ],
+      "nullable" : false
+    },
+    "name" : "or",
+    "receiver" : null,
+    "parameterTypes" : [
+      {
+        "@type" : "RegularSerializedType",
+        "packageName" : "kotlin",
+        "className" : "Boolean",
+        "typeParameters" : [ ],
+        "nullable" : false
+      }
+    ]
+  },
+  {
+    "containingType" : {
+      "@type" : "RegularSerializedType",
+      "packageName" : "kotlin",
+      "className" : "Boolean",
+      "typeParameters" : [ ],
+      "nullable" : false
+    },
+    "name" : "xor",
+    "receiver" : null,
+    "parameterTypes" : [
+      {
+        "@type" : "RegularSerializedType",
+        "packageName" : "kotlin",
+        "className" : "Boolean",
+        "typeParameters" : [ ],
+        "nullable" : false
+      }
+    ]
+  },
+  {
+    "containingType" : {
+      "@type" : "RegularSerializedType",
+      "packageName" : "kotlin",
+      "className" : "Boolean",
+      "typeParameters" : [ ],
+      "nullable" : false
+    },
+    "name" : "equals",
+    "receiver" : null,
+    "parameterTypes" : [
+      {
+        "@type" : "RegularSerializedType",
+        "packageName" : "kotlin",
+        "className" : "Any",
+        "typeParameters" : [ ],
+        "nullable" : true
+      }
+    ]
+  },
+  {
+    "containingType" : {
+      "@type" : "RegularSerializedType",
+      "packageName" : "kotlin",
+      "className" : "Boolean",
+      "typeParameters" : [ ],
+      "nullable" : false
+    },
+    "name" : "hashCode",
+    "receiver" : null,
+    "parameterTypes" : [ ]
+  },
+  {
+    "containingType" : {
+      "@type" : "RegularSerializedType",
+      "packageName" : "kotlin",
+      "className" : "Boolean",
+      "typeParameters" : [ ],
+      "nullable" : false
+    },
+    "name" : "toString",
+    "receiver" : null,
+    "parameterTypes" : [ ]
+  }
+]

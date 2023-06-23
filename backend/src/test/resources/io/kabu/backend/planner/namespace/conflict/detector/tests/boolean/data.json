@@ -1,0 +1,62 @@
+[
+  {
+    "raw" : "!b1 // b1",
+    "outcome" : "fail",
+    "origin" : "=>  \"!b1\" =>  [col. 0] \"!\""
+  },
+  {
+    "raw" : "+b1 // b1",
+    "outcome" : "ok",
+    "origin" : ""
+  },
+  {
+    "raw" : "-b1 // b1",
+    "outcome" : "ok",
+    "origin" : ""
+  },
+  {
+    "raw" : "b1 + b2 // b1 b2",
+    "outcome" : "ok",
+    "origin" : ""
+  },
+  {
+    "raw" : "b1 - b2 // b1 b2",
+    "outcome" : "ok",
+    "origin" : ""
+  },
+  {
+    "raw" : "b1 * b2 // b1 b2",
+    "outcome" : "ok",
+    "origin" : ""
+  },
+  {
+    "raw" : "b1 / b2 // b1 b2",
+    "outcome" : "ok",
+    "origin" : ""
+  },
+  {
+    "raw" : "b1 or b2 // b1 b2",
+    "outcome" : "fail",
+    "origin" : "=>  \"b1 or b2\" =>  [col. 3..4] \"or\""
+  },
+  {
+    "raw" : "b1 and b2 // b1 b2",
+    "outcome" : "fail",
+    "origin" : "=>  \"b1 and b2\" =>  [col. 3..5] \"and\""
+  },
+  {
+    "raw" : "b1 xor b2 // b1 b2",
+    "outcome" : "fail",
+    "origin" : "=>  \"b1 xor b2\" =>  [col. 3..5] \"xor\""
+  },
+  {
+    "raw" : "b1 < b2 // b1 b2",
+    "outcome" : "fail",
+    "origin" : "=>  \"b1 < b2\" =>  [col. 3] \"<\""
+  },
+  {
+    "raw" : "b1 >= b2 // b1 b2",
+    "outcome" : "fail",
+    "origin" : "=>  \"b1 >= b2\" =>  [col. 3..4] \">=\""
+  }
+]

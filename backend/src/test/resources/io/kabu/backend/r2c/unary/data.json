@@ -1,0 +1,52 @@
+[
+  {
+    "raw" : "+s // s",
+    "sample" : "+\"abc\"",
+    "termination" : "abc"
+  },
+  {
+    "raw" : "- s // s",
+    "sample" : "- \"abcdef\"",
+    "termination" : "abcdef"
+  },
+  {
+    "raw" : "!s // s",
+    "sample" : "!\"qwerty\"",
+    "termination" : "qwerty"
+  },
+  {
+    "raw" : "+ s + -b // s b",
+    "sample" : "+ \"abc\" + -true",
+    "termination" : "abc, true"
+  },
+  {
+    "raw" : "s - +b // s b",
+    "sample" : "\"abc\" - +false",
+    "termination" : "abc, false"
+  },
+  {
+    "raw" : "s%!i // s i",
+    "sample" : "\"abc\"%!13",
+    "termination" : "abc, 13"
+  },
+  {
+    "raw" : "+-b // b",
+    "sample" : "+-false",
+    "termination" : "false"
+  },
+  {
+    "raw" : "+-s+-b // s b",
+    "sample" : "+-\"qwerty\"+-true",
+    "termination" : "qwerty, true"
+  },
+  {
+    "raw" : "!s+!!i // s i",
+    "sample" : "!\"bbb\"+!!29",
+    "termination" : "bbb, 29"
+  },
+  {
+    "raw" : "+-+-s // s",
+    "sample" : "+-+-\"abcdef\"",
+    "termination" : "abcdef"
+  }
+]

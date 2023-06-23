@@ -1,0 +1,92 @@
+[
+  {
+    "raw" : "i1 - i2 // i1 i2",
+    "outcome" : "fail",
+    "origin" : "[col. 3] \"-\""
+  },
+  {
+    "raw" : "i1 + i2 // i1 i2",
+    "outcome" : "fail",
+    "origin" : "[col. 3] \"+\""
+  },
+  {
+    "raw" : "i1 * i2 // i1 i2",
+    "outcome" : "fail",
+    "origin" : "[col. 3] \"*\""
+  },
+  {
+    "raw" : "i1 / i2 // i1 i2",
+    "outcome" : "fail",
+    "origin" : "[col. 3] \"/\""
+  },
+  {
+    "raw" : "i1 % i2 // i1 i2",
+    "outcome" : "fail",
+    "origin" : "[col. 3] \"%\""
+  },
+  {
+    "raw" : "-i1 // i1",
+    "outcome" : "fail",
+    "origin" : "[col. 0] \"-\""
+  },
+  {
+    "raw" : "+i1 // i1",
+    "outcome" : "fail",
+    "origin" : "[col. 0] \"+\""
+  },
+  {
+    "raw" : "!i1 // i1",
+    "outcome" : "ok",
+    "origin" : ""
+  },
+  {
+    "raw" : "i1 and i2 // i1 i2",
+    "outcome" : "fail",
+    "origin" : "[col. 3..5] \"and\""
+  },
+  {
+    "raw" : "i1 or i2 // i1 i2",
+    "outcome" : "fail",
+    "origin" : "[col. 3..4] \"or\""
+  },
+  {
+    "raw" : "i1 xor i2 // i1 i2",
+    "outcome" : "fail",
+    "origin" : "[col. 3..5] \"xor\""
+  },
+  {
+    "raw" : "i1 < i2 // i1 i2",
+    "outcome" : "fail",
+    "origin" : "[col. 3] \"<\""
+  },
+  {
+    "raw" : "i1 >= i2 // i1 i2",
+    "outcome" : "fail",
+    "origin" : "[col. 3..4] \">=\""
+  },
+  {
+    "raw" : "i1 .. i2 // i1 i2",
+    "outcome" : "fail",
+    "origin" : "[col. 3..4] \"..\""
+  },
+  {
+    "raw" : "i1 shl i2 // i1 i2",
+    "outcome" : "fail",
+    "origin" : "[col. 3..5] \"shl\""
+  },
+  {
+    "raw" : "i1 shx i2 // i1 i2",
+    "outcome" : "ok",
+    "origin" : ""
+  },
+  {
+    "raw" : "i1 shr i2 // i1 i2",
+    "outcome" : "fail",
+    "origin" : "[col. 3..5] \"shr\""
+  },
+  {
+    "raw" : "i1 ushr i2 // i1 i2",
+    "outcome" : "fail",
+    "origin" : "[col. 3..6] \"ushr\""
+  }
+]

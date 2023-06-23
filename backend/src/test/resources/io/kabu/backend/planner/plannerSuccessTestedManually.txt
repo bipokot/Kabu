@@ -1,0 +1,77 @@
+//{
+//    "raw" : "i{ s < b } // i s rank b",
+//    "diagram" : ""
+//  },
+//  {
+//    "raw" : "i{ b in b2 } // i b incl b2",
+//    "diagram" : ""
+//  },
+//  {
+//    "raw" : "i{ {b in b2} } // i b incl b2",
+//    "diagram" : ""
+//  },
+//  {
+//    "raw" : "i{ {{b in b2}} } // i b incl b2",
+//    "diagram" : ""
+//  },
+//  {
+//    "raw" : "i{b in b2} * s // i b incl b2 s",
+//    "diagram" : ""
+//  },
+//  {
+//    "raw" : "s{b in b2} * { i % s2 } // s b incl b2 i s2",
+//    "diagram" : ""
+//  },
+//
+//  {
+//      "raw" : "{} { s } // s",
+//      "diagram" : ""
+//    },
+//    {
+//      "raw" : "i{ (b in b2) + (s < i2) } // i b incl b2 s rank i2",
+//      "diagram" : ""
+//    },
+//    {
+//      "raw" : "!i{ { { i2 % s } } } // i i2 s",
+//      "diagram" : ""
+//    },
+//    {
+//      "raw" : "!i{ (s > b) * s2 } // i s rank b s2",
+//      "diagram" : ""
+//    },
+//    {
+//      "raw" : "!i{ (s > b) * (s2 < b2) } // i s rank b s2 rank2 b2",
+//      "diagram" : ""
+//    },
+//    {
+//      "raw" : "!i{ (s > b > s2) / i2 } // i s rank b rank2 s2 i2",
+//      "diagram" : ""
+//    },
+//    {
+//      "raw" : "!i{ +(b in i2) } // i b incl i2",
+//      "diagram" : ""
+//    },
+//    {
+//      "raw" : "!i{ +(b in b2 in i2) } // i b incl b2 incl2 i2",
+//      "diagram" : ""
+//    },
+//    {
+//      "raw" : "!i{ (b in b2) * s  } // i b incl b2 s",
+//      "diagram" : ""
+//    },
+//    {
+//      "raw" : "!i{ -(s > (b > i2 > s2)) } // i s rank b rank2 i2 rank3 s2",
+//      "diagram" : ""
+//    },
+//    {
+//      "raw" : "!i{ -(s > b > i2 > s2) } // i s rank1 b rank2 i2 rank3 s2",
+//      "diagram" : ""
+//    },
+//    {
+//      "raw" : "!i{ (s > b > s2) / i2 } // i s rank1 b rank2 s2 i2",
+//      "diagram" : ""
+//    },
+//    {
+//      "raw" : "!i{ +(b in b2 in i2 < s2 voila i3) } // i b incl b2 incl2 i2 rank s2 i3",
+//      "diagram" : ""
+//    },
