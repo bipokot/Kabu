@@ -1,0 +1,152 @@
+[
+  {
+    "raw" : "synthetic % s // s",
+    "sample" : "synthetic % \"abc\"",
+    "termination" : "abc"
+  },
+  {
+    "raw" : "synthetic vars are { s } // s",
+    "sample" : "synthetic vars are { \"awesome\" }",
+    "termination" : "awesome"
+  },
+  {
+    "raw" : "synthetic vars are - s // s",
+    "sample" : "synthetic vars are - \"awesome\"",
+    "termination" : "awesome"
+  },
+  {
+    "raw" : "iff(b) take { s } // b s",
+    "sample" : "iff(false) take { \"abc\" }",
+    "termination" : "false, abc"
+  },
+  {
+    "raw" : "syn + b // b",
+    "sample" : "syn + true",
+    "termination" : "true"
+  },
+  {
+    "raw" : "(b + x1) / x2 // b",
+    "sample" : "(false + x1) / x2",
+    "termination" : "false"
+  },
+  {
+    "raw" : "(x1 + x2) / x3 % s % x4 // s",
+    "sample" : "(x1 + x2) / x3 % \"asdad\" % x4",
+    "termination" : "asdad"
+  },
+  {
+    "raw" : "(x1 + x2) / x3 % (s % (x4 * x5)) // s",
+    "sample" : "(x1 + x2) / x3 % (\"asdad\" % (x4 * x5))",
+    "termination" : "asdad"
+  },
+  {
+    "raw" : "x1[s] // s",
+    "sample" : "x1[\"abc\"]",
+    "termination" : "abc"
+  },
+  {
+    "raw" : "i[x1] // i",
+    "sample" : "13[x1]",
+    "termination" : "13"
+  },
+  {
+    "raw" : "i[x1, x2, x3] // i",
+    "sample" : "11[x1, x2, x3]",
+    "termination" : "11"
+  },
+  {
+    "raw" : "x1(i, x2) // i",
+    "sample" : "x1(37, x2)",
+    "termination" : "37"
+  },
+  {
+    "raw" : "i { x2 } // i",
+    "sample" : "7 { x2 }",
+    "termination" : "7"
+  },
+  {
+    "raw" : "x1 { s } // s",
+    "sample" : "x1 { \"abc\" }",
+    "termination" : "abc"
+  },
+  {
+    "raw" : "x1 {{{ s }}} // s",
+    "sample" : "x1 {{{ \"abc\" }}}",
+    "termination" : "abc"
+  },
+  {
+    "raw" : "b {{{ x1 }}} // b",
+    "sample" : "true {{{ x1 }}}",
+    "termination" : "true"
+  },
+  {
+    "raw" : "!x1 + { x2(i[x3{s(x4[b])}]) } // i s b",
+    "sample" : "!x1 + { x2(100[x3{\"abc\"(x4[true])}]) }",
+    "termination" : "100, abc, true"
+  },
+  {
+    "raw" : "(!x1 + -x2) * !x3 % i // i",
+    "sample" : "(!x1 + -x2) * !x3 % 11",
+    "termination" : "11"
+  },
+  {
+    "raw" : "expression full of synthetic variables",
+    "sample" : "expression full of synthetic variables",
+    "termination" : ""
+  },
+  {
+    "raw" : "!syn",
+    "sample" : "!syn",
+    "termination" : ""
+  },
+  {
+    "raw" : "x1[x2]",
+    "sample" : "x1[x2]",
+    "termination" : ""
+  },
+  {
+    "raw" : "x1()",
+    "sample" : "x1()",
+    "termination" : ""
+  },
+  {
+    "raw" : "x1(x2)",
+    "sample" : "x1(x2)",
+    "termination" : ""
+  },
+  {
+    "raw" : "x1 { x2 }",
+    "sample" : "x1 { x2 }",
+    "termination" : ""
+  },
+  {
+    "raw" : "!{ x1 }{ x2 }",
+    "sample" : "!{ x1 }{ x2 }",
+    "termination" : ""
+  },
+  {
+    "raw" : "!{{{ x1 }}}{{{ x2 }}}",
+    "sample" : "!{{{ x1 }}}{{{ x2 }}}",
+    "termination" : ""
+  },
+  {
+    "raw" : "!!!x1",
+    "sample" : "!!!x1",
+    "termination" : ""
+  },
+  {
+    "raw" : "(-x1 * +x2)",
+    "sample" : "(-x1 * +x2)",
+    "termination" : ""
+  },
+  {
+    "raw" : "x1 { b += x2 } // b",
+    "sample" : "x1 { true += x2 }",
+    "termination" : "true"
+  },
+  {
+    "raw" : "!i{ +(b !in b2 in i2 > s voila i3) }",
+    "sample" : "!i{ +(b !in b2 in i2 > s voila i3) }",
+    "termination" : ""
+  }
+]

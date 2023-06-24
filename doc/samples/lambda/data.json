@@ -1,0 +1,52 @@
+[
+  {
+    "raw" : "!{s} // s",
+    "sample" : "!{ \"abc\" }",
+    "termination" : "abc"
+  },
+  {
+    "raw" : "!{!s} // s",
+    "sample" : "!{! \"aaa\"}",
+    "termination" : "aaa"
+  },
+  {
+    "raw" : "s {} // s",
+    "sample" : "\"abcdef\" {}",
+    "termination" : "abcdef"
+  },
+  {
+    "raw" : "s { b / i } // s b i",
+    "sample" : "\"abc\" { true / 3 }",
+    "termination" : "abc, true, 3"
+  },
+  {
+    "raw" : "s(b) { i + s2 } // s b i s2",
+    "sample" : "\"abc\"(false) { 7 + \"def\" }",
+    "termination" : "abc, false, 7, def"
+  },
+  {
+    "raw" : "s func { b * i } // s b i",
+    "sample" : "\"aaa\" func { false * 29 }",
+    "termination" : "aaa, false, 29"
+  },
+  {
+    "raw" : "s({b},i) {s2} // s b i s2",
+    "sample" : "\"abc\"({true},11) {\"def\"}",
+    "termination" : "abc, true, 11, def"
+  },
+  {
+    "raw" : "+{ i } // i",
+    "sample" : "+{ 17 }",
+    "termination" : "17"
+  },
+  {
+    "raw" : "{ s } .. i // s i",
+    "sample" : "{ \"abc\" } .. 5",
+    "termination" : "abc, 5"
+  },
+  {
+    "raw" : "{}{}",
+    "sample" : "{}{}",
+    "termination" : ""
+  }
+]

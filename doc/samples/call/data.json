@@ -1,0 +1,47 @@
+[
+  {
+    "raw" : "b() // b",
+    "sample" : "false()",
+    "termination" : "false"
+  },
+  {
+    "raw" : "s(b,i) // s b i",
+    "sample" : "\"abc\"(true,11)",
+    "termination" : "abc, true, 11"
+  },
+  {
+    "raw" : "s (b, i, s2,b2) // s b i s2 b2",
+    "sample" : "\"aaa\" (false, 5, \"bbb\",true)",
+    "termination" : "aaa, false, 5, bbb, true"
+  },
+  {
+    "raw" : "s(b, i) { s2 } // s b i s2",
+    "sample" : "\"abc\"(true, 7) { \"def\" }",
+    "termination" : "abc, true, 7, def"
+  },
+  {
+    "raw" : "{s }{  b} // s b",
+    "sample" : "{ \"aaa\" }{ true }",
+    "termination" : "aaa, true"
+  },
+  {
+    "raw" : "{}{ b} // b",
+    "sample" : "{}{ false }",
+    "termination" : "false"
+  },
+  {
+    "raw" : "{s }{} // s",
+    "sample" : "{ \"abc\" }{}",
+    "termination" : "abc"
+  },
+  {
+    "raw" : "-b() // b",
+    "sample" : "-true()",
+    "termination" : "true"
+  },
+  {
+    "raw" : "(s)(b)(i) // s b i",
+    "sample" : "(\"abc\")(true)(23)",
+    "termination" : "abc, true, 23"
+  }
+]
