@@ -527,25 +527,21 @@ sourceSets.main {
 ```
 
 ### Install Kabu
-Add following maven repository:
+Add Jitpack repository:
 
 ```gradle
-maven {
-    url = "http://80.240.29.205:45011/artifactory/libs-release-local"
-    allowInsecureProtocol = true
-}
+maven { url "https://jitpack.io" }
 ```
 
 Add following dependencies to your project:
 
 ```gradle
-def kabuVersion = '0.20.0'
+def kabuVersion = 'v0.20.0-rc.1'
 
 dependencies {
-    ksp "io.kabu:processor:$kabuVersion"
-    compileOnly "io.kabu:annotations:$kabuVersion"
-
-    implementation "io.kabu:runtime:$kabuVersion
+    ksp "com.github.bipokot.kabu:processor:$kabuVersion"
+    compileOnly "com.github.bipokot.kabu:annotations:$kabuVersion"
+    implementation "com.github.bipokot.kabu:runtime:$kabuVersion
 }
 ```
 
