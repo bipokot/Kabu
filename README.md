@@ -22,7 +22,7 @@ Think of a pattern as a *visual decoration* of arguments which will be passed to
 Patterns can be almost as complex as you can do it with Kotlin.
 
 ## Examples
-Explore [a project with a set of examples](doc/exampleProject.md). Each documentation example with `Example-XXX` code can be found in that project.
+Explore [a project with a set of examples](https://github.com/bipokot/KabuExamples). Each documentation example with `Example-XXX` code can be found in that project.
 
 Feel free to experiment with patterns and have fun!
            

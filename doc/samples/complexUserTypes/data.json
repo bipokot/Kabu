@@ -1,7 +1,0 @@
-[
-  {
-    "raw" : "i IF fs ELSE fs2 // i fs fs2",
-    "sample" : "1 IF { \"abc\" } ELSE { \"def\" }",
-    "termination" : "1, () -> kotlin.String, () -> kotlin.String"
-  }
-]
