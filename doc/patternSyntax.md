@@ -61,5 +61,5 @@ You can use lambdas as building blocks of patterns in all possible ways. Only fi
 A `@Extend`-annotated empty lambda serves as an *extension point* of a pattern. A pattern can have multiple extension points.
 
 ## Pattern samples
-Explore [a project with a set of examples](https://github.com/bipokot/KabuExamples) and take a look at [pattern samples](samples) used to test Kabu itself.
+Explore [a project with a set of examples](https://github.com/bipokot/KabuExamples) and take a look at samples used to test Kabu itself.
 
