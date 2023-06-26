@@ -1,3 +1,5 @@
+[![Release](https://jitpack.io/v/bipokot/Kabu.svg)](https://jitpack.io/#bipokot/Kabu)
+[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Declarative%20DSL%20generation%20for%20Kotlin%20is%20here&url=https://github.com/bipokot/Kabu&hashtags=kotlin,dsl,generation)
 
 # Kabu
 
