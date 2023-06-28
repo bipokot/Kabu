@@ -2,9 +2,9 @@
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Declarative%20DSL%20generation%20for%20Kotlin%20is%20here&url=https://github.com/bipokot/Kabu&hashtags=kotlin,dsl,generation)
 
 # Kabu
+KSP-based processor for creating Kotlin DSLs in a declarative way.
 
-##  Overview
-**Kabu** is an annotation processor for Kotlin which embraces a declarative way of DSLs creation. The processor allows splitting visual representation of DSL from its functionality.
+##  Create Kotlin DSLs declaratively!
 
 ```kotlin
 // Example-001
@@ -18,12 +18,21 @@ fun main() {
 }
 ```
 
-Annotate a function with `@GlobalPattern` annotation and set a desired pattern for that function. The processor will generate code so that any expression matching the pattern will call the function with actual arguments used in that expression.
+Set desired pattern for a function with `@GlobalPattern` annotation. Kabu will generate code so that any expression matching the pattern will call the function with corresponding arguments.
 
-Think of a pattern as a *visual decoration* of arguments which will be passed to annotated function.
+Pattern is a *visual decoration* of arguments which will be passed to annotated function.
 Patterns can be almost as complex as you can do it with Kotlin.
 
 ## Examples
+
+**Example-002**
+
+<img src="doc/img/animation_example_repeating.gif" alt="'Repeating' example" width="500"/>
+
+**Example-014**
+
+<img src="doc/img/animation_example_printbook.gif" alt="'Print book' example" width="600"/>
+
 Explore [a project with a set of examples](https://github.com/bipokot/KabuExamples). Each documentation example with `Example-XXX` code can be found in that project.
 
 Feel free to experiment with patterns and have fun!
