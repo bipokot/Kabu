@@ -34,11 +34,9 @@ dependencies {
 }
 
 compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
     kotlinOptions.freeCompilerArgs = ["-Xallow-result-return-type", "-Xopt-in=kotlin.RequiresOptIn"]
 }
 compileTestKotlin {
-    kotlinOptions.jvmTarget = "1.8"
     kotlinOptions.freeCompilerArgs = ["-Xallow-result-return-type", "-Xopt-in=kotlin.RequiresOptIn"]
 }
 

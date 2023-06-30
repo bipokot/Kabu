@@ -32,6 +32,9 @@ allprojects {
         mavenCentral()
         google()
     }
+    kotlin {
+        jvmToolchain(8)
+    }
 }
 
 def configurePublishing(Project project) {

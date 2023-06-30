@@ -100,6 +100,7 @@ class ContextClassFoundByAnnotatedConstructorNotSupportedTest : BaseKspFrontendP
     }
 
     @Test
+    @Suppress("InlineClassDeprecatedMigration")
     fun `inline class not supported`() = compileAndCheck(
         """
         inline class Foo @ContextCreator("ctx") constructor() {
