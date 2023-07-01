@@ -1,4 +1,4 @@
-package io.kabu.annotations
+package io.kabu.runtime
 
 /**
  * Values to designate information obtained about actual operators used in runtime expression

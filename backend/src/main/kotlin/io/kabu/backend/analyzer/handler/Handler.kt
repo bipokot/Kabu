@@ -4,8 +4,8 @@ import com.squareup.kotlinpoet.BOOLEAN
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.UNIT
 import com.squareup.kotlinpoet.asClassName
-import io.kabu.annotations.InclusionInfo
-import io.kabu.annotations.RankingComparisonInfo
+import io.kabu.runtime.InclusionInfo
+import io.kabu.runtime.RankingComparisonInfo
 import io.kabu.backend.analyzer.Analyzer
 import io.kabu.backend.analyzer.AnalyzerImpl
 import io.kabu.backend.analyzer.handler.lambda.watcher.CaptureType
