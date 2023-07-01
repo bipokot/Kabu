@@ -245,7 +245,7 @@ operator fun String.minus(result: TestCase.ScriptResult) = TestCase(this.trimInd
             """
             package tests
             
-            import io.kabu.annotations.GlobalPattern 
+            import io.kabu.annotations.Pattern 
             import io.kabu.annotations.LocalPattern 
             import io.kabu.annotations.ContextCreator
             // lines below are for future imports or other declarations to fix line numbers used in tests            
@@ -263,7 +263,7 @@ private const val KOTLIN_TEST_SCRIPT_FILE_PREFIX =
     """
             package tests
 
-            import io.kabu.annotations.GlobalPattern
+            import io.kabu.annotations.Pattern
             import io.kabu.annotations.LocalPattern
             import io.kabu.annotations.ContextCreator
             // lines below are for future imports or other declarations to fix line numbers used in tests

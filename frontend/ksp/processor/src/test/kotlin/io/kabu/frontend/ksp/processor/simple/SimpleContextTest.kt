@@ -12,7 +12,7 @@ class SimpleContextTest : BaseKspFrontendProcessorTest() {
     @Test
     fun `pattern extension does not fail`() = compileAndCheckAndRun(
         """
-           @GlobalPattern("i % @Extend(context = ctx(), parameter = context) {}")
+           @Pattern("i % @Extend(context = ctx(), parameter = context) {}")
             fun foo(i: Int, context: Context) {
                 print(i)
             }
@@ -33,7 +33,7 @@ class SimpleContextTest : BaseKspFrontendProcessorTest() {
     @Test
     fun `123 % { "a" * 2 }`() = compileAndCheckAndRun(
         """
-            @GlobalPattern("i % @Extend(context = ctx(), parameter = context) {}")
+            @Pattern("i % @Extend(context = ctx(), parameter = context) {}")
             fun foo(i: Int, context: Context) {
                 print("${'$'}i, ${'$'}{context.result}")
             }
@@ -55,7 +55,7 @@ class SimpleContextTest : BaseKspFrontendProcessorTest() {
     @Test
     fun `extension point inside watcher lambda`() = compileAndCheckAndRun(
         """
-            @GlobalPattern("i % { b - @Extend(context = ctx(), parameter = context) {} }")
+            @Pattern("i % { b - @Extend(context = ctx(), parameter = context) {} }")
             fun foo(i: Int, b: Boolean, context: Context) {
                 print("${'$'}i, ${'$'}b, ${'$'}{context.result}")
             }
@@ -77,7 +77,7 @@ class SimpleContextTest : BaseKspFrontendProcessorTest() {
     @Test
     fun `conflicts inside context mediator, context mediator inside watcher lambda`() = compileAndCheckAndRun(
         """
-            @GlobalPattern("i % { @Extend(context = ctx(), parameter = context) {} }")
+            @Pattern("i % { @Extend(context = ctx(), parameter = context) {} }")
             fun foo(i: Int, context: Context) {
                 print("${'$'}i, ${'$'}{context.result}")
             }

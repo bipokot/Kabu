@@ -1,20 +1,20 @@
 package io.kabu.frontend.ksp.processor.unsupported
 
-import io.kabu.annotations.GlobalPattern
+import io.kabu.annotations.Pattern
 import io.kabu.frontend.ksp.processor.BaseKspFrontendProcessorTest
 import org.junit.Ignore
 import org.junit.Test
 
 class GlobalPatternFunctionsNotSupportedTest : BaseKspFrontendProcessorTest() {
 
-    private val role = GlobalPattern::class.simpleName
+    private val role = Pattern::class.simpleName
 
     @Test //todo consider support?
     fun `member function not supported`() = compileAndCheck(
         """
         class A {
         
-            @GlobalPattern("!bar")
+            @Pattern("!bar")
             fun foo(bar: String){
             }
         }
@@ -26,21 +26,21 @@ class GlobalPatternFunctionsNotSupportedTest : BaseKspFrontendProcessorTest() {
     @Test //todo consider support?
     fun `constructor not supported`() = compileAndCheck(
         """
-        class A @GlobalPattern("!bar") constructor()
+        class A @Pattern("!bar") constructor()
         """
     ) {
         assertCompilationError(14, "Constructors as $role aren't supported yet", "\"<init>\"")
     }
 
     @Test //todo consider support?
-    @Ignore("Member functions as GlobalPattern aren't supported yet")
+    @Ignore("Member functions as Pattern aren't supported yet")
     fun `inner class functions not supported`() = compileAndCheck(
         """
         class Foo {
         
             inner class Inner {
             
-                @GlobalPattern("!bar")
+                @Pattern("!bar")
                 fun foo(bar: String) {
                 }
             }
@@ -57,7 +57,7 @@ class GlobalPatternFunctionsNotSupportedTest : BaseKspFrontendProcessorTest() {
 
             companion object {
 
-                @GlobalPattern("!i") 
+                @Pattern("!i") 
                 fun func(i: Int): String { return i.toString() } 
             }
         }
@@ -69,20 +69,20 @@ class GlobalPatternFunctionsNotSupportedTest : BaseKspFrontendProcessorTest() {
     // KIND
 
     @Test
-    @Ignore("is not detected as GlobalPattern")
+    @Ignore("is not detected as Pattern")
     fun `lambda not supported`() = compileAndCheck(
         """
-        val foo = @GlobalPattern("!bar") { "abc" } 
+        val foo = @Pattern("!bar") { "abc" } 
         """
     ) {
         assertCompilationError(0, "Lambda functions as $role aren't supported yet", "\"<init>\"")
     }
 
     @Test
-    @Ignore("is not detected as GlobalPattern")
+    @Ignore("is not detected as Pattern")
     fun `anonymous function not supported`() = compileAndCheck(
         """
-        val foo = @GlobalPattern("!bar") fun(i: Int): String { return i.toString() } 
+        val foo = @Pattern("!bar") fun(i: Int): String { return i.toString() } 
         """
     ) {
         assertCompilationError(0, "Anonymous functions as $role aren't supported yet", "\"<init>\"")
@@ -93,7 +93,7 @@ class GlobalPatternFunctionsNotSupportedTest : BaseKspFrontendProcessorTest() {
     @Test
     fun `private function not supported`() = compileAndCheck(
         """
-        @GlobalPattern("!bar") 
+        @Pattern("!bar") 
         private fun func(bar: Int) { 
         } 
         """
@@ -104,7 +104,7 @@ class GlobalPatternFunctionsNotSupportedTest : BaseKspFrontendProcessorTest() {
     @Test
     fun `protected function not supported`() = compileAndCheck(
         """
-        @GlobalPattern("!bar") 
+        @Pattern("!bar") 
         protected fun func(bar: Int) { 
         } 
         """
@@ -113,12 +113,12 @@ class GlobalPatternFunctionsNotSupportedTest : BaseKspFrontendProcessorTest() {
     }
 
     @Test
-    @Ignore("is not detected as GlobalPattern")
+    @Ignore("is not detected as Pattern")
     fun `local function not supported`() = compileAndCheck(
         """
         fun outerFunc() {
 
-            @GlobalPattern("!bar") 
+            @Pattern("!bar") 
             fun func(bar: Int) { 
             }
 
@@ -134,7 +134,7 @@ class GlobalPatternFunctionsNotSupportedTest : BaseKspFrontendProcessorTest() {
     @Test
     fun `inline function not supported`() = compileAndCheck(
         """
-        @GlobalPattern("!bar") 
+        @Pattern("!bar") 
         inline fun func(bar: Int) { 
         }
         """
@@ -145,7 +145,7 @@ class GlobalPatternFunctionsNotSupportedTest : BaseKspFrontendProcessorTest() {
     @Test
     fun `operator function not supported`() = compileAndCheck(
         """
-        @GlobalPattern("!bar - this") 
+        @Pattern("!bar - this") 
         operator fun String.rem(bar: Int) { 
         }
         """
@@ -158,7 +158,7 @@ class GlobalPatternFunctionsNotSupportedTest : BaseKspFrontendProcessorTest() {
         """
         abstract class Foo {
         
-            @GlobalPattern("!bar") 
+            @Pattern("!bar") 
             abstract fun func(bar: Int) { 
             }
         }
@@ -170,7 +170,7 @@ class GlobalPatternFunctionsNotSupportedTest : BaseKspFrontendProcessorTest() {
     @Test
     fun `suspend function not supported`() = compileAndCheck(
         """
-        @GlobalPattern("!bar") 
+        @Pattern("!bar") 
         suspend fun func(bar: Int) { 
         }
         """
@@ -183,7 +183,7 @@ class GlobalPatternFunctionsNotSupportedTest : BaseKspFrontendProcessorTest() {
         """
         val eps = 1E-10
 
-        @GlobalPattern("!x") 
+        @Pattern("!x") 
         tailrec fun findFixPoint(x: Double = 1.0): Double =
             if (abs(x - cos(x)) < eps) x else findFixPoint(cos(x))
         """
@@ -194,7 +194,7 @@ class GlobalPatternFunctionsNotSupportedTest : BaseKspFrontendProcessorTest() {
     @Test
     fun `parameterized function not supported`() = compileAndCheck(
         """
-        @GlobalPattern("!bar") 
+        @Pattern("!bar") 
         fun <T> func(bar: T) { 
         }
         """

@@ -47,7 +47,7 @@ class Football1Test : BaseKspFrontendProcessorTest() {
             @ContextCreator("footballTeamBuilder")
             fun footballTeamBuilderCreator() = FootballTeamBuilder()
             
-            @GlobalPattern("football team name @Extend(context = footballTeamBuilder(), parameter = builder) {}")
+            @Pattern("football team name @Extend(context = footballTeamBuilder(), parameter = builder) {}")
             fun footballTeam(name: String, builder: FootballTeamBuilder): FootballTeam {
                 return FootballTeam(name, builder.players, builder.trophies)
             }

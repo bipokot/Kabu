@@ -27,7 +27,7 @@ class ContextConstructorTest : BaseKspFrontendProcessorTest() {
                 override fun toString() = "SomeClass(pairs=${'$'}pairs)"
             }
             
-            @GlobalPattern("{xxx[b..{i}]} @Extend(context = someClass(i, b), parameter = arg) {}")
+            @Pattern("{xxx[b..{i}]} @Extend(context = someClass(i, b), parameter = arg) {}")
             fun bar(i: Int, b: Boolean, arg: SomeClass) {
                 print(arg)
             }

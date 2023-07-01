@@ -6,7 +6,7 @@ import kotlin.annotation.AnnotationTarget.FUNCTION
 
 @Retention(SOURCE)
 @Target(FUNCTION)
-annotation class GlobalPattern(
+annotation class Pattern(
     @Language("kotlin", prefix = "fun expression() { ", suffix = " }")
     val pattern: String
 )

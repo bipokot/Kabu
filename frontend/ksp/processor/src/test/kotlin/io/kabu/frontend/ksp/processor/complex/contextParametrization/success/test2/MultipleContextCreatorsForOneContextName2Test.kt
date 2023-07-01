@@ -33,7 +33,7 @@ class MultipleContextCreatorsForOneContextName2Test : BaseKspFrontendProcessorTe
             @ContextCreator("someClass")
             fun someClassCreator2(i: Int) = SomeClass(i * 10, false)
             
-            @GlobalPattern("{xxx[b..{i}]} @Extend(context = someClass(i), parameter = arg) {}")
+            @Pattern("{xxx[b..{i}]} @Extend(context = someClass(i), parameter = arg) {}")
             fun bar(i: Int, b: Boolean, arg: SomeClass) {
                 print(arg)
             }

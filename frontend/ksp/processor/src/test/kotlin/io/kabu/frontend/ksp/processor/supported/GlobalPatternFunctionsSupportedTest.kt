@@ -10,7 +10,7 @@ class GlobalPatternFunctionsSupportedTest : BaseKspFrontendProcessorTest() {
     @Test
     fun `public global pattern function`() = compileAndCheck(
         """
-        @GlobalPattern("!bar")
+        @Pattern("!bar")
         fun foo(bar: String) {
         }
         """

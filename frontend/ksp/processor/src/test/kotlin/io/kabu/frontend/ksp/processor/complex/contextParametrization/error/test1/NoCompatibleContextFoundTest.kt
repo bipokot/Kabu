@@ -29,7 +29,7 @@ class NoCompatibleContextFoundTest : BaseKspFrontendProcessorTest() {
             @ContextCreator("someClass")
             fun someClassCreator2(i: Int) = SomeClass(i*10, false)
             
-            @GlobalPattern("{xxx[b..{i}]} @Extend(context = someClass(b), parameter = arg) {}")
+            @Pattern("{xxx[b..{i}]} @Extend(context = someClass(b), parameter = arg) {}")
             fun bar(i: Int, b: Boolean, arg: SomeClass) {
                 println(arg)
             }

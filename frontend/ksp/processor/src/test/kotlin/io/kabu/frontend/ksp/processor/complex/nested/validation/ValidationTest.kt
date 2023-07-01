@@ -23,10 +23,10 @@ class ValidationTest : BaseKspFrontendProcessorTest() {
             
             class ValidationConditions(val conditions: List<ValidationCondition>)
             
-            @GlobalPattern("conditions @Extend(context = builder(), parameter = context) {}")
+            @Pattern("conditions @Extend(context = builder(), parameter = context) {}")
             fun aaa(context: Builder) = ValidationConditions(context.list)
             
-            @GlobalPattern("failed rule { user > conditions }")
+            @Pattern("failed rule { user > conditions }")
             fun bbb(conditions: ValidationConditions, user: User): String? {
                 return conditions.conditions
                     .firstOrNull {
@@ -37,7 +37,7 @@ class ValidationTest : BaseKspFrontendProcessorTest() {
                     ?.invoke(user)
             }
             
-            @GlobalPattern("validate { user > conditions }")
+            @Pattern("validate { user > conditions }")
             fun ccc(conditions: ValidationConditions, user: User) {
                 conditions.conditions
                     .firstOrNull { !it.condition(user) }

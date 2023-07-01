@@ -9,7 +9,7 @@ KSP-based processor for creating Kotlin DSLs in a declarative way.
 ```kotlin
 // Example-001
 
-@GlobalPattern("The.Declarative[!way] /= to * create { +{ a > DSL } } - message")
+@Pattern("The.Declarative[!way] /= to * create { +{ a > DSL } } - message")
 fun motto(message: String) = println(message)
 
 fun main() {
@@ -18,7 +18,7 @@ fun main() {
 }
 ```
 
-Set desired pattern for a function with `@GlobalPattern` annotation. Kabu will generate code so that any expression matching the pattern will call the function with corresponding arguments.
+Set desired pattern for a function with `@Pattern` annotation. Kabu will generate code so that any expression matching the pattern will call the function with corresponding arguments.
 
 Pattern is a *visual decoration* of arguments which will be passed to annotated function.
 Patterns can be almost as complex as you can do it with Kotlin.
@@ -44,7 +44,7 @@ Feel free to experiment with patterns and have fun!
 ```kotlin
 // Example-000
 
-@GlobalPattern("hello")
+@Pattern("hello")
 fun helloWorld() {
     println("Hello, World!")
 }
@@ -66,7 +66,7 @@ fun main() {
 ```kotlin
 // Example-014
 
-@GlobalPattern("print book name[author / year] .. description")
+@Pattern("print book name[author / year] .. description")
 fun printBook(name: String, description: String, year: Int, author: String) {
     println("'$name' by $author ($year)\n'$description'")
 }
@@ -89,7 +89,7 @@ fun main() {
 ```kotlin
 // Example-002
 
-@GlobalPattern("string * count")
+@Pattern("string * count")
 fun repeatString(count: Int, string: String) = buildString {
     repeat(count) { append(string) }
 }
@@ -111,7 +111,7 @@ fun main() {
 ```kotlin
 // Example-006
 
-@GlobalPattern("block onlyIf condition")
+@Pattern("block onlyIf condition")
 fun onlyIf(block: () -> String, condition: Boolean) = if (condition) block() else null
 
 fun main() {
@@ -138,7 +138,7 @@ data class User(
     var balance: Int
 )
 
-@GlobalPattern("send[amount] { user1 > user2 }")
+@Pattern("send[amount] { user1 > user2 }")
 fun transaction(amount: Int, user1: User, rank: RankingComparisonInfo, user2: User) {
 
     fun moveMoney(amount: Int, from: User, to: User) {
@@ -232,7 +232,7 @@ class FootballTeamBuilder @ContextCreator("footballTeamBuilder") constructor() {
     }
 }
 
-@GlobalPattern("football team name @Extend(context = footballTeamBuilder(), parameter = builder) {}")
+@Pattern("football team name @Extend(context = footballTeamBuilder(), parameter = builder) {}")
 fun footballTeam(name: String, builder: FootballTeamBuilder): FootballTeam {
     return FootballTeam(name, builder.isChampion, builder.players, builder.trophies)
 }
@@ -280,7 +280,7 @@ class Actions @ContextCreator("actions") constructor() {
     }
 }
 
-@GlobalPattern("condition @Extend(context = actions(), parameter = actions) {}")
+@Pattern("condition @Extend(context = actions(), parameter = actions) {}")
 fun ifElse(condition: Boolean, actions: Actions) {
     val actionsToExecute = if (condition) actions.trueActions else actions.falseActions
     actionsToExecute.forEach { it() }
@@ -311,7 +311,7 @@ fun main() {
 ```kotlin
 // Example-019
 
-@GlobalPattern("a{{ b ..< c } !in -d[e, +-{f}[g][{{{}..{h.i = j}}}], k(l){ m += n} + !{o * -p(q {r[s.t.u] = v w x})}]} / y + z")
+@Pattern("a{{ b ..< c } !in -d[e, +-{f}[g][{{{}..{h.i = j}}}], k(l){ m += n} + !{o * -p(q {r[s.t.u] = v w x})}]} / y + z")
 fun alphabet(
     b: Int,
     inclusion: InclusionInfo,
@@ -353,7 +353,7 @@ fun main() {
 ```kotlin
 // Example-018
 
-@GlobalPattern("ᘤ [ᘎ, a, +ᒣ {!b{ᐳƧ}*c}] - ϾϿ(-d[Ⲷ]){ e Ⴖ Ϟ % ᘃ(ᗏ) ᗊ -ᓬ[f] }")
+@Pattern("ᘤ [ᘎ, a, +ᒣ {!b{ᐳƧ}*c}] - ϾϿ(-d[Ⲷ]){ e Ⴖ Ϟ % ᘃ(ᗏ) ᗊ -ᓬ[f] }")
 fun gibberish(a: String, b: String, c: String, d: String, e: String, f: String) {
     println(a + b + c + d + e + f)
 }
@@ -373,14 +373,14 @@ fun main() {
 
 ### Terminology
 - `pattern` - a string which defines how an expression must look like. [Pattern syntax](doc/patternSyntax.md) generally corresponds to a Kotlin *statement* syntax.
-- `target function` - function annotated with one of the pattern annotations (`@GlobalPattern`/`@LocalPattern`), which is to be called when expression matching to the pattern is evaluated
-	- `global target function` - a target function annotated with `@GlobalPattern` annotation
+- `target function` - function annotated with one of the pattern annotations (`@Pattern`/`@LocalPattern`), which is to be called when expression matching to the pattern is evaluated
+	- `global target function` - a target function annotated with `@Pattern` annotation
 	- `local target function` - a target function annotated with `@LocalPattern` annotation
 - `termination` - gathering all required arguments and calling a target function
 - `inferrable lambda` - a lambda which exact type can be inferred by a compiler. Usually this means that lambda must not be a first evaluated argument of an operation.
 
 ### Details
-- [Pattern syntax](doc/patternSyntax.md) covers features of patterns of `@GlobalPattern` and `@LocalPattern` annotations
+- [Pattern syntax](doc/patternSyntax.md) covers features of patterns of `@Pattern` and `@LocalPattern` annotations
 - [Target functions](doc/targetFunctions.md) covers supported features of target functions (scope, modifiers, parameters, etc.)
 - [Pattern extension](doc/patternExtension.md) describes how to make extension points in your patterns
 - [Unsafe features](doc/unsafe.md) explains why they called "unsafe"
@@ -413,7 +413,7 @@ class Actions @ContextCreator("actions") constructor() {
     }
 }
 
-@GlobalPattern("condition @Extend(context = actions(), parameter = actions) {}")
+@Pattern("condition @Extend(context = actions(), parameter = actions) {}")
 fun ifElse(condition: Boolean, actions: Actions) {
     val actionsToExecute = if (condition) {
         actions.trueActions
@@ -480,13 +480,13 @@ The processor is capable of detecting conflicts between parts of generated code 
 // Example-016
 
 // declarations inside inferred lambda go into its scope (scope narrowing)
-@GlobalPattern("name * age - { occupation * income }")
+@Pattern("name * age - { occupation * income }")
 fun printPersonInfo(occupation: String, income: Int, name: String, age: Int) {
     println("Person '$name'($age) is '$occupation'($income X)")
 }
 
 // declarations go into one shared scope
-@GlobalPattern("name % age - occupation % income")
+@Pattern("name % age - occupation % income")
 fun printPersonInfo2(occupation: String, income: Int, name: String, age: Int) {
     println("Person '$name'($age) is '$occupation'($income X)")
 }

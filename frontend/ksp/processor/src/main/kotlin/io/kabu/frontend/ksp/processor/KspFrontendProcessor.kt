@@ -9,7 +9,7 @@ import com.google.devtools.ksp.processing.SymbolProcessorProvider
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import io.kabu.annotations.ContextCreator
-import io.kabu.annotations.GlobalPattern
+import io.kabu.annotations.Pattern
 import io.kabu.annotations.LocalPattern
 import io.kabu.backend.common.log.InterceptingLogging
 import io.kabu.backend.common.log.LogSink
@@ -92,7 +92,7 @@ class KspFrontendProcessor(
 
     private fun getGlobalPatternMethods(resolver: Resolver): List<GlobalPatternMethod> {
         val functionDeclarations = resolver
-            .getSymbolsWithAnnotation(GlobalPattern::class.qualifiedName!!)
+            .getSymbolsWithAnnotation(Pattern::class.qualifiedName!!)
             .filterIsInstance<KSFunctionDeclaration>()
             .toList()
 

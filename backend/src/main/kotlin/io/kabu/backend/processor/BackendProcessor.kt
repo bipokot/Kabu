@@ -1,6 +1,6 @@
 package io.kabu.backend.processor
 
-import io.kabu.annotations.GlobalPattern
+import io.kabu.annotations.Pattern
 import io.kabu.backend.analyzer.AnalyzerImpl
 import io.kabu.backend.common.log.InterceptingLogging
 import io.kabu.backend.exception.PatternProcessingException
@@ -45,7 +45,7 @@ class BackendProcessor(private val options: Options = Options.DEFAULT) {
         method: GlobalPatternMethod,
         methodsRegistry: MethodsRegistry
     ): Nodes {
-        logger.info { "Analyzing ${GlobalPattern::class.simpleName} method: $method" }
+        logger.info { "Analyzing ${Pattern::class.simpleName} method: $method" }
         return AnalyzerImpl(
             method = method,
             methodsRegistry = methodsRegistry,

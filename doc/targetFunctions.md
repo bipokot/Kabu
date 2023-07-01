@@ -1,6 +1,6 @@
 
 # Target functions
-Target functions are functions which have been annotated with `@GlobalPattern`/`@LocalPattern`.
+Target functions are functions which have been annotated with `@Pattern`/`@LocalPattern`.
 
 ## Restrictions
 These types of functions can not be used as target functions:
@@ -14,8 +14,8 @@ These types of functions can not be used as target functions:
 
 Some restrictions may be revised later.
 
-### @GlobalPattern target functions
-Target functions annotated with `@GlobalPattern` must be:
+### @Pattern target functions
+Target functions annotated with `@Pattern` must be:
 - top level functions
 - with `public` or `internal` visibility
 
@@ -30,7 +30,7 @@ If a target function returns a value, then the type of whole expression correspo
 ```kotlin
 // Example-002
 
-@GlobalPattern("string * count")
+@Pattern("string * count")
 fun repeatString(count: Int, string: String) = buildString {
     repeat(count) { append(string) }
 }
@@ -64,7 +64,7 @@ class Scope {
     }
 }
 
-@GlobalPattern("debug (messageBuilder)")
+@Pattern("debug (messageBuilder)")
 fun Scope.debugPostponed(messageBuilder: () -> String) {
     if (isDebug) logMessage(messageBuilder())
 }
@@ -101,7 +101,7 @@ See `Example-011`.
 There can be cases when usage of functional parameters in a pattern makes the pattern erroneous. Pattern "foo bar" in the following example can not be recognized as valid Kotlin statement:
       
 ```kotlin
-@GlobalPattern("foo bar")
+@Pattern("foo bar")
 fun function(bar: () -> Unit) {
     bar()
 }
@@ -110,7 +110,7 @@ fun function(bar: () -> Unit) {
 Current workaround for this is to surround functional parameter name in a pattern with braces:
 
 ```kotlin
-@GlobalPattern("foo (bar)")
+@Pattern("foo (bar)")
 fun function(bar: () -> Unit) {
     bar()
 }

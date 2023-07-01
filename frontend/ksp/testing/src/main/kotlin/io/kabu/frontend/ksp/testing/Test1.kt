@@ -1,10 +1,10 @@
 package io.kabu.frontend.ksp.testing
 
 import io.kabu.annotations.ContextCreator
-import io.kabu.annotations.GlobalPattern
+import io.kabu.annotations.Pattern
 import io.kabu.annotations.LocalPattern
 
-@GlobalPattern("i % { @Extend(context = ctx(), parameter = context) {} }")
+@Pattern("i % { @Extend(context = ctx(), parameter = context) {} }")
 fun foo(i: Int, context: Context) {
     print("$i, ${context.result}")
 }

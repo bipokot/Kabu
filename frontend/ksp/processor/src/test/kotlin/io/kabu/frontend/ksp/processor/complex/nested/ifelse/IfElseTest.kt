@@ -35,12 +35,12 @@ class IfElseTest : BaseKspFrontendProcessorTest() {
             fun createAction(action: () -> Unit) = action
         }
         
-        @GlobalPattern("condition @Extend(context = context(), parameter = context) {}")
+        @Pattern("condition @Extend(context = context(), parameter = context) {}")
         fun ifElse(condition: Boolean, context: Context) {
             (if (condition) context.trueActions else context.falseActions).forEach { it() }
         }
         
-        @GlobalPattern("condition Yoda said @Extend(context = context(), parameter = context) {}")
+        @Pattern("condition Yoda said @Extend(context = context(), parameter = context) {}")
         fun yodaIfElse(condition: Boolean, context: Context) = ifElse(condition, context)
 
         """,

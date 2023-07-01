@@ -32,13 +32,13 @@ class Football2Test : BaseKspFrontendProcessorTest() {
                 }
             }
             
-            @GlobalPattern("football team name (builderBlock)")
+            @Pattern("football team name (builderBlock)")
             fun footballTeam(name: String, builderBlock: FootballTeamBuilder.() -> Unit): FootballTeam {
                 val builder = FootballTeamBuilder().apply(builderBlock)
                 return FootballTeam(name, builder.players)
             }
             
-            @GlobalPattern("player % name / number")
+            @Pattern("player % name / number")
             fun FootballTeamBuilder.player(name: String, number: Int) {
                 addPlayer(Player(name, number))
             }

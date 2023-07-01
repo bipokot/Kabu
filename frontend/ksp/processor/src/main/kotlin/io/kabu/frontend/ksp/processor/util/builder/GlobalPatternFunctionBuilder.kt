@@ -3,7 +3,7 @@ package io.kabu.frontend.ksp.processor.util.builder
 import com.google.devtools.ksp.isConstructor
 import com.google.devtools.ksp.symbol.FunctionKind
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
-import io.kabu.annotations.GlobalPattern
+import io.kabu.annotations.Pattern
 import io.kabu.backend.inout.input.method.GlobalPatternMethod
 import io.kabu.backend.inout.input.method.GlobalPatternMethod.Companion.toGlobalPatternMethod
 import io.kabu.frontend.ksp.processor.util.areNotSupported
@@ -14,12 +14,12 @@ import io.kabu.frontend.ksp.processor.util.toMethod
 class GlobalPatternFunctionBuilder : AbstractFunctionBuilder<GlobalPatternMethod>() {
 
     override fun build(function: KSFunctionDeclaration): GlobalPatternMethod {
-        val role = GlobalPattern::class.simpleName!!
+        val role = Pattern::class.simpleName!!
         validateFunction(function, role)
 
-        val globalPatternAnnotation = function.getAnnotation<GlobalPattern>()
-        val pattern = globalPatternAnnotation.arguments
-            .single { it.name?.asString() == GlobalPattern::pattern.name }
+        val patternAnnotation = function.getAnnotation<Pattern>()
+        val pattern = patternAnnotation.arguments
+            .single { it.name?.asString() == Pattern::pattern.name }
             .value as String
 
         return function.toMethod().toGlobalPatternMethod(pattern)

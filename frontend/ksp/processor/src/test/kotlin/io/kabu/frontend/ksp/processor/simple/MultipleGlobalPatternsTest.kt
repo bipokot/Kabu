@@ -12,12 +12,12 @@ class MultipleGlobalPatternsTest : BaseKspFrontendProcessorTest() {
     @Test
     fun `both global patterns work well`() = compileAndCheckAndRun(
         """
-            @GlobalPattern("i / b * s")
+            @Pattern("i / b * s")
             fun foo(i: Int, b: Boolean, s: String) {
                 print("foo")
             }
 
-            @GlobalPattern("i * b + s")
+            @Pattern("i * b + s")
             fun bar(i: Int, b: Boolean, s: String) {
                 print("bar")
             }

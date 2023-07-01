@@ -25,7 +25,7 @@ class ContextCreatorsFunctionsSupportedTest : BaseKspFrontendProcessorTest() {
         @ContextCreator(contextName = "bar")
         fun aaa() = A<String>()
         
-        @GlobalPattern("foo @Extend(context = bar(), parameter = par) {}")
+        @Pattern("foo @Extend(context = bar(), parameter = par) {}")
         fun f(par: A<String>){
         }
         """

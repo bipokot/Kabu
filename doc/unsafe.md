@@ -7,7 +7,7 @@ Runtime correctness for unsafe features can be guaranteed only in the case when 
 ### Example of incorrect usage
 Given the pattern below
 ```kotlin
-@GlobalPattern("foo { i > s }")
+@Pattern("foo { i > s }")
 fun bar(i: Int, s: String) {}
 ```
 the following expression `foo { true }` will be syntactically correct (`i > s` has `Boolean` type) but actual values for `i` and `s` will be unknown.

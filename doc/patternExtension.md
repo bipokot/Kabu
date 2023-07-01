@@ -100,7 +100,7 @@ class Builder @ContextCreator("ctx") constructor() {
     }
 }
 
-@GlobalPattern("foo @Extend(context = ctx(), parameter = builder) {}")
+@Pattern("foo @Extend(context = ctx(), parameter = builder) {}")
 fun func(builder: Builder) {
     builder.actions.forEach { it() }
 }
@@ -178,7 +178,7 @@ class FootballTeamBuilder @ContextCreator("footballTeamBuilder") constructor() {
     }
 }
 
-@GlobalPattern("football team name @Extend(context = footballTeamBuilder(), parameter = builder) {}")
+@Pattern("football team name @Extend(context = footballTeamBuilder(), parameter = builder) {}")
 fun footballTeam(name: String, builder: FootballTeamBuilder): FootballTeam {
     return FootballTeam(name, builder.isChampion, builder.players, builder.trophies)
 }

@@ -7,7 +7,7 @@ class ValueParametersTest : BaseKspFrontendProcessorTest(){
     @Test
     fun `unsupported vararg parameters`() = compileAndCheck(
         """
-        @GlobalPattern("foo bar")
+        @Pattern("foo bar")
         fun func(bar: (vararg Boolean) -> Unit){
         }
         """
@@ -18,7 +18,7 @@ class ValueParametersTest : BaseKspFrontendProcessorTest(){
     @Test
     fun `unsupported crossinline parameters`() = compileAndCheck(
         """
-        @GlobalPattern("foo bar")
+        @Pattern("foo bar")
         fun func(crossinline bar: (Boolean) -> Unit){
         }
         """
@@ -29,7 +29,7 @@ class ValueParametersTest : BaseKspFrontendProcessorTest(){
     @Test
     fun `unsupported noinline parameters`() = compileAndCheck(
         """
-        @GlobalPattern("foo bar")
+        @Pattern("foo bar")
         fun func(noinline bar: (Boolean) -> Unit){
         }
         """
@@ -40,7 +40,7 @@ class ValueParametersTest : BaseKspFrontendProcessorTest(){
     @Test
     fun `unsupported parameters with defaults`() = compileAndCheck(
         """
-        @GlobalPattern("foo bar")
+        @Pattern("foo bar")
         fun func(bar: String = "abc"){
         }
         """
@@ -51,7 +51,7 @@ class ValueParametersTest : BaseKspFrontendProcessorTest(){
     @Test
     fun `unsupported suspending functional types`() = compileAndCheck(
         """
-        @GlobalPattern("foo bar")
+        @Pattern("foo bar")
         fun func(bar: suspend (String) -> Unit) {
         }
         """

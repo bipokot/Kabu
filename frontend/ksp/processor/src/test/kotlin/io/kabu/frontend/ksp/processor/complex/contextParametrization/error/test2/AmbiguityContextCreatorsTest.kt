@@ -33,7 +33,7 @@ class AmbiguityContextCreatorsTest : BaseKspFrontendProcessorTest() {
             @ContextCreator("someClass")
             fun someClassCreator3(i: Int, b: Boolean) = SomeClass(i, b)
             
-            @GlobalPattern("{xxx[b..{i}]} @Extend(context = someClass(i, b), parameter = arg) {}")
+            @Pattern("{xxx[b..{i}]} @Extend(context = someClass(i, b), parameter = arg) {}")
             fun bar(i: Int, b: Boolean, arg: SomeClass) {
                 println(arg)
             }

@@ -9,7 +9,7 @@ class AliasesTest : BaseKspFrontendProcessorTest(){
         """
         typealias Alias = suspend (String) -> Unit
 
-        @GlobalPattern("foo + bar")
+        @Pattern("foo + bar")
         fun func(bar: Alias) {
         }
         """

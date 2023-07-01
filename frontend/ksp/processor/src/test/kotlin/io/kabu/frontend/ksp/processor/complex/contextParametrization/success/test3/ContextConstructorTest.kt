@@ -30,7 +30,7 @@ class ContextConstructorTest : BaseKspFrontendProcessorTest() {
             @ContextCreator("someClass")
             fun someClassCreator(i: Int) = SomeClass(i, false)
             
-            @GlobalPattern("{xxx[b..{i}]} @Extend(context = someClass(i, b), parameter = arg) {}")
+            @Pattern("{xxx[b..{i}]} @Extend(context = someClass(i, b), parameter = arg) {}")
             fun bar(i: Int, b: Boolean, arg: SomeClass) {
                 print(arg)
             }

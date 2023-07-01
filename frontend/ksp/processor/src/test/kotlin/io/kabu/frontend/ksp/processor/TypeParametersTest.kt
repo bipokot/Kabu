@@ -9,7 +9,7 @@ class TypeParametersTest : BaseKspFrontendProcessorTest(){
         """
         class A<T>
         
-        @GlobalPattern("foo @Extend(context = bar(), parameter = par) {}")
+        @Pattern("foo @Extend(context = bar(), parameter = par) {}")
         fun f(par: A<*>){
         }
         """
@@ -25,7 +25,7 @@ class TypeParametersTest : BaseKspFrontendProcessorTest(){
         """
         class A<T>
         
-        @GlobalPattern("foo @Extend(context = bar(), parameter = par) {}")
+        @Pattern("foo @Extend(context = bar(), parameter = par) {}")
         fun f(par: A<in String>){
         }
         """
@@ -41,7 +41,7 @@ class TypeParametersTest : BaseKspFrontendProcessorTest(){
         """
         class A<T>
         
-        @GlobalPattern("foo @Extend(context = bar(), parameter = par) {}")
+        @Pattern("foo @Extend(context = bar(), parameter = par) {}")
         fun f(par: A<out String>){
         }
         """

@@ -82,10 +82,10 @@ class JsonObjectBuilderTest : BaseKspFrontendProcessorTest() {
                 }
             }
             
-            @GlobalPattern("jsonObject @Extend(context = objectBuilder(), parameter = objectBuilder) {}")
+            @Pattern("jsonObject @Extend(context = objectBuilder(), parameter = objectBuilder) {}")
             fun createJsonObject(objectBuilder: JsonObjectBuilder) = JsonObject(objectBuilder.map)
             
-            @GlobalPattern("jsonArray @Extend(context = arrayBuilder(), parameter = arrayBuilder) {}")
+            @Pattern("jsonArray @Extend(context = arrayBuilder(), parameter = arrayBuilder) {}")
             fun createJsonArray(arrayBuilder: JsonArrayBuilder) = JsonArray(arrayBuilder.list)
             
             @ContextCreator("objectBuilder")
