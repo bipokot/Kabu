@@ -1,0 +1,29 @@
+def kctVersion = "1.4.9"
+
+ext.deps = [
+        "kotlin"      : [
+                "stdlib" : "org.jetbrains.kotlin:kotlin-stdlib-jdk8",
+                "reflect": "org.jetbrains.kotlin:kotlin-reflect",
+        ],
+        "scripting"   : [
+                "jvm"    : "org.jetbrains.kotlin:kotlin-scripting-jvm:$kotlinVersion",
+                "jvmHost": "org.jetbrains.kotlin:kotlin-scripting-jvm-host:$kotlinVersion",
+        ],
+        "testing"     : [
+                "junit"     : "junit:junit:4.13.2",
+                "kotlinTest": "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion",
+        ],
+        "kct"         : [
+                "kct"   : "com.github.tschuchortdev:kotlin-compile-testing:$kctVersion",
+                "kctKsp": "com.github.tschuchortdev:kotlin-compile-testing-ksp:$kctVersion",
+        ],
+        "logging"     : [
+                "simple"    : "org.slf4j:slf4j-simple:1.7.9",
+                "api": "io.github.microutils:kotlin-logging:1.7.6",
+        ],
+        "ksp"         : "com.google.devtools.ksp:symbol-processing-api:$kspVersion",
+        "antlrRuntime": "org.antlr:antlr4-runtime:4.11.1", // https://mvnrepository.com/artifact/org.antlr/antlr4-runtime
+        "kotlinPoet"  : "com.squareup:kotlinpoet:1.5.0",
+        "jackson"     : "com.fasterxml.jackson.module:jackson-module-kotlin:2.11.0",
+        "textTree"    : "org.barfuin.texttree:text-tree:2.1.2",
+]

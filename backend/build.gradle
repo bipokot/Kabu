@@ -4,7 +4,7 @@ plugins {
     id "com.jfrog.artifactory"
 }
 
-group 'io.kabu'
+group rootProject.group
 version rootProject.version
 
 repositories {
@@ -13,24 +13,21 @@ repositories {
 }
 
 dependencies {
-    testImplementation "junit:junit:4.13.2"
-    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.11.0'
     implementation project(":annotations")
     implementation project(":runtime")
 
-    // https://mvnrepository.com/artifact/org.antlr/antlr4-runtime
-    implementation "org.antlr:antlr4-runtime:4.11.1"
+    implementation deps.kotlin.stdlib
+    implementation deps.kotlin.reflect
+    implementation deps.antlrRuntime
+    implementation deps.kotlinPoet
+    implementation deps.logging.simple
+    api deps.logging.api
+    implementation deps.jackson
+    implementation deps.textTree
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    implementation "org.jetbrains.kotlin:kotlin-reflect"
-    implementation "com.squareup:kotlinpoet:$kotlinPoetVersion"
-    api "io.github.microutils:kotlin-logging:1.7.6"
-    implementation "org.slf4j:slf4j-simple:1.7.9"
-
-    testImplementation "org.jetbrains.kotlin:kotlin-scripting-jvm:$kotlinVersion"
-    testImplementation "org.jetbrains.kotlin:kotlin-scripting-jvm-host:$kotlinVersion"
-
-    implementation "org.barfuin.texttree:text-tree:2.1.2"
+    testImplementation deps.testing.junit
+    testImplementation deps.scripting.jvm
+    testImplementation deps.scripting.jvmHost
 }
 
 compileKotlin {

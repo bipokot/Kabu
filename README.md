@@ -531,6 +531,7 @@ plugins {
     id "com.google.devtools.ksp" version "$kspVersion"
 }
 
+// Generated source files are registered automatically since KSP 1.8.0-1.0.9. Otherwise, add following lines:
 sourceSets.main {
     java.srcDirs("build/generated/ksp/main/kotlin")
     java.srcDirs("build/generated/ksp/main/java")

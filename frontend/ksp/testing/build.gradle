@@ -3,7 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.jvm'
 }
 
-group 'io.kabu'
+group rootProject.group
 version rootProject.version
 
 repositories {
@@ -12,18 +12,13 @@ repositories {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     ksp project(":frontend:ksp:processor")
-    
     compileOnly project(":annotations")
     implementation project(":runtime")
+
+    implementation deps.kotlin.stdlib
 }
 
 ksp {
     arg("ksp.io.kabu.allowUnsafe", "true")
-}
-
-sourceSets.main {
-    java.srcDirs("build/generated/ksp/main/kotlin")
-    java.srcDirs("build/generated/ksp/main/java")
 }

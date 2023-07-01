@@ -4,7 +4,7 @@ plugins {
     id "com.jfrog.artifactory"
 }
 
-group 'io.kabu'
+group rootProject.group
 version rootProject.version
 
 repositories {
@@ -12,7 +12,6 @@ repositories {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 
 configurePublishing(getProject())

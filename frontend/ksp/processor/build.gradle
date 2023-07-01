@@ -4,7 +4,7 @@ plugins {
     id "com.jfrog.artifactory"
 }
 
-group 'io.kabu'
+group rootProject.group
 version rootProject.version
 
 repositories {
@@ -16,15 +16,15 @@ dependencies {
     implementation project(":backend")
     implementation project(":annotations")
     implementation project(":runtime")
-    implementation "com.squareup:kotlinpoet:$kotlinPoetVersion"
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    implementation "com.google.devtools.ksp:symbol-processing-api:$kspVersion"
+    implementation deps.kotlin.stdlib
+    implementation deps.ksp
+    implementation deps.kotlinPoet
 
-    testImplementation("com.github.tschuchortdev:kotlin-compile-testing:1.4.9")
-    testImplementation("com.github.tschuchortdev:kotlin-compile-testing-ksp:1.4.9")
-    testImplementation "junit:junit:4.13.2"
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
+    testImplementation deps.kct.kct
+    testImplementation deps.kct.kctKsp
+    testImplementation deps.testing.junit
+    testImplementation deps.testing.kotlinTest
 }
 
 sourceSets.main {

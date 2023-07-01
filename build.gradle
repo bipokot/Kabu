@@ -37,6 +37,8 @@ allprojects {
     }
 }
 
+apply from: 'dependencies.gradle'
+
 def configurePublishing(Project project) {
     project.apply from: file('scripts/publish.gradle')
 }
