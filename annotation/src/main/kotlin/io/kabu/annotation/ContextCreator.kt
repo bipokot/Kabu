@@ -1,4 +1,4 @@
-package io.kabu.annotations
+package io.kabu.annotation
 
 import kotlin.annotation.AnnotationRetention.SOURCE
 import kotlin.annotation.AnnotationTarget.CONSTRUCTOR

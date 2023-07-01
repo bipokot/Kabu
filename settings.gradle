@@ -9,7 +9,7 @@ pluginManagement {
 rootProject.name = 'Kabu'
 
 include(
-        "annotations",
+        "annotation",
         "backend",
         "runtime",
         "frontend:ksp:processor",

@@ -4,7 +4,7 @@ import com.google.devtools.ksp.isConstructor
 import com.google.devtools.ksp.symbol.FunctionKind
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
-import io.kabu.annotations.ContextCreator
+import io.kabu.annotation.ContextCreator
 import io.kabu.backend.inout.input.method.ContextConstructorMethod.Companion.toContextConstructorMethod
 import io.kabu.backend.inout.input.method.ContextCreatorMethod
 import io.kabu.backend.inout.input.method.ContextCreatorMethod.Companion.toContextCreatorMethod

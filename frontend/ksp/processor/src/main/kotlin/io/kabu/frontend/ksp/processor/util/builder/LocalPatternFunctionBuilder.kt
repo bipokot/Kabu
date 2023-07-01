@@ -5,7 +5,7 @@ import com.google.devtools.ksp.isConstructor
 import com.google.devtools.ksp.symbol.FunctionKind
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
-import io.kabu.annotations.LocalPattern
+import io.kabu.annotation.LocalPattern
 import io.kabu.backend.inout.input.method.LocalPatternMethod
 import io.kabu.backend.inout.input.method.LocalPatternMethod.Companion.toLocalPatternMethod
 import io.kabu.frontend.ksp.diagnostic.builder.unexpectedLocalPatternError

@@ -8,9 +8,9 @@ import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
 import com.google.devtools.ksp.processing.SymbolProcessorProvider
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
-import io.kabu.annotations.ContextCreator
-import io.kabu.annotations.Pattern
-import io.kabu.annotations.LocalPattern
+import io.kabu.annotation.ContextCreator
+import io.kabu.annotation.Pattern
+import io.kabu.annotation.LocalPattern
 import io.kabu.backend.common.log.InterceptingLogging
 import io.kabu.backend.common.log.LogSink
 import io.kabu.backend.diagnostic.Diagnostic

@@ -5,7 +5,7 @@ object Constants {
 
     const val PROJECT_BASE_PACKAGE = "io.kabu"
     const val RUNTIME_PACKAGE = "$PROJECT_BASE_PACKAGE.runtime"
-    const val ANNOTATIONS_PACKAGE = "$PROJECT_BASE_PACKAGE.annotations"
+    const val ANNOTATION_PACKAGE = "$PROJECT_BASE_PACKAGE.annotation"
     const val BACKEND_PACKAGE = "$PROJECT_BASE_PACKAGE.backend"
 
     const val EXTENSION_ANNOTATION = "Extend"

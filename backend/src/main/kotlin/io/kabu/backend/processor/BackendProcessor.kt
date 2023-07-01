@@ -1,6 +1,6 @@
 package io.kabu.backend.processor
 
-import io.kabu.annotations.Pattern
+import io.kabu.annotation.Pattern
 import io.kabu.backend.analyzer.AnalyzerImpl
 import io.kabu.backend.common.log.InterceptingLogging
 import io.kabu.backend.exception.PatternProcessingException

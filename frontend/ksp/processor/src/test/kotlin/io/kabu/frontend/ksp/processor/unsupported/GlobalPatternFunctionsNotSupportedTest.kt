@@ -1,6 +1,6 @@
 package io.kabu.frontend.ksp.processor.unsupported
 
-import io.kabu.annotations.Pattern
+import io.kabu.annotation.Pattern
 import io.kabu.frontend.ksp.processor.BaseKspFrontendProcessorTest
 import org.junit.Ignore
 import org.junit.Test

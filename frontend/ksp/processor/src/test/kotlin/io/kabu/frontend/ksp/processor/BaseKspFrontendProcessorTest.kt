@@ -8,7 +8,6 @@ import com.tschuchort.compiletesting.kspIncrementalLog
 import com.tschuchort.compiletesting.kspWithCompilation
 import com.tschuchort.compiletesting.symbolProcessorProviders
 import io.kabu.backend.common.log.InterceptingLogging
-import io.kabu.frontend.ksp.processor.KspFrontendProcessorProvider
 import org.intellij.lang.annotations.Language
 import org.junit.After
 import org.junit.Before
@@ -178,9 +177,9 @@ open class BaseKspFrontendProcessorTest {
         val projectRoot = "../../../"
         val mainKtsLib = "${projectRoot}frontend/ksp/processor/lib/kotlin-main-kts-1.7.20.jar"
 //        val runtimeClassFiles = "${projectRoot}runtime/build/libs/runtime-1.0-SNAPSHOT.jar"
-//        val annotationClassFiles = "${projectRoot}annotations/build/libs/annotations-1.0-SNAPSHOT.jar"
+//        val annotationClassFiles = "${projectRoot}annotation/build/libs/annotation-1.0-SNAPSHOT.jar"
         val runtimeClassFiles = "${projectRoot}runtime/build/classes/kotlin/main"
-        val annotationClassFiles = "${projectRoot}annotations/build/classes/kotlin/main"
+        val annotationClassFiles = "${projectRoot}annotation/build/classes/kotlin/main"
         val classFiles = "${projectRoot}frontend/ksp/processor/build/ksptesting/classes"
         val classpath = "$mainKtsLib:$annotationClassFiles:$runtimeClassFiles:$classFiles"
         val file = File.createTempFile("sample", ".main.kts").apply {
@@ -245,9 +244,9 @@ operator fun String.minus(result: TestCase.ScriptResult) = TestCase(this.trimInd
             """
             package tests
             
-            import io.kabu.annotations.Pattern 
-            import io.kabu.annotations.LocalPattern 
-            import io.kabu.annotations.ContextCreator
+            import io.kabu.annotation.Pattern 
+            import io.kabu.annotation.LocalPattern 
+            import io.kabu.annotation.ContextCreator
             // lines below are for future imports or other declarations to fix line numbers used in tests            
             
             
@@ -263,9 +262,9 @@ private const val KOTLIN_TEST_SCRIPT_FILE_PREFIX =
     """
             package tests
 
-            import io.kabu.annotations.Pattern
-            import io.kabu.annotations.LocalPattern
-            import io.kabu.annotations.ContextCreator
+            import io.kabu.annotation.Pattern
+            import io.kabu.annotation.LocalPattern
+            import io.kabu.annotation.ContextCreator
             // lines below are for future imports or other declarations to fix line numbers used in tests
 
 

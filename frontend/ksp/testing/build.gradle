@@ -13,7 +13,7 @@ repositories {
 
 dependencies {
     ksp project(":frontend:ksp:processor")
-    compileOnly project(":annotations")
+    compileOnly project(":annotation")
     implementation project(":runtime")
 
     implementation deps.kotlin.stdlib

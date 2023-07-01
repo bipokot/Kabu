@@ -40,7 +40,7 @@ private fun scriptCompilationConfiguration(): ScriptCompilationConfiguration =
             dependenciesFromCurrentContext(
                 "backend", /* script library jar name (exact or without a version) */
                 "runtime",
-                "annotations",
+                "annotation",
             )
             // variant 2: try to extract current classpath and use it for the compilation without filtering
 //            dependenciesFromCurrentContext(wholeClasspath = true)

@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    implementation project(":annotations")
+    implementation project(":annotation")
     implementation project(":runtime")
 
     implementation deps.kotlin.stdlib

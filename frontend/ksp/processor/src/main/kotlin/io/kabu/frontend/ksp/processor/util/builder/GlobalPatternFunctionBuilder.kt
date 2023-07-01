@@ -3,7 +3,7 @@ package io.kabu.frontend.ksp.processor.util.builder
 import com.google.devtools.ksp.isConstructor
 import com.google.devtools.ksp.symbol.FunctionKind
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
-import io.kabu.annotations.Pattern
+import io.kabu.annotation.Pattern
 import io.kabu.backend.inout.input.method.GlobalPatternMethod
 import io.kabu.backend.inout.input.method.GlobalPatternMethod.Companion.toGlobalPatternMethod
 import io.kabu.frontend.ksp.processor.util.areNotSupported

@@ -552,7 +552,7 @@ def kabuVersion = 'v0.20.0-rc.1'
 
 dependencies {
     ksp "com.github.bipokot.kabu:processor:$kabuVersion"
-    compileOnly "com.github.bipokot.kabu:annotations:$kabuVersion"
+    compileOnly "com.github.bipokot.kabu:annotation:$kabuVersion"
     implementation "com.github.bipokot.kabu:runtime:$kabuVersion
 }
 ```

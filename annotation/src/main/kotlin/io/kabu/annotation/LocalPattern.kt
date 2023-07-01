@@ -1,4 +1,4 @@
-package io.kabu.annotations
+package io.kabu.annotation
 
 import org.intellij.lang.annotations.Language
 import kotlin.annotation.AnnotationRetention.SOURCE
