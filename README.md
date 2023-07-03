@@ -25,15 +25,21 @@ Set desired pattern for a function with `@Pattern` annotation. Kabu will generat
 Pattern is a *visual decoration* of arguments which will be passed to annotated function.
 Patterns can be almost as complex as you can do it with Kotlin.
 
+[Extend your patterns](doc/patternExtension.md) to use convenient scoping capabilities provided by lambdas (like in regular DSLs).
+
 ## Examples
 
-**Example-002**
+**Simple pattern (Example-002)**
 
 <img src="doc/img/animation_example_repeating.gif" alt="'Repeating' example" width="500"/>
 
-**Example-014**
+**Complex pattern (Example-014)**
 
 <img src="doc/img/animation_example_printbook.gif" alt="'Print book' example" width="600"/>
+
+**Extending a pattern (Example-020)**
+
+<img src="doc/img/animation_example_chooser.gif" alt="'Chooser' example" width="600"/>
 
 Explore [a project with a set of examples](https://github.com/bipokot/KabuExamples). Each documentation example with `Example-XXX` code can be found in that project.
 
@@ -550,7 +556,7 @@ maven { url "https://jitpack.io" }
 Add following dependencies to your project:
 
 ```gradle
-def kabuVersion = 'v0.20.0-rc.1'
+def kabuVersion = 'x.y.z'
 
 dependencies {
     ksp "com.github.bipokot.kabu:processor:$kabuVersion"
