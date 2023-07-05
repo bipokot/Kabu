@@ -13,6 +13,9 @@ import io.kabu.backend.diagnostic.builder.watcherLambdaMissingError
 import io.kabu.backend.node.FixedTypeNode
 import io.kabu.backend.node.HolderTypeNode
 import io.kabu.backend.node.TypeNode
+import io.kabu.backend.node.factory.node.HolderTypeNodeImpl
+import io.kabu.backend.node.factory.node.TerminalAssignablePropertyNode
+import io.kabu.backend.node.factory.node.TerminalReadOnlyPropertyNode
 import io.kabu.backend.parser.Assign
 import io.kabu.backend.parser.BinaryExpression
 import io.kabu.backend.parser.Comparison
@@ -142,11 +145,11 @@ open class Handler(
 
         val funDeclarationProviders = FunDeclarationProvidersFactory.from(rawProviders, invertedOrdering = false)
 
-        val propertyNode = nodeFactory.createTerminalReadOnlyPropertyNode(
+        val propertyNode = TerminalReadOnlyPropertyNode(
             name = name,
-            funDeclarationProviders = funDeclarationProviders,
             typeNode = propertyType,
             namespaceNode = namespaceNode,
+            funDeclarationProviders = funDeclarationProviders,
             analyzer = analyzer,
         )
         registerNode(propertyNode)
@@ -169,11 +172,11 @@ open class Handler(
         val funDeclarationProviders =
             FunDeclarationProvidersFactory.from(rawProvidersOfAssign, invertedOrdering = false, forSetter = true)
 
-        val propertyNode = nodeFactory.createTerminalAssignablePropertyNode(
+        val propertyNode = TerminalAssignablePropertyNode(
             name = propertyName,
             typeNode = propertyTypeNode,
-            funDeclarationProviders = funDeclarationProviders,
             namespaceNode = namespaceNode,
+            funDeclarationProviders = funDeclarationProviders,
             analyzer = analyzer
         )
         registerNode(propertyNode)
@@ -182,7 +185,7 @@ open class Handler(
     }
 
     protected fun createAndRegisterHolderType(fieldTypes: List<TypeNode>): HolderTypeNode {
-        val typeNode = nodeFactory.createHolderTypeNode(
+        val typeNode = HolderTypeNodeImpl(
             name = namespaceNode.typeNameGenerator.generateNextTypeName(),
             fieldTypes = fieldTypes,
             namespaceNode = namespaceNode,

@@ -8,6 +8,7 @@ import io.kabu.backend.diagnostic.builder.extensionAnnotationMissingError
 import io.kabu.backend.diagnostic.builder.unknownFunctionParameterNameError
 import io.kabu.backend.inout.input.method.PatternMethod
 import io.kabu.backend.node.DerivativeTypeNode
+import io.kabu.backend.node.factory.node.ContextMediatorTypeNodeImpl
 import io.kabu.backend.node.namespace.NamespaceNode
 import io.kabu.backend.parameter.EntryParameter
 import io.kabu.backend.parser.LambdaExpression
@@ -43,7 +44,7 @@ class ExtensionLambdaHandler(
         val contextMediatorNamespaceNode = namespaceNode
 
         val contextMediatorClassSimpleName = contextMediatorNamespaceNode.typeNameGenerator.generateNextTypeName()
-        val contextMediatorTypeNode = analyzer.nodeFactory.createContextMediatorTypeNode(
+        val contextMediatorTypeNode = ContextMediatorTypeNodeImpl(
             name = contextMediatorClassSimpleName,
             namespaceNode = contextMediatorNamespaceNode,
             contextProperty = EntryParameter(EXTENSION_CONTEXT_PROPERTY_NAME, extensionContextTypeName),

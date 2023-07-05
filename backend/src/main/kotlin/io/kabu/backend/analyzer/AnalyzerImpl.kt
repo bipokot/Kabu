@@ -18,7 +18,7 @@ import io.kabu.backend.node.Node
 import io.kabu.backend.node.Nodes
 import io.kabu.backend.node.ObjectTypeNode
 import io.kabu.backend.node.PackageNode
-import io.kabu.backend.node.factory.NodeFactory
+import io.kabu.backend.node.factory.node.AccessorObjectTypeNode
 import io.kabu.backend.node.namespace.NamespaceNode
 import io.kabu.backend.parser.IdentifierLeaf
 import io.kabu.backend.parser.KotlinExpression
@@ -51,8 +51,6 @@ class AnalyzerImpl(
 
     override fun <T: Node> registerNode(node: T): T =
         node.also { nodes.add(it) }
-
-    override val nodeFactory = NodeFactory()
 
     override val expression = try {
         val patternOrigin = Origin(excerpt = method.pattern, parent = method.origin)
@@ -110,7 +108,7 @@ class AnalyzerImpl(
 
         val accessorName = AccessorObjectNameGenerator.generateName()
 
-        return nodeFactory.createAccessorObjectTypeNode(accessorName, targetPackageNode)
+        return AccessorObjectTypeNode(accessorName, targetPackageNode)
     }
 
     fun <R> withWatcherLambda(watcherLambda: WatcherLambda, block: () -> R): R {

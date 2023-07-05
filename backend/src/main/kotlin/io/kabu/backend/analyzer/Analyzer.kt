@@ -2,7 +2,6 @@ package io.kabu.backend.analyzer
 
 import io.kabu.backend.inout.input.method.PatternMethod
 import io.kabu.backend.node.Node
-import io.kabu.backend.node.factory.NodeFactory
 import io.kabu.backend.node.namespace.NamespaceNode
 import io.kabu.backend.parser.KotlinExpression
 import io.kabu.backend.parser.OperatorExpression
@@ -24,8 +23,6 @@ interface Analyzer {
     val contextPropertyName: String?
 
     val namespaceNode: NamespaceNode
-
-    val nodeFactory: NodeFactory
 
     fun <T: Node> registerNode(node: T): T
 

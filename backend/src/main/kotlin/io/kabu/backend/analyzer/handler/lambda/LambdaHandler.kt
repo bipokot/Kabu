@@ -8,6 +8,7 @@ import io.kabu.backend.analyzer.handler.lambda.extension.ExtensionLambdaHandler
 import io.kabu.backend.analyzer.handler.lambda.watcher.WatcherLambda
 import io.kabu.backend.analyzer.handler.lambda.watcher.WatcherLambdaHandler
 import io.kabu.backend.diagnostic.diagnosticError
+import io.kabu.backend.node.factory.node.WatcherContextTypeNodeImpl
 import io.kabu.backend.parser.LambdaExpression
 import io.kabu.backend.provider.provider.Provider
 import io.kabu.backend.util.Constants.EXTENSION_ANNOTATION
@@ -36,10 +37,7 @@ class LambdaHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
         if (expression.canBeLambdaWithReceiver) {
             // creating WatcherContextTypeNode
             val watcherContextName = namespaceNode.typeNameGenerator.generateNextTypeName()
-            val watcherContextTypeNode = nodeFactory.createWatcherContextTypeNode(
-                name = watcherContextName,
-                namespaceNode = namespaceNode,
-            )
+            val watcherContextTypeNode = WatcherContextTypeNodeImpl(watcherContextName, namespaceNode)
             registerNode(watcherContextTypeNode)
 
             // creating WatcherLambda
