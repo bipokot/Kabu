@@ -16,7 +16,7 @@ class WatcherContextProvider(
     origin: Origin? = null,
 ) : BaseProvider(typeNode, origin), Provider {
 
-    override fun getProviderName(): String {
+    override fun generateName(): String {
         return typeNode.name.decaps()
     }
 

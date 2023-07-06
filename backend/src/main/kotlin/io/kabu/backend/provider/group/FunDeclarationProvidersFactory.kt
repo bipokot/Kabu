@@ -26,7 +26,7 @@ object FunDeclarationProvidersFactory {
 
         orderedNamesProviders.register(orderedList.first(), RECEIVER_PARAMETER_NAME)
 
-        val nonReceiverParameters = orderedList.drop(1).map { ProviderWithName(it, it.getProviderName()) }
+        val nonReceiverParameters = orderedList.drop(1).map { ProviderWithName(it, it.generateName()) }
 
         if (forSetter) nonReceiverParameters[0].name = SETTER_PARAMETER_NAME
 

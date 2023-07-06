@@ -26,8 +26,8 @@ open class LambdaProvider(
         return ProviderWithEvaluationCode(providerToObtain, EvaluationCode.Code(code))
     }
 
-    override fun getProviderName(): String {
-        return returningProvider.getProviderName() + "Lambda"
+    override fun generateName(): String {
+        return returningProvider.generateName() + "Lambda"
     }
 
     override val childrenProviders: List<Provider>
@@ -46,10 +46,10 @@ open class LambdaProvider(
     override fun getEvaluationRequirement(): EvaluationRequirement {
         val hasChildRequiredToMandatoryEval =
             findProvider { it.getEvaluationRequirement() == EvaluationRequirement.MANDATORY } != null
-        return if (hasChildRequiredToMandatoryEval) {
+        return if (hasChildRequiredToMandatoryEval || !analyzer.postponeLambdaExecution) {
             EvaluationRequirement.MANDATORY
         } else {
-            EvaluationRequirement.NONE //todo depends on options
+            EvaluationRequirement.NONE
         }
     }
 }

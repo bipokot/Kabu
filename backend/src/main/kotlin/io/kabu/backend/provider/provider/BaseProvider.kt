@@ -22,7 +22,7 @@ open class BaseProvider( //todo abstract?
 
     override val isUseful = false
 
-    override fun getProviderName() = "<unknown>"
+    override fun generateName() = "<unknown>"
 
     override val childrenProviders: List<Provider>
         get() = emptyList()
@@ -40,11 +40,6 @@ open class BaseProvider( //todo abstract?
 
     override fun getEvaluationRequirement(): EvaluationRequirement =
         EvaluationRequirement.NONE
-
-    override fun provideCodeForConstructionFromAux(
-        auxName: String, //todo introduce `class VariableName(val value: String)` / `class Code(val value: String)`
-        watcherContextName: String,
-    ): ProviderWithEvaluationCode? = null
 
     /** Declared return type of translation (e.g. Int for comparison checks), can differ from [type]. */
     open fun translationReturnedType(): TypeName = type

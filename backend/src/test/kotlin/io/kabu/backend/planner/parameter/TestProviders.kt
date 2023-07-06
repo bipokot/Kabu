@@ -29,19 +29,12 @@ interface TestProvider : Provider {
     override fun getEvaluationRequirement(): EvaluationRequirement {
         return EvaluationRequirement.NONE
     }
-
-    override fun provideCodeForConstructionFromAux(
-        auxName: String,
-        watcherContextName: String,
-    ): ProviderWithEvaluationCode? {
-        TODO()
-    }
 }
 
 
 class TestHolderProvider(val name: String, val children: List<Provider>): TestProvider {
 
-    override fun getProviderName() = name
+    override fun generateName() = name
 
     override val childrenProviders: List<Provider>
         get() = children
@@ -61,7 +54,7 @@ class TestHolderProvider(val name: String, val children: List<Provider>): TestPr
 
 class TestLambdaProvider(val name: String, val returns: Provider): TestProvider {
 
-    override fun getProviderName() = name
+    override fun generateName() = name
 
     override val childrenProviders: List<Provider>
         get() = listOf(returns)
@@ -80,7 +73,7 @@ class TestLambdaProvider(val name: String, val returns: Provider): TestProvider 
 
 class TestEmptyProvider(val name: String): TestProvider {
 
-    override fun getProviderName() = name
+    override fun generateName() = name
 
     override val childrenProviders: List<Provider>
         get() = emptyList()
@@ -100,7 +93,7 @@ class TestArgumentProvider(val originalName: String): TestProvider {
 
     override val isUseful: Boolean = true
 
-    override fun getProviderName() = originalName
+    override fun generateName() = originalName
 
     override val childrenProviders: List<Provider>
         get() = emptyList()

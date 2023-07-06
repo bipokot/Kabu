@@ -16,7 +16,7 @@ import io.kabu.backend.provider.evaluation.RetrievalWay
  */
 class AuxProvider(
     typeNode: TypeNode,
-    private val watchedProvider: Provider,
+    private val watchedProvider: AbstractWatchedProvider,
     origin: Origin? = null,
 ) : BaseProvider(typeNode, origin) {
 
@@ -45,7 +45,7 @@ class AuxProvider(
         return ProviderWithEvaluationCode(watchedProvider, EvaluationCode.Code(code))
     }
 
-    override fun getProviderName(): String {
-        return watchedProvider.getProviderName() + "Aux"
+    override fun generateName(): String {
+        return watchedProvider.generateName() + "Aux"
     }
 }

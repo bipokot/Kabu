@@ -14,7 +14,7 @@ class EmptyProvider(
 
     constructor() : this(ANY.toFixedTypeNode())
 
-    override fun getProviderName(): String {
+    override fun generateName(): String {
         return typeNode.name.decaps()
     }
 

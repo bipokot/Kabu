@@ -12,7 +12,7 @@ class OperatorInfoProvider(
 
     override val isUseful: Boolean = true
 
-    override fun getProviderName(): String {
+    override fun generateName(): String {
         return originalName
     }
 }

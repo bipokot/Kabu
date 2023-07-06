@@ -20,8 +20,8 @@ class WatcherLambdaProvider(
     origin: Origin? = null,
 ) : BaseProvider(typeNode, origin) {
 
-    override fun getProviderName(): String {
-        return watcherContextProvider.getProviderName() + "Lambda"
+    override fun generateName(): String {
+        return watcherContextProvider.generateName() + "Lambda"
     }
 
     override val childrenProviders: List<Provider>

@@ -68,12 +68,12 @@ class ProviderTest : Assert() {
     }
 
     private fun findProvider(provider: Provider, providerName: String): Provider {
-        return provider.findProvider { it.getProviderName() == providerName }!!
+        return provider.findProvider { it.generateName() == providerName }!!
     }
 
     private fun findProviders(provider: Provider, vararg providerNames: String): List<Provider> {
         return providerNames.mapNotNull { name ->
-            provider.findProvider { it.getProviderName() == name }
+            provider.findProvider { it.generateName() == name }
         }
     }
 }

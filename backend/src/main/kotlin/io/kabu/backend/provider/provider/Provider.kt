@@ -39,13 +39,11 @@ interface Provider : ProviderContainer {
      * May be used to form functions' parameters names.
      * Does NOT represent a "variable name" under which this provider is accessible.
      */
-    fun getProviderName(): String //todo rn generateName()
+    fun generateName(): String
 
     fun getEvaluationWay(context: FunctionBlockContext, forName: String): ProviderWithEvaluationCode
 
     fun getEvaluationRequirement(): EvaluationRequirement
-
-    fun provideCodeForConstructionFromAux(auxName: String, watcherContextName: String): ProviderWithEvaluationCode?
 
     fun findNearestNotEvaluatedProvider(): Provider {
         if (childrenProviders.size != 1) return this
@@ -56,5 +54,4 @@ interface Provider : ProviderContainer {
             else -> child.findNearestNotEvaluatedProvider()
         }
     }
-
 }
