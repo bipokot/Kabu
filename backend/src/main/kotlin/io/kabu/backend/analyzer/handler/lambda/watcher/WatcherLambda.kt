@@ -9,13 +9,9 @@ import io.kabu.backend.util.Constants
 
 class WatcherLambda(val watcherContextTypeNode: WatcherContextTypeNode) {
 
-    val captureTypes = mutableListOf<CaptureType>()
-
     val captureTypeGroups: MutableMap<CaptureTypeGroup, MutableList<CaptureType>> = mutableMapOf()
 
     fun register(captureType: CaptureType) {
-        captureTypes += captureType
-
         val group = findGroupForCaptureType(captureType)
         captureTypeGroups[group]!! += captureType
     }

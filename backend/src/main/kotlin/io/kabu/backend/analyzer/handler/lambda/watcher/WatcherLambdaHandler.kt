@@ -43,7 +43,7 @@ class WatcherLambdaHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
         }
         registerNode(typeNode)
 
-        return if (watcherLambda.captureTypes.isEmpty()) {
+        return if (watcherLambda.captureTypeGroups.isEmpty()) {
             ScopingLambdaProvider(
                 typeNode = typeNode,
                 returningProvider = returningProvider,
