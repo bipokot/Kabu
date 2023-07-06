@@ -19,7 +19,7 @@ data class Options(
         val DEFAULT = Options(
             allowUnsafe = false,
             hideInternalProperties = true,
-            accessorObjectIsInSamePackage = true
+            accessorObjectIsInSamePackage = true //todo false doesn't work
         )
     }
 }
