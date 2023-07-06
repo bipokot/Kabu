@@ -39,7 +39,7 @@ interface Provider : ProviderContainer {
      * May be used to form functions' parameters names.
      * Does NOT represent a "variable name" under which this provider is accessible.
      */
-    fun getProviderName(): String
+    fun getProviderName(): String //todo rn generateName()
 
     fun getEvaluationWay(context: FunctionBlockContext, forName: String): ProviderWithEvaluationCode
 

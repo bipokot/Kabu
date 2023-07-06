@@ -68,11 +68,13 @@ open class Handler(
             .from(rawProviders, operator.invertedArgumentOrdering)
 
         val functionBlockContext = FunctionBlockContext(funDeclarationProviders)
+        //todo not adding operator info provider here!
         var evaluatedParameters = functionBlockContext.doEvaluation()
 
         // adding operator info provider
         val operatorInfoType = rawProviders.operatorInfoParameter?.type
             ?: run {
+                //todo requiring operator info temporarily
                 when(operator) {
                     is Comparison -> RankingComparisonInfo::class.asClassName()
                     is InclusionCheck -> InclusionInfo::class.asClassName()

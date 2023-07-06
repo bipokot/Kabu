@@ -69,7 +69,7 @@ class TerminalCallableBuilder {
         val codes = providers.map {
             val retrievalWay = evaluatedProvidersProvider
                 .getChildRetrievalWay(selfName = null, it, evaluatedProvidersProvider)!!
-            retrievalWay.codeBlock.toString()
+            retrievalWay.codeBlock.toString() //todo ignoring reentrant!!!
         }
 
         val contextPropertyName = analyzer.contextPropertyName

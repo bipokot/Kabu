@@ -34,6 +34,7 @@ class FunctionBlockContext(
     fun registerActualProvider(parameter: Provider, name: String, statements: List<String>) {
         _allStatements += statements
         actualProviders.register(parameter, name)
+        //todo mb losing non-actual providers names in allProviders...
         allProviders.register(parameter, name)
     }
 

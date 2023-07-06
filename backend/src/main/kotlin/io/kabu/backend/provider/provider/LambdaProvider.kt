@@ -19,7 +19,7 @@ open class LambdaProvider(
 ) : BaseProvider(typeNode, origin) {
 
     override fun getEvaluationWay(context: FunctionBlockContext, forName: String): ProviderWithEvaluationCode {
-        if (analyzer.postponeLambdaExecution) return super.getEvaluationWay(context, forName)
+        if (analyzer.postponeLambdaExecution) return super.getEvaluationWay(context, forName) //todo revise logic
 
         val providerToObtain = findNearestNotEvaluatedProvider()
         val code = getChildRetrievalWay(forName, providerToObtain, context.actualProvidersProvider)!!.codeBlock.toString()
@@ -49,7 +49,7 @@ open class LambdaProvider(
         return if (hasChildRequiredToMandatoryEval) {
             EvaluationRequirement.MANDATORY
         } else {
-            EvaluationRequirement.NONE
+            EvaluationRequirement.NONE //todo depends on options
         }
     }
 }

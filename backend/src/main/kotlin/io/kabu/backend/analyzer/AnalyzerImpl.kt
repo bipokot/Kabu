@@ -135,7 +135,7 @@ class AnalyzerImpl(
         // must be in between left and right parameters obtaining
         val operatorInfoParameter = method.parameters.getOrNull(nextExpectedParameterIndex)
             ?.takeIf { it.type.isOperatorInfoType }
-            ?.let { BaseProvider(it.type.toFixedTypeNode(), it.origin) }
+            ?.let { BaseProvider(it.type.toFixedTypeNode(), it.origin) } //todo check: creating different objects for same method parameter
 
         val right: List<Provider> = expressions.drop(1)
             .map { providerOf(it) }

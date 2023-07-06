@@ -37,7 +37,7 @@ class WatcherLambda(val watcherContextTypeNode: WatcherContextTypeNode) {
         val captureTypes = captureType.funDeclarationProviders.providersList.map { it.type }
         val groupTypes = group.funDeclarationProviders.providersList.map { it.type }
         return captureTypes.size == groupTypes.size &&
-            captureTypes.zip(groupTypes).all { it.first == it.second } &&
+            captureTypes.zip(groupTypes).all { it.first == it.second } && //todo exact types match (ignoring type parameters)!
             captureType.operator.overriding?.function == group.operator.overriding?.function
     }
 }
@@ -45,7 +45,7 @@ class WatcherLambda(val watcherContextTypeNode: WatcherContextTypeNode) {
 class CaptureTypeGroup(
     val operator: Operator,
     val funDeclarationProviders: FunDeclarationProviders,
-    val returnTypeNode: TypeNode,
+    val returnTypeNode: TypeNode, //todo revise?
 //    // in case of operator==Assign, tells us about actual accessor expression: (Access|Index)
     val assignableSuffixExpression: KotlinExpression?,
 //    val rawProviders: RawProviders? = null
