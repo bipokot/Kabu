@@ -2,8 +2,6 @@ package io.kabu.backend.declaration.util
 
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.UNIT
-import io.kabu.backend.analyzer.Analyzer
-import io.kabu.backend.analyzer.AnalyzerImpl
 import io.kabu.backend.analyzer.handler.lambda.watcher.OperatorInfoTypes.isOperatorInfoType
 import io.kabu.backend.diagnostic.builder.couldNotRetrieveReceiverValueError
 import io.kabu.backend.diagnostic.builder.signatureParameterMissingError
@@ -29,7 +27,7 @@ class TerminalCallableBuilder {
         val providers: List<Provider> =
             gatherRequiredProviders(analyzer, functionBlockContext.actualProvidersProvider)
 
-        AccessingCodeReducer().reduceAccessingCodeNew(functionBlockContext)
+        AccessingCodeReducer().reduceAccessingCode(functionBlockContext)
 
         return generateCode(analyzer, providers, requiredReturnStatement, functionBlockContext)
     }
