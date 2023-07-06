@@ -16,9 +16,11 @@ class FunctionBlockContext(
     val allStatements: List<String>
         get() = _allStatements
 
+    // all accessible providers
     private val allProviders = OrderedNamedProviders()
     val allProvidersProvider = OrderedNamedProvidersProvider(allProviders)
 
+    // actual providers (current candidates to propagation)
     val actualProviders = OrderedNamedProviders()
     val actualProvidersProvider = OrderedNamedProvidersProvider(actualProviders)
 

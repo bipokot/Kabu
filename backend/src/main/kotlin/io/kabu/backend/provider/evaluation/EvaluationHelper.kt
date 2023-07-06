@@ -24,6 +24,7 @@ object EvaluationHelper {
             convertToEvaluatedParameter(codeBlockContext, it)
         }
 
+        // separating evaluation code from resulting order of providers
         val namedProviders = mutableListOf<NamedProvider>()
         val statementsLists = mutableListOf<List<String>>()
         evaluatedParametersWithStatements.forEach { providerInfo ->
@@ -31,16 +32,20 @@ object EvaluationHelper {
             statementsLists += listOfNotNull(providerInfo.statements)
         }
 
+        // adding statements of evaluation
         statementsLists.forEach {
             codeBlockContext.addStatements(it)
         }
 
+        // obtaining "conventional ordering" from "evaluation ordering"
         if (!invertedOrdering) namedProviders.reverse()
 
+        // making all existing providers obsolete
         evaluationOrderedList.forEach {
             codeBlockContext.unregisterActualProvider(it)
         }
 
+        // adding current actual providers
         namedProviders.forEach { namedProvider ->
             codeBlockContext.registerActualProvider(
                 parameter = namedProvider.provider,

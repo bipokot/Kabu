@@ -70,6 +70,7 @@ open class Handler(
         val functionBlockContext = FunctionBlockContext(funDeclarationProviders)
         var evaluatedParameters = functionBlockContext.doEvaluation()
 
+        // adding operator info provider
         val operatorInfoType = rawProviders.operatorInfoParameter?.type
             ?: run {
                 when(operator) {
@@ -79,6 +80,7 @@ open class Handler(
                 }
             }
         if (operatorInfoType != null) {
+            // adding operator info provider between providers of binary (for now) operation
             val operatorInfoProvider =
                 OperatorInfoProvider(operatorInfoType.toFixedTypeNode(), "operatorInfo") //todo constant name
             evaluatedParameters = evaluatedParameters.toMutableList()
@@ -97,9 +99,11 @@ open class Handler(
             evaluatedParameters.add(positionOfOperatorInfoProvider, operatorInfoProvider)
         }
 
+        // registering holder type
         val fieldTypes = evaluatedParameters.map { it.typeNode }
         val holderTypeNode = createAndRegisterHolderType(fieldTypes)
 
+        // registering capture type for operation
         val returningTypeNode = expressionReturnedTypeOf(operator.expressionType)!!.toFixedTypeNode()
         val translationReturnedTypeNode =
             (if (operator is Assign) UNIT else operator.overriding!!.mustReturn.asFixedTypeName()).toFixedTypeNode()
@@ -113,6 +117,7 @@ open class Handler(
         val watcherLambda = analyzer.currentWatcherLambda ?: watcherLambdaMissingError(operator)
         watcherLambda.register(captureType)
 
+        // creating watched provider of appropriate type
         val watchedProvider = when(operator) {
             is Comparison -> ComparisonProvider(holderTypeNode, evaluatedParameters, analyzer)
             is InclusionCheck -> InclusionProvider(holderTypeNode, evaluatedParameters, analyzer)

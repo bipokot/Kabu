@@ -11,6 +11,8 @@ class AccessingCodeReducer {
         val rootProvider = functionBlockContext.actualProvidersProvider
 
         do {
+            // for each provider find a list of providers to replace
+            // the list may consist of the same examined provider if optimisation is impossible
             val providerReplacementsProviders: Map<Provider, List<Provider>> =
                 rootProvider.childrenProviders.associateWith { findReplacementsForProvider(it, rootProvider) }
 
