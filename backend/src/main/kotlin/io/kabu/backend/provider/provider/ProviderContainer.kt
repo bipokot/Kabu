@@ -3,8 +3,16 @@ package io.kabu.backend.provider.provider
 import io.kabu.backend.provider.evaluation.RetrievalWay
 import io.kabu.backend.util.poet.asCodeBlock
 
+/**
+ * Container for providers (may not be a runtime object).
+ * Knows how to access other providers.
+ */
 interface ProviderContainer {
 
+    /**
+     * Providers which this provider container can access to.
+     * Providers are in natural pattern order.
+     */
     val childrenProviders: List<Provider>
 
     fun hasProviderRecursively(provider: Provider): Boolean {
@@ -13,6 +21,9 @@ interface ProviderContainer {
         }
     }
 
+    /**
+     * Returns first provider which satisfies the condition
+     */
     fun findProvider(condition: (Provider) -> Boolean): Provider? {
         childrenProviders.forEach { child ->
             if (condition(child)) return child
@@ -23,6 +34,9 @@ interface ProviderContainer {
         return null
     }
 
+    /**
+     * Returns all providers which satisfy the condition in following order: "parent first" (Parent -> Left -> Right)
+     */
     fun findProviders(condition: (Provider) -> Boolean): List<Provider> {
         return childrenProviders.flatMap { child ->
             val result: MutableList<Provider> = if (condition(child)) mutableListOf(child) else mutableListOf()

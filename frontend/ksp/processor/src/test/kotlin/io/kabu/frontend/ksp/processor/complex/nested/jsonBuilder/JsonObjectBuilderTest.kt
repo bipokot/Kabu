@@ -23,7 +23,6 @@ fun main() {
             +"a"
             +jsonArray {
                 +"1"
-//                "goes to the top level!" - 123 //use @DslMarker mechanism to reject expresion misuse
                 +jsonObject {
                     "deepest" - 1
                     "object" - 2

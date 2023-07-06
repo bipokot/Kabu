@@ -33,6 +33,7 @@ class ComparisonProvider(
         }
 
         //todo do safeCast method to bring right exceptions to the user
+        //todo make holder creation through CodeBlock(%T, className)
 
         val code = buildString {
             append("$auxName.let{aux->")

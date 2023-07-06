@@ -34,7 +34,6 @@ class KspFrontendProcessor(
     private val logger: KSPLogger,
 ) : SymbolProcessor {
 
-    @Suppress("DuplicatedCode")
     override fun process(resolver: Resolver): List<KSAnnotated> {
         openLogging()
         try {

@@ -10,6 +10,10 @@ import io.kabu.backend.provider.evaluation.ProviderWithEvaluationCode
 import io.kabu.backend.provider.evaluation.RetrievalWay
 
 
+/**
+ * Value to compose a [watchedProvider].
+ * It should have access to [WatcherContextProvider] to compose code for [watchedProvider].
+ */
 class AuxProvider(
     typeNode: TypeNode,
     private val watchedProvider: Provider,
