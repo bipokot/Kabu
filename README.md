@@ -27,6 +27,18 @@ Patterns can be almost as complex as you can do it with Kotlin.
 
 [Extend your patterns](doc/patternExtension.md) to use convenient scoping capabilities provided by lambdas (like in regular DSLs).
 
+### Features
+- **Instant DSL generation**: generate or change style of your DSL in less than 1 minute.
+- **[Rich support for Kotlin operations](doc/patternSyntax.md)**: Kabu supports almost all operations usable for DSL creation (and some previously considered useless).
+- **Any pattern complexity**: if it's syntactically correct, Kabu will generate it.
+- **[Pattern extensibility](doc/patternExtension.md)**: use lambdas with receiver in a more convenient and safe way by  [extending](doc/patternExtension.md) your pattern.
+- **Retrieving actual used operator**: know whether `<` or `>` was used in runtime expression (`in`/`!in` for inclusion).
+- **Propagation of user given names**: generated code takes into account user given names for elements.
+- **Conflict resolution**: possible conflicts between declarations for different patterns are resolved automatically.
+- **Minimum pollution principle**: generated code is placed to appropriate visibility scopes, maintaining your codebase as clean as possible.
+- **Hidden implementation details**: most implementation details (fields of holder classes, internal structure of context delegate class, etc.) are hidden from inadvertent usage.
+- **Good diagnostics**: see origins of elements which cause troubles to fix them.
+
 ## Examples
 
 **Simple pattern (Example-002)**
@@ -44,8 +56,8 @@ Patterns can be almost as complex as you can do it with Kotlin.
 Explore [a project with a set of examples](https://github.com/bipokot/KabuExamples). Each documentation example with `Example-XXX` code can be found in that project.
 
 Feel free to experiment with patterns and have fun!
-           
-### Some of the examples 
+
+### Some examples
 <details>
 <summary>Hello, World!</summary>
 
@@ -377,9 +389,70 @@ fun main() {
 
 </details>
 
+## Getting started
+
+### Install KSP plugin
+Make sure you have KSP plugin (`com.google.devtools.ksp`) available in your project. The KSP plugin version (`kspVersion`) must match Kotlin version used in your project.
+
+**settings.gradle**
+
+```gradle
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+    }
+}
+```
+
+**build.gradle**
+```gradle
+plugins {
+    id "com.google.devtools.ksp" version "$kspVersion"
+}
+
+// Generated source files are registered automatically since KSP 1.8.0-1.0.9. Otherwise, add following lines:
+sourceSets.main {
+    java.srcDirs("build/generated/ksp/main/kotlin")
+    java.srcDirs("build/generated/ksp/main/java")
+}
+```
+
+### Install Kabu
+Add repository:
+
+```gradle
+maven { url "https://jitpack.io" }
+```
+
+Add dependencies:
+
+```gradle
+def kabuVersion = 'x.y.z'
+
+dependencies {
+    ksp "com.github.bipokot.kabu:processor:$kabuVersion"
+    compileOnly "com.github.bipokot.kabu:annotation:$kabuVersion"
+    implementation "com.github.bipokot.kabu:runtime:$kabuVersion
+}
+```
+
+#### Processor options
+Optional preferences can be set in a `build.gradle` file:
+
+```gradle
+ksp {
+    arg("ksp.io.kabu.allowUnsafe", "true")
+}
+```
+
+Available options:
+- `ksp.io.kabu.allowUnsafe`
+	- "true" - *unsafe* features of patterns are enabled
+	- "false" - *unsafe* features of patterns are disabled
+
 ## Documentation
 
-### Terminology
+#### Terminology
 - `pattern` - a string which defines how an expression must look like. [Pattern syntax](doc/patternSyntax.md) generally corresponds to a Kotlin *statement* syntax.
 - `target function` - function annotated with one of the pattern annotations (`@Pattern`/`@LocalPattern`), which is to be called when expression matching to the pattern is evaluated
 	- `global target function` - a target function annotated with `@Pattern` annotation
@@ -387,13 +460,11 @@ fun main() {
 - `termination` - gathering all required arguments and calling a target function
 - `inferrable lambda` - a lambda which exact type can be inferred by a compiler. Usually this means that lambda must not be a first evaluated argument of an operation.
 
-### Details
-- [Pattern syntax](doc/patternSyntax.md) covers features of patterns of `@Pattern` and `@LocalPattern` annotations
+#### Details
+- [Pattern syntax](doc/patternSyntax.md) covers features of patterns of `@Pattern` (former `@GlobalPattern`) and `@LocalPattern` annotations
 - [Target functions](doc/targetFunctions.md) covers supported features of target functions (scope, modifiers, parameters, etc.)
 - [Pattern extension](doc/patternExtension.md) describes how to make extension points in your patterns
 - [Unsafe features](doc/unsafe.md) explains why they called "unsafe"
-
-## Features
 
 ### Pattern extensibility
 > See [documentation on pattern extending](doc/patternExtension.md)
@@ -481,6 +552,11 @@ All generated declarations are placed in the most narrow scope (package, class, 
 
 See `Example-016`.
 
+### Propagation of user given names
+[Target function's](doc/targetFunctions.md) parameter names are propagated to corresponding generated declarations. In case of possible conflict resolution those user given names may not be preserved.
+
+See `Example-016`.
+
 ### Conflict detection
 The processor is capable of detecting conflicts between parts of generated code (and resolving them in simple cases) as well as between generated code and Kotlin stdlib (in simple cases). Conflict detection between generated code and user code is not implemented yet.
                     
@@ -509,75 +585,6 @@ fun main() {
     "Adam".rem(int = 20) - "Physicist".rem(int = 1000) // parameter names aren't conserved as conflict was resolved
 }
 ```
-
-### Propagation of user given names
-[Target function's](doc/targetFunctions.md) parameter names are propagated to corresponding generated declarations. In case of possible conflict resolution those user given names may not be preserved.
-
-See `Example-016`.
-
-### Implementation details hiding
-Most implementation details (fields of holder classes, internal structure of context delegate class, etc.) are hidden from inadvertent usage.
-
-## Installation
-
-### Install KSP plugin
-Make sure you have KSP plugin (`com.google.devtools.ksp`) available in your project. The KSP plugin version (`kspVersion`) must match Kotlin version used in your project.
-
-**settings.gradle**
-
-```gradle
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-    }
-}
-```
-
-**build.gradle**
-```gradle
-plugins {
-    id "com.google.devtools.ksp" version "$kspVersion"
-}
-
-// Generated source files are registered automatically since KSP 1.8.0-1.0.9. Otherwise, add following lines:
-sourceSets.main {
-    java.srcDirs("build/generated/ksp/main/kotlin")
-    java.srcDirs("build/generated/ksp/main/java")
-}
-```
-
-### Install Kabu
-Add Jitpack repository:
-
-```gradle
-maven { url "https://jitpack.io" }
-```
-
-Add following dependencies to your project:
-
-```gradle
-def kabuVersion = 'x.y.z'
-
-dependencies {
-    ksp "com.github.bipokot.kabu:processor:$kabuVersion"
-    compileOnly "com.github.bipokot.kabu:annotation:$kabuVersion"
-    implementation "com.github.bipokot.kabu:runtime:$kabuVersion
-}
-```
-
-#### Processor options
-Optional preferences can be set in a `build.gradle` file:
-
-```gradle
-ksp {
-    arg("ksp.io.kabu.allowUnsafe", "true")
-}
-```
-
-Available options:
-- `ksp.io.kabu.allowUnsafe`
-	- "true" - *unsafe* features of patterns are enabled
-	- "false" - *unsafe* features of patterns are disabled
 
 ## Diagnostics
 There are cases when some patterns can not be implemented for you by the processor. Generally this could happen due to several reasons:
