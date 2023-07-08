@@ -3,7 +3,6 @@ package io.kabu.backend.provider.provider
 import com.squareup.kotlinpoet.TypeName
 import io.kabu.backend.diagnostic.Origin
 import io.kabu.backend.node.TypeNode
-import io.kabu.backend.provider.evaluation.EvaluationRequirement
 import io.kabu.backend.provider.evaluation.FunctionBlockContext
 import io.kabu.backend.provider.evaluation.ReplacementProviderWithCode
 
@@ -43,15 +42,12 @@ interface Provider : ProviderContainer {
 
     fun getReplacementWay(context: FunctionBlockContext, forName: String): ReplacementProviderWithCode?
 
-    fun isReplacementRequired(): EvaluationRequirement
+    fun isReplacementRequired(): Boolean
 
     fun findNearestProviderRequiredForReplacement(): Provider {
         if (childrenProviders.size != 1) return this
 
         val child = childrenProviders.single()
-        return when (child.isReplacementRequired()) {
-            EvaluationRequirement.NONE -> child
-            else -> child.findNearestProviderRequiredForReplacement()
-        }
+        return if (child.isReplacementRequired()) child.findNearestProviderRequiredForReplacement() else child
     }
 }

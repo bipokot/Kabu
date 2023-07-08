@@ -3,7 +3,6 @@ package io.kabu.backend.provider.provider
 import com.squareup.kotlinpoet.CodeBlock
 import io.kabu.backend.diagnostic.Origin
 import io.kabu.backend.node.TypeNode
-import io.kabu.backend.provider.evaluation.EvaluationRequirement
 import io.kabu.backend.provider.evaluation.RetrievalWay
 
 
@@ -34,8 +33,7 @@ class AuxProvider(
         return RetrievalWay(CodeBlock.of(code), isReentrant = false)
     }
 
-    override fun isReplacementRequired(): EvaluationRequirement =
-        EvaluationRequirement.MANDATORY
+    override fun isReplacementRequired() = true
 
     override fun generateName(): String {
         return watchedProvider.generateName() + "Aux"

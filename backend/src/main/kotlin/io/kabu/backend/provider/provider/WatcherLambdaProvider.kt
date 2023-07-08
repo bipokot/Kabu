@@ -4,7 +4,6 @@ import com.squareup.kotlinpoet.ClassName
 import io.kabu.backend.analyzer.Analyzer
 import io.kabu.backend.diagnostic.Origin
 import io.kabu.backend.node.TypeNode
-import io.kabu.backend.provider.evaluation.EvaluationRequirement
 import io.kabu.backend.provider.evaluation.FunctionBlockContext
 import io.kabu.backend.provider.evaluation.ReplacementProviderWithCode
 import io.kabu.backend.provider.evaluation.RetrievalWay
@@ -27,7 +26,7 @@ class WatcherLambdaProvider(
         get() = listOf(watcherContextProvider)
 
     override fun getReplacementWay(context: FunctionBlockContext, forName: String): ReplacementProviderWithCode? {
-        if (isReplacementRequired() == EvaluationRequirement.NONE) return null
+        if (!isReplacementRequired()) return null
         
         // watcher context
         val watcherContextCode = getChildRetrievalWay(forName, watcherContextProvider, context.actualProvidersProvider)!!
@@ -64,8 +63,7 @@ class WatcherLambdaProvider(
         )
     }
 
-    override fun isReplacementRequired(): EvaluationRequirement =
-        EvaluationRequirement.MANDATORY
+    override fun isReplacementRequired() = true
 
     companion object {
         const val STACK_PROPERTY_NAME = "stack"

@@ -6,7 +6,6 @@ import io.kabu.backend.analyzer.handler.lambda.extension.ContextCreatorDefinitio
 import io.kabu.backend.diagnostic.Origin
 import io.kabu.backend.diagnostic.builder.parameterIsNotEvaluatedYetError
 import io.kabu.backend.node.TypeNode
-import io.kabu.backend.provider.evaluation.EvaluationRequirement
 import io.kabu.backend.provider.evaluation.RetrievalWay
 import io.kabu.backend.util.poet.asCodeBlock
 
@@ -70,6 +69,5 @@ class ExtensionLambdaProvider(
         return RetrievalWay(code.asCodeBlock(), isReentrant = false)
     }
 
-    override fun isReplacementRequired(): EvaluationRequirement =
-        EvaluationRequirement.MANDATORY
+    override fun isReplacementRequired() = true
 }
