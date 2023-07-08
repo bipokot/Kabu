@@ -52,8 +52,11 @@ open class TypeConflictChecker(private val klass: KClass<*>) : ConflictChecker()
         val parametersWithoutReceiver = request.rawProviders.providersList.drop(1)
 
         return functions.find { standardMethod ->
-            operatorFunctionName == standardMethod.name
-                && parametersAreCompatible(standardMethod.parameterTypes, parametersWithoutReceiver as List<BaseProvider>)
+            operatorFunctionName == standardMethod.name &&
+                    parametersAreCompatible(
+                        standardMethod.parameterTypes,
+                        parametersWithoutReceiver as List<BaseProvider>
+                    )
         }
     }
 

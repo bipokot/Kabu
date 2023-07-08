@@ -36,7 +36,8 @@ open class BaseProvider( //todo abstract?
         if (!isReplacementRequired()) return null
 
         val providerToObtain = findNearestProviderRequiredForReplacement()
-        val code = getChildRetrievalWay(forName, providerToObtain, context.actualProvidersProvider)!!.codeBlock.toString()
+        val code = getChildRetrievalWay(forName, providerToObtain, context.actualProvidersProvider)!!
+            .codeBlock.toString()
         return ReplacementProviderWithCode(providerToObtain, code)
     }
 

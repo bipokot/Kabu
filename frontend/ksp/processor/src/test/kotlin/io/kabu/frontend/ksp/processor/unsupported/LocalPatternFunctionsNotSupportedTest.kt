@@ -161,7 +161,9 @@ class LocalPatternFunctionsNotSupportedTest : BaseKspFrontendProcessorTest() {
         assertCompilationError(17, "Operator functions as $role aren't supported yet", "\"rem\"")
     }
 
-    @Test //todo can be permitted (if abstract LocalPattern function is inherited by subclasses of an enclosing abstract class/interface)
+    //todo can be permitted
+    // (if abstract LocalPattern function is inherited by subclasses of an enclosing abstract class/interface)
+    @Test
     fun `abstract function not supported`() = compileAndCheck(
         """
         abstract class Foo {

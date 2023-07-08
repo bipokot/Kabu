@@ -17,6 +17,7 @@ interface TestProvider : Provider {
     override val isUseful: Boolean
         get() = false
 
+    @Suppress("UNUSED_PARAMETER")
     override var typeNode: TypeNode
         get() = TODO("Not yet implemented")
         set(value) {}

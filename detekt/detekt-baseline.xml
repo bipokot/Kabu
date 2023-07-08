@@ -1,125 +1,64 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" ?>
 <SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
   <CurrentIssues>
-    <ID>ClassNaming:AccessR2C_Test.kt$AccessR2C_Management : R2C_Management</ID>
-    <ID>ClassNaming:AccessR2C_Test.kt$AccessR2C_Test : R2C_Base</ID>
-    <ID>ClassNaming:AnyConflictDetector_Test.kt$AnyConflictDetector_Management : ConflictDetector_Management</ID>
-    <ID>ClassNaming:AnyConflictDetector_Test.kt$AnyConflictDetector_Test : ConflictDetector_Base</ID>
-    <ID>ClassNaming:AssignR2C_Test.kt$AssignR2C_Management : R2C_Management</ID>
-    <ID>ClassNaming:AssignR2C_Test.kt$AssignR2C_Test : R2C_Base</ID>
-    <ID>ClassNaming:BaseR2C_Test.kt$R2C_Base : Assert</ID>
-    <ID>ClassNaming:BaseR2C_Test.kt$R2C_Management</ID>
-    <ID>ClassNaming:BinaryR2C_Test.kt$BinaryR2C_Management : R2C_Management</ID>
-    <ID>ClassNaming:BinaryR2C_Test.kt$BinaryR2C_Test : R2C_Base</ID>
-    <ID>ClassNaming:BooleanConflictDetector_Test.kt$BooleanConflictDetector_Management : ConflictDetector_Management</ID>
-    <ID>ClassNaming:BooleanConflictDetector_Test.kt$BooleanConflictDetector_Test : ConflictDetector_Base</ID>
-    <ID>ClassNaming:CallR2C_Test.kt$CallR2C_Management : R2C_Management</ID>
-    <ID>ClassNaming:CallR2C_Test.kt$CallR2C_Test : R2C_Base</ID>
-    <ID>ClassNaming:CapturesR2C_Test.kt$CapturesR2C_Management : R2C_Management</ID>
-    <ID>ClassNaming:CapturesR2C_Test.kt$CapturesR2C_Test : R2C_Base</ID>
-    <ID>ClassNaming:ComplexUserTypesR2C_Test.kt$ComplexUserTypesR2C_Test : R2C_Base</ID>
-    <ID>ClassNaming:ConflictDetector_Base.kt$ConflictDetector_Base : Assert</ID>
-    <ID>ClassNaming:ConflictDetector_Base.kt$ConflictDetector_Management</ID>
-    <ID>ClassNaming:ConflictsR2C_Test.kt$ConflictsR2C_Management : R2C_Management</ID>
-    <ID>ClassNaming:ConflictsR2C_Test.kt$ConflictsR2C_Test : R2C_Base</ID>
-    <ID>ClassNaming:IndexingR2C_Test.kt$IndexingR2C_Management : R2C_Management</ID>
-    <ID>ClassNaming:IndexingR2C_Test.kt$IndexingR2C_Test : R2C_Base</ID>
-    <ID>ClassNaming:IntConflictDetector_Test.kt$IntConflictDetector_Management : ConflictDetector_Management</ID>
-    <ID>ClassNaming:IntConflictDetector_Test.kt$IntConflictDetector_Test : ConflictDetector_Base</ID>
-    <ID>ClassNaming:LambdaConflictDetector_Test.kt$LambdaConflictDetector_Management : ConflictDetector_Management</ID>
-    <ID>ClassNaming:LambdaConflictDetector_Test.kt$LambdaConflictDetector_Test : ConflictDetector_Base</ID>
-    <ID>ClassNaming:LambdaR2C_Test.kt$LambdaR2C_Management : R2C_Management</ID>
-    <ID>ClassNaming:LambdaR2C_Test.kt$LambdaR2C_Test : R2C_Base</ID>
-    <ID>ClassNaming:MiscR2C_Test.kt$MiscR2C_Management : R2C_Management</ID>
-    <ID>ClassNaming:MiscR2C_Test.kt$MiscR2C_Test : R2C_Base</ID>
-    <ID>ClassNaming:ModAssignR2C_Test.kt$ModAssignR2C_Management : R2C_Management</ID>
-    <ID>ClassNaming:ModAssignR2C_Test.kt$ModAssignR2C_Test : R2C_Base</ID>
-    <ID>ClassNaming:NullabilityR2C_Test.kt$NullabilityR2C_Management : R2C_Management</ID>
-    <ID>ClassNaming:NullabilityR2C_Test.kt$NullabilityR2C_Test : R2C_Base</ID>
-    <ID>ClassNaming:OtherValidation_Test.kt$OtherValidation_Management : ConflictDetector_Management</ID>
-    <ID>ClassNaming:OtherValidation_Test.kt$OtherValidation_Test : ConflictDetector_Base</ID>
-    <ID>ClassNaming:ReceiverR2C_Test.kt$ReceiverR2C_Management : R2C_Management</ID>
-    <ID>ClassNaming:ReceiverR2C_Test.kt$ReceiverR2C_Test : R2C_Base</ID>
-    <ID>ClassNaming:StandardTerminationR2C_Test.kt$StandardTerminationR2C_Management : R2C_Management</ID>
-    <ID>ClassNaming:StandardTerminationR2C_Test.kt$StandardTerminationR2C_Test : R2C_Base</ID>
-    <ID>ClassNaming:StringConflictDetector_Test.kt$StringConflictDetector_Management : ConflictDetector_Management</ID>
-    <ID>ClassNaming:StringConflictDetector_Test.kt$StringConflictDetector_Test : ConflictDetector_Base</ID>
-    <ID>ClassNaming:SyntheticVarsR2C_Test.kt$SyntheticVarsR2C_Management : R2C_Management</ID>
-    <ID>ClassNaming:SyntheticVarsR2C_Test.kt$SyntheticVarsR2C_Test : R2C_Base</ID>
-    <ID>ClassNaming:UnaryR2C_Test.kt$UnaryR2C_Management : R2C_Management</ID>
-    <ID>ClassNaming:UnaryR2C_Test.kt$UnaryR2C_Test : R2C_Base</ID>
-    <ID>CyclomaticComplexMethod:OperatorHandler.kt$OperatorHandler$fun handle(expression: OperatorExpression): Parameter</ID>
+    <ID>CyclomaticComplexMethod:GraphVisualizer.kt$GraphVisualizer$fun generateMermaidDiagramAsFlowchart( nodes: Set&lt;Node&gt;, styling: Boolean = true, title: String? = null, ): String</ID>
+    <ID>CyclomaticComplexMethod:Handler.kt$Handler$protected fun createWatchedParameter( rawProviders: RawProviders, operator: Operator, assignableSuffixExpression: KotlinExpression? ): BaseProvider</ID>
+    <ID>CyclomaticComplexMethod:OperatorHandler.kt$OperatorHandler$fun handle(expression: OperatorExpression): Provider</ID>
     <ID>CyclomaticComplexMethod:PatternParser.kt$PatternParser$private fun visit(tree: ParseTree): KotlinExpression</ID>
     <ID>CyclomaticComplexMethod:PatternParser.kt$PatternParser$private fun visitBinaryOperator(context: ParseTree): BinaryOperator</ID>
-    <ID>FunctionOnlyReturningConstant:CompatibilityUtil.kt$fun inConflict(newRequest: OperatorDeclarationRequest, request: OperatorDeclarationRequest): Boolean</ID>
-    <ID>FunctionOnlyReturningConstant:Test1.kt$@ContextCreator("abcdef") fun abc(): Int</ID>
+    <ID>FunctionOnlyReturningConstant:FunctionAndFunctionUniversalConflictResolver.kt$FunctionAndFunctionUniversalConflictResolver$private fun genericPropertiesAreEqual(current: FunctionNode, conflicting: FunctionNode): Boolean</ID>
+    <ID>FunctionOnlyReturningConstant:FunctionAndFunctionUniversalConflictResolver.kt$FunctionAndFunctionUniversalConflictResolver$private fun modifiersAreEqual(current: FunctionNode, conflicting: FunctionNode): Boolean</ID>
+    <ID>FunctionOnlyReturningConstant:FunctionAndFunctionUniversalConflictResolver.kt$FunctionAndFunctionUniversalConflictResolver$private fun parametersAreEqual(current: FunctionNode, conflicting: FunctionNode): Boolean</ID>
+    <ID>FunctionOnlyReturningConstant:FunctionStaticUserCodeConflictDetector.kt$FunctionStaticUserCodeConflictDetector$fun hasConflicts(node: FunctionNode): Boolean</ID>
+    <ID>FunctionOnlyReturningConstant:PropertyAndPropertyUniversalConflictResolver.kt$PropertyAndPropertyUniversalConflictResolver$private fun genericPropertiesAreEqual(current: PropertyNode, conflicting: PropertyNode): Boolean</ID>
+    <ID>FunctionOnlyReturningConstant:PropertyAndPropertyUniversalConflictResolver.kt$PropertyAndPropertyUniversalConflictResolver$private fun modifiersAreEqual(current: PropertyNode, conflicting: PropertyNode): Boolean</ID>
+    <ID>FunctionOnlyReturningConstant:PropertyStaticUserCodeConflictDetector.kt$PropertyStaticUserCodeConflictDetector$fun hasConflicts(node: PropertyNode): Boolean</ID>
+    <ID>FunctionOnlyReturningConstant:TypeStaticUserCodeConflictDetector.kt$TypeStaticUserCodeConflictDetector$fun hasConflicts(node: TypeNode): Boolean</ID>
+    <ID>FunctionOnlyReturningConstant:UserCodeConflictDetector.kt$UserCodeConflictDetector$fun isTypeNameOccupied(namespaceNode: NamespaceNode, typeName: String): Boolean</ID>
+    <ID>FunctionOnlyReturningConstant:UserCodeConflictDetector.kt$UserCodeConflictDetector$private fun hasDynamicConflicts(node: Node): Boolean</ID>
+    <ID>LongMethod:GraphVisualizer.kt$GraphVisualizer$fun generateMermaidDiagramAsFlowchart( nodes: Set&lt;Node&gt;, styling: Boolean = true, title: String? = null, ): String</ID>
     <ID>LongMethod:JsonObjectBuilderTest.kt$JsonObjectBuilderTest$@Test fun test()</ID>
     <ID>LongMethod:ParserSuccessTest.kt$PatternParserTestParameterized.Companion$@JvmStatic @Parameterized.Parameters fun data()</ID>
     <ID>LongMethod:PatternParser.kt$PatternParser$private fun visit(tree: ParseTree): KotlinExpression</ID>
-    <ID>LongMethod:TerminalCallableDeclarationBuilder.kt$TerminalCallableDeclarationBuilder$protected fun createTerminationStatements( parameters: EvaluatedParameters, analysisContext: AnalysisContext, requiredReturnStatement: String ): CodeBlock</ID>
-    <ID>LongParameterList:ContextConstructorMethod.kt$ContextConstructorMethod$( packageName: String, name: String, returnedType: TypeName, receiverType: TypeName?, parameters: List&lt;Parameter>, contextName: String, val declaringType: TypeName, origin: Origin )</ID>
-    <ID>LongParameterList:ContextCreatorMethod.kt$ContextCreatorMethod$( packageName: String, name: String, returnedType: TypeName, receiverType: TypeName?, parameters: List&lt;Parameter>, val contextName: String, origin: Origin )</ID>
-    <ID>LongParameterList:GlobalPatternMethod.kt$GlobalPatternMethod$( packageName: String, name: String, returnedType: TypeName, receiverType: TypeName?, parameters: List&lt;Parameter>, pattern: String, origin: Origin )</ID>
-    <ID>LongParameterList:LocalPatternMethod.kt$LocalPatternMethod$( packageName: String, name: String, returnedType: TypeName, receiverType: TypeName?, parameters: List&lt;Parameter>, pattern: String, val declaringType: TypeName, origin: Origin )</ID>
-    <ID>LongParameterList:PatternMethod.kt$PatternMethod$( packageName: String, name: String, returnedType: TypeName, receiverType: TypeName?, parameters: List&lt;Parameter>, val pattern: String, //todo get origin of pattern annotation as well origin: Origin )</ID>
-    <ID>LongParameterList:UserContextLambdaParameter.kt$UserContextLambdaParameter$( name: String, type: TypeName, returningParameter: Parameter, val contextProxyType: ClassName, //todo don't need? val contextCreatorDefinition: ContextCreatorDefinition, val methodsRegistry: MethodsRegistry, val destinationParameterType: TypeName, analysisContext: AnalysisContext )</ID>
+    <ID>LongParameterList:ContextConstructorMethod.kt$ContextConstructorMethod$( packageName: String, name: String, returnedType: TypeName, receiverType: TypeName?, parameters: List&lt;EntryParameter&gt;, contextName: String, val declaringType: TypeName, origin: Origin )</ID>
+    <ID>LongParameterList:ContextCreatorMethod.kt$ContextCreatorMethod$( packageName: String, name: String, returnedType: TypeName, receiverType: TypeName?, parameters: List&lt;EntryParameter&gt;, val contextName: String, origin: Origin )</ID>
+    <ID>LongParameterList:ExtensionLambdaProvider.kt$ExtensionLambdaProvider$( typeNode: TypeNode, returningProvider: BaseProvider, //todo don't need? //todo rename val contextMediatorTypeNode: TypeNode, val contextCreatorDefinition: ContextCreatorDefinition, val destinationParameterTypeNode: TypeNode, analyzer: Analyzer, origin: Origin? = null, )</ID>
+    <ID>LongParameterList:GlobalPatternMethod.kt$GlobalPatternMethod$( packageName: String, name: String, returnedType: TypeName, receiverType: TypeName?, parameters: List&lt;EntryParameter&gt;, pattern: String, origin: Origin )</ID>
+    <ID>LongParameterList:LocalPatternMethod.kt$LocalPatternMethod$( packageName: String, name: String, returnedType: TypeName, receiverType: TypeName?, parameters: List&lt;EntryParameter&gt;, pattern: String, val declaringType: TypeName, origin: Origin )</ID>
+    <ID>LongParameterList:PatternMethod.kt$PatternMethod$( packageName: String, name: String, returnedType: TypeName, receiverType: TypeName?, parameters: List&lt;EntryParameter&gt;, val pattern: String, //todo get origin of pattern annotation as well origin: Origin )</ID>
     <ID>MagicNumber:PatternParser.kt$PatternParser$3</ID>
     <ID>MagicNumber:ProcessingInputRenderer.kt$3</ID>
     <ID>MagicNumber:ProcessingInputRenderer.kt$4</ID>
-    <ID>MagicNumber:Test1.kt$100</ID>
-    <ID>MagicNumber:Test1.kt$12</ID>
     <ID>MatchingDeclarationName:ContextConstructorAloneTest.kt$ContextConstructorTest : BaseKspFrontendProcessorTest</ID>
-    <ID>MatchingDeclarationName:Generated.kt$H1</ID>
-    <ID>MatchingDeclarationName:ObjectDeclaration.kt$AccessorObjectDeclaration : ObjectDeclaration</ID>
-    <ID>MaxLineLength:BaseKspFrontendProcessorTest.kt$BaseKspFrontendProcessorTest$private</ID>
-    <ID>MaxLineLength:BaseKspFrontendProcessorTest.kt$BaseKspFrontendProcessorTest$val</ID>
-    <ID>MaxLineLength:BaseKspFrontendProcessorTest.kt$BaseKspFrontendProcessorTest$val compilationResult = compile(kspWithCompilation = false, kotlinSource, SourceFile.java("Empty.java", "public class Empty {}"))</ID>
-    <ID>MaxLineLength:BaseKspFrontendProcessorTest.kt$BaseKspFrontendProcessorTest$val compilationResult = compile(kspWithCompilation = true, kotlinSource, SourceFile.java("Empty.java", "public class Empty {}"))</ID>
-    <ID>MaxLineLength:FieldAccessCodeGenerator.kt$FieldAccessCodeGenerator$// "%T.$captureListName.finishNextAndGet(%T.$captureCounterName,$forName)".asCodeBlock(accessorClassName, accessorClassName)</ID>
-    <ID>MaxLineLength:FieldAccessCodeGenerator.kt$FieldAccessCodeGenerator$// fun generateFinishNextAndGetCodeBlock(captureListName: String, captureCounterName: String, forName: String) : CodeBlock {</ID>
-    <ID>MaxLineLength:Football1Test.kt$Football1Test$)</ID>
-    <ID>MaxLineLength:Football2Test.kt$Football2Test$)</ID>
-    <ID>MaxLineLength:LocalPatternFunctionsNotSupportedTest.kt$LocalPatternFunctionsNotSupportedTest$@Test</ID>
-    <ID>MaxLineLength:TypeParametersTest.kt$TypeParametersTest$assertExpectedMessage("Error while processing parameter 'par' of function 'f': Contravariant type arguments aren't supported yet")</ID>
-    <ID>MaxLineLength:TypeParametersTest.kt$TypeParametersTest$assertExpectedMessage("Error while processing parameter 'par' of function 'f': Covariant type arguments aren't supported yet")</ID>
-    <ID>MaxLineLength:TypeParametersTest.kt$TypeParametersTest$assertExpectedMessage("Error while processing parameter 'par' of function 'f': Star projections aren't supported yet")</ID>
-    <ID>MaxLineLength:TypeUtils.kt$// areNotSupported(valueParameter.isVal, valueParameter) { "Parameters with 'val' modifier" } // constructors as ContextCreator</ID>
-    <ID>MaxLineLength:TypeUtils.kt$// areNotSupported(valueParameter.isVar, valueParameter) { "Parameters with 'var' modifier" } // constructors as ContextCreator</ID>
-    <ID>MaxLineLength:host.kt$// variant 3: try to extract a classpath from a particular classloader (or Thread.contextClassLoader by default)</ID>
-    <ID>MayBeConst:AnalyzerSuccessTest.kt$private val clientMethod = "completion"</ID>
-    <ID>MayBeConst:AnalyzerSuccessTest.kt$private val filename = "Generated"</ID>
-    <ID>MayBeConst:AnalyzerSuccessTest.kt$private val targetPackage = "io.kabu.backend.planner"</ID>
-    <ID>MayBeConst:AnalyzerSuccessTest.kt$val FILEPATH = "src/test/resources/io/kabu/backend/planner/plannerSuccessTest.json"</ID>
+    <ID>MaxLineLength:OperatorHandler.kt$OperatorHandler$val rawProvidersOfAssign = RawProviders(rawProviders.providersList + assigningParameter, operatorInfoParameter = null)</ID>
     <ID>MemberNameEqualsClassName:OperatorInfoTypes.kt$OperatorInfoTypes$private val operatorInfoTypes = listOf( EQUALITY_INFO_TYPE, INCLUSION_INFO_TYPE, RANKING_COMPARISON_INFO_TYPE, STRICTNESS_COMPARISON_INFO_TYPE, )</ID>
-    <ID>NestedBlockDepth:FunDeclarationParameters.kt$FunDeclarationParameters.Companion$fun from( rawParameters: RawParameters, invertedOrdering: Boolean, forSetter: Boolean = false, removeMissingReceiverParameter: Boolean = true, ): FunDeclarationParameters</ID>
     <ID>PrintStackTrace:KspFrontendProcessor.kt$KspFrontendProcessor$e</ID>
-    <ID>ReturnCount:IdentifierHandler.kt$IdentifierHandler$private fun createPropertyParameter(expression: IdentifierLeaf): Parameter</ID>
-    <ID>ReturnCount:KspFrontendProcessor.kt$KspFrontendProcessor$@Suppress("DuplicatedCode") override fun process(resolver: Resolver): List&lt;KSAnnotated></ID>
-    <ID>ReturnCount:LambdaHandler.kt$LambdaHandler$fun handle(expression: LambdaExpression): LambdaParameter</ID>
-    <ID>ReturnCount:OperatorHandler.kt$OperatorHandler$fun handle(expression: OperatorExpression): Parameter</ID>
+    <ID>ReturnCount:FunctionAndFunctionUniversalConflictResolver.kt$FunctionAndFunctionUniversalConflictResolver$private fun returnTypesAreMergeable(current: FunctionNode, conflicting: FunctionNode): Boolean</ID>
+    <ID>ReturnCount:IdentifierHandler.kt$IdentifierHandler$private fun createProperty(expression: IdentifierLeaf): BaseProvider</ID>
+    <ID>ReturnCount:KspFrontendProcessor.kt$KspFrontendProcessor$override fun process(resolver: Resolver): List&lt;KSAnnotated&gt;</ID>
+    <ID>ReturnCount:LambdaHandler.kt$LambdaHandler$fun handle(expression: LambdaExpression): Provider</ID>
+    <ID>ReturnCount:OperatorHandler.kt$OperatorHandler$fun handle(expression: OperatorExpression): Provider</ID>
+    <ID>ReturnCount:ProviderContainer.kt$ProviderContainer$fun Provider.reversedPart(provider: Provider) : MutableList&lt;Provider&gt;</ID>
+    <ID>ReturnCount:ProviderContainer.kt$ProviderContainer$fun findProvider(condition: (Provider) -&gt; Boolean): Provider?</ID>
+    <ID>SpreadOperator:MethodsRegistry.kt$MethodsRegistry$( "Context creators for one context name '$contextName' must have the same return type\n " + "$groupedByExtensionContextType", *methods.toTypedArray() )</ID>
     <ID>TooGenericExceptionCaught:KspFrontendProcessor.kt$KspFrontendProcessor$e: Exception</ID>
     <ID>TooGenericExceptionCaught:PatternParser.kt$PatternParser$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:node.kt$AbstractNode$e: Exception</ID>
     <ID>TooGenericExceptionThrown:JsonUtils.kt$throw RuntimeException(e)</ID>
-    <ID>TooManyFunctions:ContainerNamespace.kt$ContainerNamespace : Namespace</ID>
+    <ID>TooManyFunctions:FunctionBlockContext.kt$FunctionBlockContext</ID>
+    <ID>TooManyFunctions:Integrator.kt$Integrator</ID>
+    <ID>TooManyFunctions:InterceptingLogger.kt$InterceptingLogger : KLogger</ID>
     <ID>TooManyFunctions:TypeConflictChecker.kt$TypeConflictChecker : ConflictChecker</ID>
-    <ID>TopLevelPropertyNaming:ConflictDetector_Base.kt$private const val clientMethod = "completion"</ID>
-    <ID>TopLevelPropertyNaming:ConflictDetector_Base.kt$private const val targetPackage = "io.kabu.backend.planner"</ID>
-    <ID>TopLevelPropertyNaming:Utils.kt$private const val clientMethod = "completion"</ID>
-    <ID>TopLevelPropertyNaming:Utils.kt$private const val delimiter = "================================================="</ID>
-    <ID>TopLevelPropertyNaming:Utils.kt$private const val filename = "Generated"</ID>
-    <ID>TopLevelPropertyNaming:Utils.kt$private const val targetPackage = "io.kabu.backend.r2c"</ID>
-    <ID>UnnecessaryAbstractClass:AbstractDeclarationBuilder.kt$AbstractDeclarationBuilder$AbstractDeclarationBuilder</ID>
-    <ID>UnnecessaryAbstractClass:Namespace.kt$Namespace$Namespace</ID>
-    <ID>UnnecessaryAbstractClass:Parameters.kt$Parameters$Parameters</ID>
     <ID>UnnecessaryAbstractClass:SimpleScript.kt$SimpleScript$SimpleScript</ID>
-    <ID>UnusedPrivateMember:BaseKspFrontendProcessorTest.kt$BaseKspFrontendProcessorTest$private fun KotlinCompilation.Result.sourceFor(fileName: String): String</ID>
-    <ID>UnusedPrivateMember:BaseKspFrontendProcessorTest.kt$BaseKspFrontendProcessorTest$private fun assertSourceEquals(@Language("kotlin") expected: String, actual: String)</ID>
-    <ID>UnusedPrivateMember:CompatibilityUtil.kt$newRequest: OperatorDeclarationRequest</ID>
-    <ID>UnusedPrivateMember:CompatibilityUtil.kt$request: OperatorDeclarationRequest</ID>
-    <ID>UnusedPrivateMember:OperatorHandler.kt$OperatorHandler$expression: BinaryExpression</ID>
-    <ID>UnusedPrivateMember:OperatorHandler.kt$OperatorHandler$expression: OperatorExpression</ID>
+    <ID>UnusedPrivateMember:BaseKspFrontendProcessorTest.kt$BaseKspFrontendProcessorTest$private fun KotlinCompilation.Result.kspGeneratedSources(): List&lt;File&gt;</ID>
+    <ID>UnusedPrivateMember:FunctionStaticUserCodeConflictDetector.kt$FunctionStaticUserCodeConflictDetector$node: FunctionNode</ID>
+    <ID>UnusedPrivateMember:PropertyStaticUserCodeConflictDetector.kt$PropertyStaticUserCodeConflictDetector$node: PropertyNode</ID>
+    <ID>UnusedPrivateMember:TypeStaticUserCodeConflictDetector.kt$TypeStaticUserCodeConflictDetector$node: TypeNode</ID>
     <ID>UnusedPrivateMember:TypeUtils.kt$callableReference: KSCallableReference</ID>
-    <ID>UnusedPrivateMember:Utils.kt$private const val filename = "Generated"</ID>
-    <ID>WildcardImport:BaseKspFrontendProcessorTest.kt$import com.tschuchort.compiletesting.*</ID>
+    <ID>UnusedPrivateMember:UserCodeConflictDetector.kt$UserCodeConflictDetector$namespaceNode: NamespaceNode</ID>
+    <ID>UnusedPrivateMember:UserCodeConflictDetector.kt$UserCodeConflictDetector$node: Node</ID>
+    <ID>UnusedPrivateMember:UserCodeConflictDetector.kt$UserCodeConflictDetector$typeName: String</ID>
+    <ID>UnusedPrivateMember:Utils.kt$private const val FILENAME = "Generated"</ID>
   </CurrentIssues>
 </SmellBaseline>

@@ -8,11 +8,13 @@ import io.kabu.backend.node.HolderTypeNode
 import io.kabu.backend.node.Node
 import io.kabu.backend.node.TypeNode
 import io.kabu.backend.provider.group.renameClashingParametersNames
+import io.kabu.backend.util.decaps
 
 
 /**
  * Resolves FunctionNode-FunctionNode conflict (both ways)
  */
+@Suppress("UNUSED_PARAMETER")
 class FunctionAndFunctionUniversalConflictResolver(private val integrator: Integrator): ConflictResolver {
 
     override fun resolve(node1: Node, node2: Node) {
@@ -49,7 +51,7 @@ class FunctionAndFunctionUniversalConflictResolver(private val integrator: Integ
     }
 
     private fun generalizeName(typeNode: TypeNode): String {
-        return typeNode.name.decapitalize()
+        return typeNode.name.decaps()
     }
 
     private fun isResolvable(current: FunctionNode, conflicting: FunctionNode): Boolean {

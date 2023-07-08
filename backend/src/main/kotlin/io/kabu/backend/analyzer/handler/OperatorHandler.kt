@@ -137,7 +137,10 @@ class OperatorHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
         val assigningParameter = providerOf((expression.parent as BinaryExpression).children[1])
 
         // combining providers for "set" operator
-        val rawProvidersOfAssign = RawProviders(rawProviders.providersList + assigningParameter, operatorInfoParameter = null)
+        val rawProvidersOfAssign = RawProviders(
+            rawProviders.providersList + assigningParameter,
+            operatorInfoParameter = null
+        )
         val assignOperator = (expression.parent as BinaryExpression).operator as Assign
 
         val funDeclarationProviders = FunDeclarationProvidersFactory.from(

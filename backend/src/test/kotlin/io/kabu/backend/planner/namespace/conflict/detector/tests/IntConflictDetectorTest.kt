@@ -1,22 +1,22 @@
 package io.kabu.backend.planner.namespace.conflict.detector.tests
 
-import io.kabu.backend.planner.namespace.conflict.detector.ConflictDetector_Base
-import io.kabu.backend.planner.namespace.conflict.detector.ConflictDetector_Management
+import io.kabu.backend.planner.namespace.conflict.detector.BaseConflictDetectorTest
+import io.kabu.backend.planner.namespace.conflict.detector.ConflictDetectorTestManagement
 import io.kabu.backend.planner.namespace.conflict.detector.getDataPath
 import io.kabu.backend.planner.namespace.conflict.detector.getManualPath
 import org.junit.Ignore
 import org.junit.Test
 import org.junit.runners.Parameterized
 
-private val TESTED_MANUALLY_PATH = getManualPath("string")
-private val FILEPATH = getDataPath("string")
+private val TESTED_MANUALLY_PATH = getManualPath("int")
+private val FILEPATH = getDataPath("int")
 
 @Ignore
-class StringConflictDetector_Test(
+class IntConflictDetectorTest(
     raw: String,
     outcome: String,
     origin: String,
-) : ConflictDetector_Base(raw, outcome, origin) {
+) : BaseConflictDetectorTest(raw, outcome, origin) {
     override val testedManuallyPath = TESTED_MANUALLY_PATH
     override val filepath = FILEPATH
 
@@ -27,7 +27,7 @@ class StringConflictDetector_Test(
     }
 }
 
-class StringConflictDetector_Management : ConflictDetector_Management(TESTED_MANUALLY_PATH, FILEPATH) {
+class IntConflictDetectorTestManagement : ConflictDetectorTestManagement(TESTED_MANUALLY_PATH, FILEPATH) {
 
     @[Ignore Test]
     fun addManuallyTested() = _addManuallyTested()

@@ -2,6 +2,8 @@ package io.kabu.backend.declaration.util
 
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.UNIT
+import io.kabu.backend.analyzer.Analyzer
+import io.kabu.backend.analyzer.AnalyzerImpl
 import io.kabu.backend.analyzer.handler.lambda.watcher.OperatorInfoTypes.isOperatorInfoType
 import io.kabu.backend.diagnostic.builder.couldNotRetrieveReceiverValueError
 import io.kabu.backend.diagnostic.builder.signatureParameterMissingError
@@ -18,7 +20,7 @@ import io.kabu.backend.util.poet.asCodeBlock
 class TerminalCallableBuilder {
 
     fun createTerminationStatements(
-        analyzer: io.kabu.backend.analyzer.Analyzer, //todo rm FQCNs
+        analyzer: Analyzer,
         functionBlockContext: FunctionBlockContext,
         requiredReturnStatement: String?,
     ): CodeBlock {
@@ -33,10 +35,10 @@ class TerminalCallableBuilder {
     }
 
     private fun gatherRequiredProviders(
-        analyzer: io.kabu.backend.analyzer.Analyzer,
+        analyzer: Analyzer,
         providerContainer: ProviderContainer,
     ): List<Provider> {
-        analyzer as io.kabu.backend.analyzer.AnalyzerImpl
+        analyzer as AnalyzerImpl
         val parametersRegistry = analyzer.parametersRegistry
         if (parametersRegistry.receiverCatchIsNecessary) couldNotRetrieveReceiverValueError(analyzer.method)
 
@@ -60,7 +62,7 @@ class TerminalCallableBuilder {
     }
 
     private fun generateCode(
-        analyzer: io.kabu.backend.analyzer.Analyzer,
+        analyzer: Analyzer,
         providers: List<Provider>,
         requiredReturnStatement: String?,
         functionBlockContext: FunctionBlockContext,

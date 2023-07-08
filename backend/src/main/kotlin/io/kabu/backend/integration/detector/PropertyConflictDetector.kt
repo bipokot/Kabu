@@ -17,7 +17,10 @@ class PropertyConflictDetector {
     private fun isConflictingWithPropertyNode(node: PropertyNode, other: PropertyNode): Boolean {
         if (node.name != other.name) return false
 
-        return areParametersPlatformClashing(listOfNotNull(node.receiverTypeNode), listOfNotNull(other.receiverTypeNode))
+        return areParametersPlatformClashing(
+            listOfNotNull(node.receiverTypeNode),
+            listOfNotNull(other.receiverTypeNode),
+        )
     }
 
     private fun isConflictingWithTypeNode(node: PropertyNode, other: TypeNode): Boolean {

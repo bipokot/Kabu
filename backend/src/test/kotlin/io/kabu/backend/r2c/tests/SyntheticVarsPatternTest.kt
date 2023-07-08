@@ -1,17 +1,19 @@
 package io.kabu.backend.r2c.tests
 
-import io.kabu.backend.r2c.R2C_Management
-import io.kabu.backend.r2c.R2C_Base
+import io.kabu.backend.r2c.PatternTestManagement
+import io.kabu.backend.r2c.BasePatternTest
 import io.kabu.backend.r2c.getDataPath
 import io.kabu.backend.r2c.getManualPath
 import org.junit.Ignore
 import org.junit.Test
 import org.junit.runners.Parameterized
 
-private val TESTED_MANUALLY_PATH = getManualPath("modAssign")
-private val FILEPATH = getDataPath("modAssign")
+private val TESTED_MANUALLY_PATH = getManualPath("syntheticVars")
+private val FILEPATH = getDataPath("syntheticVars")
 
-class ModAssignR2C_Test(raw: String, sample: String, termination: String) : R2C_Base(raw, sample, termination) {
+class SyntheticVarsPatternTest(raw: String, sample: String, termination: String) :
+    BasePatternTest(raw, sample, termination) {
+
     override val testedManuallyPath = TESTED_MANUALLY_PATH
     override val filepath = FILEPATH
 
@@ -22,7 +24,7 @@ class ModAssignR2C_Test(raw: String, sample: String, termination: String) : R2C_
     }
 }
 
-class ModAssignR2C_Management : R2C_Management(TESTED_MANUALLY_PATH, FILEPATH) {
+class SyntheticVarsPatternTestManagement : PatternTestManagement(TESTED_MANUALLY_PATH, FILEPATH) {
 
     @[Ignore Test]
     fun addManuallyTested() = _addManuallyTested()

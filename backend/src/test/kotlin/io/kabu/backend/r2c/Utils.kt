@@ -32,15 +32,20 @@ fun completionOutputOf(raw: String, sample: String): String {
     val patternWithSignature = PatternWithSignature(raw)
     val (receiverType, parameters, returnedType) = patternWithSignature.signature
     val method = GlobalPatternMethod(
-        packageName = targetPackage,
-        name = if (receiverType != null) clientMethodWithReceiver else clientMethod,
+        packageName = TARGET_PACKAGE,
+        name = if (receiverType != null) CLIENT_METHOD_WITH_RECEIVER else CLIENT_METHOD,
         returnedType = returnedType,
         receiverType = receiverType,
         parameters = parameters,
         pattern = patternWithSignature.pattern,
         origin = unknownOrigin
     )
-    val options = Options.fromPartial(PartialOptions(hideInternalProperties = true, accessorObjectIsInSamePackage = true))
+    val options = Options.fromPartial(
+        PartialOptions(
+            hideInternalProperties = true,
+            accessorObjectIsInSamePackage = true
+        )
+    )
 //    AnalyzerNew(method, namespace, MethodsRegistry(), null, options).analyze()
 //    println("\n$delimiter\n${namespace.plan}\n$delimiter")
 //    val scriptGenerated = namespace.writePlanToString()
@@ -59,7 +64,7 @@ fun completionOutputOf(raw: String, sample: String): String {
             $sample
         }
         """.trimIndent()
-    println("\n$delimiter\n${scriptString}\n$delimiter")
+    println("\n$DELIMITER\n${scriptString}\n$DELIMITER")
 
     // FQCNs don't work in test scripts properly
     val fixedGeneratedScript = scriptGenerated
@@ -86,11 +91,11 @@ fun completionOutputOf(raw: String, sample: String): String {
     return out
 }
 
-private const val clientMethod = "completion"
-private const val clientMethodWithReceiver = "completionWithReceiver"
-private const val targetPackage = "$BACKEND_PACKAGE.r2c"
-private const val filename = "Generated"
-private const val delimiter = "================================================="
+private const val CLIENT_METHOD = "completion"
+private const val CLIENT_METHOD_WITH_RECEIVER = "completionWithReceiver"
+private const val TARGET_PACKAGE = "$BACKEND_PACKAGE.r2c"
+private const val FILENAME = "Generated"
+private const val DELIMITER = "================================================="
 val unknownOrigin = Origin()
 private val logger = InterceptingLogging.logger {}
 

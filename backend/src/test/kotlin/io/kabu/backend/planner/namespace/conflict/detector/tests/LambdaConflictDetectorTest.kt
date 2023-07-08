@@ -1,7 +1,7 @@
 package io.kabu.backend.planner.namespace.conflict.detector.tests
 
-import io.kabu.backend.planner.namespace.conflict.detector.ConflictDetector_Base
-import io.kabu.backend.planner.namespace.conflict.detector.ConflictDetector_Management
+import io.kabu.backend.planner.namespace.conflict.detector.BaseConflictDetectorTest
+import io.kabu.backend.planner.namespace.conflict.detector.ConflictDetectorTestManagement
 import io.kabu.backend.planner.namespace.conflict.detector.getDataPath
 import io.kabu.backend.planner.namespace.conflict.detector.getManualPath
 import org.junit.Ignore
@@ -12,11 +12,11 @@ private val TESTED_MANUALLY_PATH = getManualPath("lambda")
 private val FILEPATH = getDataPath("lambda")
 
 @Ignore
-class LambdaConflictDetector_Test(
+class LambdaConflictDetectorTest(
     raw: String,
     outcome: String,
     origin: String,
-) : ConflictDetector_Base(raw, outcome, origin) {
+) : BaseConflictDetectorTest(raw, outcome, origin) {
     override val testedManuallyPath = TESTED_MANUALLY_PATH
     override val filepath = FILEPATH
 
@@ -27,7 +27,7 @@ class LambdaConflictDetector_Test(
     }
 }
 
-class LambdaConflictDetector_Management : ConflictDetector_Management(TESTED_MANUALLY_PATH, FILEPATH) {
+class LambdaConflictDetectorTestManagement : ConflictDetectorTestManagement(TESTED_MANUALLY_PATH, FILEPATH) {
 
     @[Ignore Test]
     fun addManuallyTested() = _addManuallyTested()

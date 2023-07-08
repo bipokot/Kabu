@@ -2,7 +2,7 @@ package io.kabu.frontend.ksp.processor
 
 import org.junit.Test
 
-class TypeParametersTest : BaseKspFrontendProcessorTest(){
+class TypeParametersTest : BaseKspFrontendProcessorTest() {
 
     @Test
     fun `unsupported star projections`() = compileAndCheck(
@@ -15,7 +15,8 @@ class TypeParametersTest : BaseKspFrontendProcessorTest(){
         """
     ) {
         assertCompilationError()
-        assertExpectedMessage("Error while processing parameter 'par' of function 'f': Star projections aren't supported yet")
+        assertExpectedMessage("Error while processing parameter 'par' of function 'f': " +
+                "Star projections aren't supported yet")
         assertExpectedLineNumber(17)
         assertExpectedMessage("\"par\"")
     }
@@ -31,7 +32,8 @@ class TypeParametersTest : BaseKspFrontendProcessorTest(){
         """
     ) {
         assertCompilationError()
-        assertExpectedMessage("Error while processing parameter 'par' of function 'f': Contravariant type arguments aren't supported yet")
+        assertExpectedMessage("Error while processing parameter 'par' of function 'f': " +
+                "Contravariant type arguments aren't supported yet")
         assertExpectedLineNumber(17)
         assertExpectedMessage("\"par\"")
     }
@@ -47,7 +49,8 @@ class TypeParametersTest : BaseKspFrontendProcessorTest(){
         """
     ) {
         assertCompilationError()
-        assertExpectedMessage("Error while processing parameter 'par' of function 'f': Covariant type arguments aren't supported yet")
+        assertExpectedMessage("Error while processing parameter 'par' of function 'f': " +
+                "Covariant type arguments aren't supported yet")
         assertExpectedLineNumber(17)
         assertExpectedMessage("\"par\"")
     }

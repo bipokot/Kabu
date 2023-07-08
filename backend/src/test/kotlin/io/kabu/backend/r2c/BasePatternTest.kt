@@ -10,7 +10,7 @@ import java.nio.file.Files
 import kotlin.streams.toList
 
 @RunWith(Parameterized::class)
-abstract class R2C_Base(val raw: String, val sample: String, val termination: String) : Assert() {
+abstract class BasePatternTest(val raw: String, val sample: String, val termination: String) : Assert() {
 
     abstract val testedManuallyPath: String
     abstract val filepath: String
@@ -31,7 +31,7 @@ abstract class R2C_Base(val raw: String, val sample: String, val termination: St
     }
 }
 
-open class R2C_Management(val testedManuallyPath: String, val filepath: String) {
+open class PatternTestManagement(val testedManuallyPath: String, val filepath: String) {
 
     protected fun _addManuallyTested() {
         val testedManually = Files.lines(File(testedManuallyPath).toPath()).toList()

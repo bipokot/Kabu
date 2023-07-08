@@ -36,8 +36,10 @@ class WatcherLambda(val watcherContextTypeNode: WatcherContextTypeNode) {
     private fun areCompatible(captureType: CaptureType, group: CaptureTypeGroup): Boolean {
         val captureTypes = captureType.funDeclarationProviders.providersList.map { it.type }
         val groupTypes = group.funDeclarationProviders.providersList.map { it.type }
+
+        //todo exact types match (ignoring type parameters)!
         return captureTypes.size == groupTypes.size &&
-            captureTypes.zip(groupTypes).all { it.first == it.second } && //todo exact types match (ignoring type parameters)!
+            captureTypes.zip(groupTypes).all { it.first == it.second } &&
             captureType.operator.overriding?.function == group.operator.overriding?.function
     }
 }

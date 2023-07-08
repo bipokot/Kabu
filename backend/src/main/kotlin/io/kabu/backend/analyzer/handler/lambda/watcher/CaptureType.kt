@@ -12,6 +12,6 @@ class CaptureType(
     val funDeclarationProviders: FunDeclarationProviders,
     val returnTypeNode: TypeNode,
     // in case of operator==Assign, tells us about actual accessor expression: (Access|Index)
-    val assignableSuffixExpression: KotlinExpression? = null, //todo revise - get rid of KExpression, use class/enum instead
+    val assignableSuffixExpression: KotlinExpression? = null, //todo get rid of KExpression, use class/enum instead?
     val rawProviders: RawProviders? = null
 )

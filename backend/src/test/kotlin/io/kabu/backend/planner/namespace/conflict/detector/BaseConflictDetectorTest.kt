@@ -22,7 +22,7 @@ import java.nio.file.Files
 import kotlin.streams.toList
 
 @RunWith(Parameterized::class)
-abstract class ConflictDetector_Base(val raw: String, val outcome: String, val origin: String) : Assert() {
+abstract class BaseConflictDetectorTest(val raw: String, val outcome: String, val origin: String) : Assert() {
 
     abstract val testedManuallyPath: String
     abstract val filepath: String
@@ -42,7 +42,7 @@ abstract class ConflictDetector_Base(val raw: String, val outcome: String, val o
     }
 }
 
-open class ConflictDetector_Management(val testedManuallyPath: String, val filepath: String) {
+open class ConflictDetectorTestManagement(val testedManuallyPath: String, val filepath: String) {
 
     protected fun _addManuallyTested() {
         val testedManually = Files.lines(File(testedManuallyPath).toPath()).toList()
@@ -89,8 +89,8 @@ private fun getOutcomeAndOriginString(raw: String): Pair<String, String> {
     val patternWithSignature = PatternWithSignature(raw)
     val (receiver, parameters, returned) = patternWithSignature.signature
     val method = GlobalPatternMethod(
-        packageName = targetPackage,
-        name = clientMethod,
+        packageName = TARGET_PACKAGE,
+        name = CLIENT_METHOD,
         returnedType = returned,
         receiverType = receiver,
         parameters = parameters,
@@ -106,8 +106,8 @@ private fun getOutcomeAndOriginString(raw: String): Pair<String, String> {
     }
 }
 
-private const val clientMethod = "completion"
-private const val targetPackage = "$BACKEND_PACKAGE.planner"
+private const val CLIENT_METHOD = "completion"
+private const val TARGET_PACKAGE = "$BACKEND_PACKAGE.planner"
 private const val TEST_DATA_PATH = "src/test/resources/io/kabu/backend/planner/namespace/conflict/detector/tests"
 
 internal fun getManualPath(testName: String) = "$TEST_DATA_PATH/$testName/manual.txt"

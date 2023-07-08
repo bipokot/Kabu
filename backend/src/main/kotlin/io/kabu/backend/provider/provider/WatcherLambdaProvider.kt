@@ -29,7 +29,8 @@ class WatcherLambdaProvider(
         if (!isReplacementRequired()) return null
         
         // watcher context
-        val watcherContextCode = getChildRetrievalWay(forName, watcherContextProvider, context.actualProvidersProvider)!!
+        val watcherContextCode =
+            getChildRetrievalWay(forName, watcherContextProvider, context.actualProvidersProvider)!!
             .codeBlock.toString()
         val watcherContextName = context.nextVarName()
         val watcherContextCodeStatement = "val $watcherContextName=$watcherContextCode"

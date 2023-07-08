@@ -14,15 +14,16 @@ class Context @ContextCreator("ctx") constructor() {
 
     @LocalPattern("a / b + c / d")
     fun foo(a: Int, b: Boolean, c: Int, d: Boolean) {
-        result += "${'$'}a, ${'$'}b, ${'$'}c, ${'$'}d"
+        result += "$a + $b + $c + $d"
     }
 
     @LocalPattern("a / b - c / d")
     fun bar(a: Int, b: Boolean, c: Int, d: Boolean) {
-        result += "${'$'}a; ${'$'}b; ${'$'}c; ${'$'}d"
+        result += "$a - $b - $c - $d"
     }
 }
 
+@Suppress("MagicNumber")
 fun main() {
     123 % {{
         1 / true + 2 / false
