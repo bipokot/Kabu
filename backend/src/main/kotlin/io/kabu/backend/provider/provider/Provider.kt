@@ -5,7 +5,7 @@ import io.kabu.backend.diagnostic.Origin
 import io.kabu.backend.node.TypeNode
 import io.kabu.backend.provider.evaluation.EvaluationRequirement
 import io.kabu.backend.provider.evaluation.FunctionBlockContext
-import io.kabu.backend.provider.evaluation.ProviderWithEvaluationCode
+import io.kabu.backend.provider.evaluation.ReplacementProviderWithCode
 
 /**
  * Defines a runtime object (which can be saved into variable, passed as parameter, etc.).
@@ -41,17 +41,17 @@ interface Provider : ProviderContainer {
      */
     fun generateName(): String
 
-    fun getEvaluationWay(context: FunctionBlockContext, forName: String): ProviderWithEvaluationCode
+    fun getReplacementWay(context: FunctionBlockContext, forName: String): ReplacementProviderWithCode?
 
-    fun getEvaluationRequirement(): EvaluationRequirement
+    fun isReplacementRequired(): EvaluationRequirement
 
-    fun findNearestNotEvaluatedProvider(): Provider {
+    fun findNearestProviderRequiredForReplacement(): Provider {
         if (childrenProviders.size != 1) return this
 
         val child = childrenProviders.single()
-        return when (child.getEvaluationRequirement()) {
+        return when (child.isReplacementRequired()) {
             EvaluationRequirement.NONE -> child
-            else -> child.findNearestNotEvaluatedProvider()
+            else -> child.findNearestProviderRequiredForReplacement()
         }
     }
 }

@@ -3,10 +3,7 @@ package io.kabu.backend.provider.provider
 import io.kabu.backend.analyzer.Analyzer
 import io.kabu.backend.diagnostic.Origin
 import io.kabu.backend.node.TypeNode
-import io.kabu.backend.provider.evaluation.EvaluationCode
 import io.kabu.backend.provider.evaluation.EvaluationRequirement
-import io.kabu.backend.provider.evaluation.FunctionBlockContext
-import io.kabu.backend.provider.evaluation.ProviderWithEvaluationCode
 import io.kabu.backend.provider.evaluation.RetrievalWay
 import io.kabu.backend.util.poet.asCodeBlock
 
@@ -17,14 +14,6 @@ open class LambdaProvider(
     val analyzer: Analyzer,
     origin: Origin? = null,
 ) : BaseProvider(typeNode, origin) {
-
-    override fun getEvaluationWay(context: FunctionBlockContext, forName: String): ProviderWithEvaluationCode {
-        if (analyzer.postponeLambdaExecution) return super.getEvaluationWay(context, forName) //todo revise logic
-
-        val providerToObtain = findNearestNotEvaluatedProvider()
-        val code = getChildRetrievalWay(forName, providerToObtain, context.actualProvidersProvider)!!.codeBlock.toString()
-        return ProviderWithEvaluationCode(providerToObtain, EvaluationCode.Code(code))
-    }
 
     override fun generateName(): String {
         return returningProvider.generateName() + "Lambda"
@@ -43,9 +32,9 @@ open class LambdaProvider(
         return RetrievalWay("${selfName!!}()".asCodeBlock(), isReentrant = false)
     }
 
-    override fun getEvaluationRequirement(): EvaluationRequirement {
+    override fun isReplacementRequired(): EvaluationRequirement {
         val hasChildRequiredToMandatoryEval =
-            findProvider { it.getEvaluationRequirement() == EvaluationRequirement.MANDATORY } != null
+            findProvider { it.isReplacementRequired() == EvaluationRequirement.MANDATORY } != null
         return if (hasChildRequiredToMandatoryEval || !analyzer.postponeLambdaExecution) {
             EvaluationRequirement.MANDATORY
         } else {

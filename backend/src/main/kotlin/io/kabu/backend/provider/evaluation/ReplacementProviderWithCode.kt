@@ -2,7 +2,7 @@ package io.kabu.backend.provider.evaluation
 
 import io.kabu.backend.provider.provider.Provider
 
-data class ProviderWithEvaluationCode(
+data class ReplacementProviderWithCode(
     val provider: Provider,
-    val code: EvaluationCode,
+    val code: String,
 )

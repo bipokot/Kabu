@@ -70,6 +70,6 @@ class ExtensionLambdaProvider(
         return RetrievalWay(code.asCodeBlock(), isReentrant = false)
     }
 
-    override fun getEvaluationRequirement(): EvaluationRequirement =
+    override fun isReplacementRequired(): EvaluationRequirement =
         EvaluationRequirement.MANDATORY
 }

@@ -28,7 +28,7 @@ class ScopingLambdaProvider(
         return RetrievalWay("with($contextClassName()){${selfName!!}()}".asCodeBlock(), isReentrant = false)
     }
 
-    override fun getEvaluationRequirement(): EvaluationRequirement {
+    override fun isReplacementRequired(): EvaluationRequirement {
         //todo consider nested provider and Analyzer options to decide whether to perform evaluation of this provider
         return EvaluationRequirement.MANDATORY
     }

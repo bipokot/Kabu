@@ -1,12 +1,10 @@
 package io.kabu.backend.provider.provider
 
-import com.squareup.kotlinpoet.TypeName
 import io.kabu.backend.diagnostic.Origin
 import io.kabu.backend.node.TypeNode
-import io.kabu.backend.provider.evaluation.EvaluationCode
 import io.kabu.backend.provider.evaluation.EvaluationRequirement
 import io.kabu.backend.provider.evaluation.FunctionBlockContext
-import io.kabu.backend.provider.evaluation.ProviderWithEvaluationCode
+import io.kabu.backend.provider.evaluation.ReplacementProviderWithCode
 import io.kabu.backend.provider.evaluation.RetrievalWay
 import io.kabu.backend.util.poet.TypeNameUtils.shorten
 
@@ -35,14 +33,16 @@ open class BaseProvider( //todo abstract?
         return null
     }
 
-    override fun getEvaluationWay(context: FunctionBlockContext, forName: String): ProviderWithEvaluationCode =
-        ProviderWithEvaluationCode(this, EvaluationCode.MatchingIdentifier)
+    override fun getReplacementWay(context: FunctionBlockContext, forName: String): ReplacementProviderWithCode? {
+        if (isReplacementRequired() == EvaluationRequirement.NONE) return null
 
-    override fun getEvaluationRequirement(): EvaluationRequirement =
+        val providerToObtain = findNearestProviderRequiredForReplacement()
+        val code = getChildRetrievalWay(forName, providerToObtain, context.actualProvidersProvider)!!.codeBlock.toString()
+        return ReplacementProviderWithCode(providerToObtain, code)
+    }
+
+    override fun isReplacementRequired(): EvaluationRequirement =
         EvaluationRequirement.NONE
-
-    /** Declared return type of translation (e.g. Int for comparison checks), can differ from [type]. */
-    open fun translationReturnedType(): TypeName = type
 
     override fun toString() = ":${type.shorten}"
 }

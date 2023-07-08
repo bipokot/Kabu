@@ -37,6 +37,6 @@ class WatcherContextProvider(
         return RetrievalWay(CodeBlock.of(code), isReentrant = false)
     }
 
-    override fun getEvaluationRequirement(): EvaluationRequirement =
+    override fun isReplacementRequired(): EvaluationRequirement =
         EvaluationRequirement.MANDATORY
 }

@@ -4,10 +4,9 @@ import com.squareup.kotlinpoet.ClassName
 import io.kabu.backend.analyzer.Analyzer
 import io.kabu.backend.diagnostic.Origin
 import io.kabu.backend.node.TypeNode
-import io.kabu.backend.provider.evaluation.EvaluationCode
 import io.kabu.backend.provider.evaluation.EvaluationRequirement
 import io.kabu.backend.provider.evaluation.FunctionBlockContext
-import io.kabu.backend.provider.evaluation.ProviderWithEvaluationCode
+import io.kabu.backend.provider.evaluation.ReplacementProviderWithCode
 import io.kabu.backend.provider.evaluation.RetrievalWay
 import io.kabu.backend.util.poet.asCodeBlock
 
@@ -27,7 +26,9 @@ class WatcherLambdaProvider(
     override val childrenProviders: List<Provider>
         get() = listOf(watcherContextProvider)
 
-    override fun getEvaluationWay(context: FunctionBlockContext, forName: String): ProviderWithEvaluationCode {
+    override fun getReplacementWay(context: FunctionBlockContext, forName: String): ReplacementProviderWithCode? {
+        if (isReplacementRequired() == EvaluationRequirement.NONE) return null
+        
         // watcher context
         val watcherContextCode = getChildRetrievalWay(forName, watcherContextProvider, context.actualProvidersProvider)!!
             .codeBlock.toString()
@@ -36,7 +37,7 @@ class WatcherLambdaProvider(
         context.addStatements(listOf(watcherContextCodeStatement))
 
         // payload
-        val payloadProvider = watcherContextProvider.findNearestNotEvaluatedProvider()
+        val payloadProvider = watcherContextProvider.findNearestProviderRequiredForReplacement()
         val payloadName = context.nextVarName()
         val payloadCode = watcherContextProvider
             .getChildRetrievalWay(watcherContextName, payloadProvider, context.actualProvidersProvider)!!
@@ -46,7 +47,7 @@ class WatcherLambdaProvider(
         context.addStatements(listOf(payloadCode))
         context.addStatements(listOf("}"))
 
-        return ProviderWithEvaluationCode(payloadProvider, EvaluationCode.Code(payloadName))
+        return ReplacementProviderWithCode(payloadProvider, payloadName)
     }
 
     override fun getImmediateChildRetrievalWay(
@@ -63,7 +64,7 @@ class WatcherLambdaProvider(
         )
     }
 
-    override fun getEvaluationRequirement(): EvaluationRequirement =
+    override fun isReplacementRequired(): EvaluationRequirement =
         EvaluationRequirement.MANDATORY
 
     companion object {

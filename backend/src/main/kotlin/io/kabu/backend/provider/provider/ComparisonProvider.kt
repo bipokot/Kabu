@@ -5,8 +5,7 @@ import io.kabu.backend.analyzer.handler.lambda.watcher.OperatorInfoTypes.RANKING
 import io.kabu.backend.analyzer.handler.lambda.watcher.OperatorInfoTypes.STRICTNESS_COMPARISON_INFO_TYPE
 import io.kabu.backend.node.HolderTypeNode
 import io.kabu.backend.node.TypeNode
-import io.kabu.backend.provider.evaluation.EvaluationCode
-import io.kabu.backend.provider.evaluation.ProviderWithEvaluationCode
+import io.kabu.backend.provider.evaluation.ReplacementProviderWithCode
 import io.kabu.backend.provider.provider.WatcherLambdaProvider.Companion.STACK_PROPERTY_NAME
 
 
@@ -19,7 +18,7 @@ class ComparisonProvider(
     override fun provideCodeForConstructionFromAux(
         auxName: String,
         watcherContextName: String,
-    ): ProviderWithEvaluationCode {
+    ): ReplacementProviderWithCode {
         val holderClassCanonicalName = (typeNode as HolderTypeNode).className.canonicalName
 
         //todo use FieldAccessCodeGenerator(analyzer).generateFieldAccessorCode(selfName!!, privateFieldName)
@@ -63,6 +62,6 @@ class ComparisonProvider(
             append("}")
         }
 
-        return ProviderWithEvaluationCode(this, EvaluationCode.Code(code))
+        return ReplacementProviderWithCode(this, code)
     }
 }

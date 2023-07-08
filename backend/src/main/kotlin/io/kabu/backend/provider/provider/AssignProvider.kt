@@ -3,8 +3,7 @@ package io.kabu.backend.provider.provider
 import io.kabu.backend.analyzer.Analyzer
 import io.kabu.backend.node.HolderTypeNode
 import io.kabu.backend.node.TypeNode
-import io.kabu.backend.provider.evaluation.EvaluationCode
-import io.kabu.backend.provider.evaluation.ProviderWithEvaluationCode
+import io.kabu.backend.provider.evaluation.ReplacementProviderWithCode
 import io.kabu.backend.provider.provider.WatcherLambdaProvider.Companion.STACK_PROPERTY_NAME
 
 
@@ -17,7 +16,7 @@ class AssignProvider(
     override fun provideCodeForConstructionFromAux(
         auxName: String,
         watcherContextName: String,
-    ): ProviderWithEvaluationCode {
+    ): ReplacementProviderWithCode {
         val holderClassCanonicalName = (typeNode as HolderTypeNode).className.canonicalName
 
         //todo use FieldAccessCodeGenerator(analyzer).generateFieldAccessorCode(selfName!!, privateFieldName)
@@ -46,6 +45,6 @@ class AssignProvider(
             append("}")
         }
 
-        return ProviderWithEvaluationCode(this, EvaluationCode.Code(code))
+        return ReplacementProviderWithCode(this, code)
     }
 }

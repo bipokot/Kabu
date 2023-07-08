@@ -5,7 +5,7 @@ import io.kabu.backend.diagnostic.Origin
 import io.kabu.backend.node.TypeNode
 import io.kabu.backend.provider.evaluation.EvaluationRequirement
 import io.kabu.backend.provider.evaluation.FunctionBlockContext
-import io.kabu.backend.provider.evaluation.ProviderWithEvaluationCode
+import io.kabu.backend.provider.evaluation.ReplacementProviderWithCode
 import io.kabu.backend.provider.evaluation.RetrievalWay
 import io.kabu.backend.provider.provider.Provider
 import io.kabu.backend.provider.provider.ProviderContainer
@@ -22,11 +22,11 @@ interface TestProvider : Provider {
         get() = TODO("Not yet implemented")
         set(value) {}
 
-    override fun getEvaluationWay(context: FunctionBlockContext, forName: String): ProviderWithEvaluationCode {
+    override fun getReplacementWay(context: FunctionBlockContext, forName: String): ReplacementProviderWithCode? {
         TODO()
     }
 
-    override fun getEvaluationRequirement(): EvaluationRequirement {
+    override fun isReplacementRequired(): EvaluationRequirement {
         return EvaluationRequirement.NONE
     }
 }

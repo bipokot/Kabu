@@ -67,16 +67,15 @@ object EvaluationHelper {
             "val $providerName = $THIS"
         }
 
-        val evaluationWay = provider.getEvaluationWay(context = functionBlockContext, providerName)
-        val code = evaluationWay.code
-        val evaluatedProvider: Provider? = if (code is EvaluationCode.Code) {
-            val newProvider = evaluationWay.provider
-            if (newProvider.isUsefulTransitively()) {
+        val replacementWay = provider.getReplacementWay(context = functionBlockContext, providerName)
+        val evaluatedProvider: Provider? = if (replacementWay != null) {
+            val replacementProvider = replacementWay.provider
+            if (replacementProvider.isUsefulTransitively()) {
                 providerName = getNameForEvaluatedProvider(providerName)
                 val renamingStatementString = if (renamingStatement != null) "$renamingStatement; " else ""
-                evaluationStatements = "${renamingStatementString}val $providerName = ${code.code}"
+                evaluationStatements = "${renamingStatementString}val $providerName = ${replacementWay.code}"
 
-                newProvider
+                replacementProvider
             } else null
         } else {
             if (renamingStatement != null) evaluationStatements = renamingStatement
