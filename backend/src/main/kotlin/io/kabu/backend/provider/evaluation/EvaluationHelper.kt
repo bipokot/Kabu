@@ -21,7 +21,7 @@ object EvaluationHelper {
 
         // determining list of evaluated parameters and their evaluation statements
         val evaluatedParametersWithStatements = evaluationOrderedList.mapNotNull {
-            convertToEvaluatedParameter(codeBlockContext, it)
+            getReplacementProviderInfo(codeBlockContext, it)
         }
 
         // separating evaluation code from resulting order of providers
@@ -55,7 +55,7 @@ object EvaluationHelper {
         }
     }
 
-    private fun convertToEvaluatedParameter(
+    private fun getReplacementProviderInfo(
         functionBlockContext: FunctionBlockContext,
         provider: Provider,
     ): ProviderInfo? {
@@ -68,25 +68,24 @@ object EvaluationHelper {
         }
 
         val replacementWay = provider.getReplacementWay(context = functionBlockContext, providerName)
-        val evaluatedProvider: Provider? = if (replacementWay != null) {
-            val replacementProvider = replacementWay.provider
-            if (replacementProvider.isUsefulTransitively()) {
-                providerName = getNameForEvaluatedProvider(providerName)
+        val replacementProvider = if (replacementWay != null) {
+            val replacement = replacementWay.provider
+            if (replacement.isUsefulTransitively()) {
+                providerName = functionBlockContext.getUnoccupiedLocalVarName(replacement.generateName())
+                    .also { functionBlockContext.registerLocalVar(it) }
                 val renamingStatementString = if (renamingStatement != null) "$renamingStatement; " else ""
                 evaluationStatements = "${renamingStatementString}val $providerName = ${replacementWay.code}"
 
-                replacementProvider
+                replacement
             } else null
         } else {
             if (renamingStatement != null) evaluationStatements = renamingStatement
             provider.takeIf { it.isUsefulTransitively() }
         }
 
-        return evaluatedProvider
-            ?.let { ProviderInfo(evaluatedProvider, providerName, evaluationStatements) }
+        return replacementProvider
+            ?.let { ProviderInfo(replacementProvider, providerName, evaluationStatements) }
     }
-
-    private fun getNameForEvaluatedProvider(name: String): String = name + "Evaluated"
 
     private data class ProviderInfo(
         val provider: Provider,

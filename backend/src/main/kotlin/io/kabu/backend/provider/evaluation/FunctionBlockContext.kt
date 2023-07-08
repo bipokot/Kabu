@@ -97,6 +97,17 @@ class FunctionBlockContext(
         return res
     }
 
+    fun getUnoccupiedLocalVarName(desiredName: String): String {
+        if (!nameIsAlreadyTaken(desiredName)) return desiredName
+
+        var res: String
+        var counter = 2
+        do {
+            res = "$desiredName${counter++}"
+        } while (nameIsAlreadyTaken(res))
+        return res
+    }
+
     fun doEvaluation(): List<Provider> {
         check(notEvaluatedYet) { "Can not perform evaluation twice" }; notEvaluatedYet = false
         EvaluationHelper.doEvaluation(funDeclarationProviders, codeBlockContext = this)
