@@ -77,7 +77,7 @@ class AnalyzerImpl(
 
     private var nextExpectedParameterIndex: Int = 0
 
-    override val postponeLambdaExecution: Boolean = false
+    override val postponeLambdaExecution: Boolean = true
 
     init {
         ExpressionValidator().validateExpression(expression)
