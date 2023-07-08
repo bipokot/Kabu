@@ -5,6 +5,8 @@ import io.kabu.backend.analyzer.AnalyzerImpl
 import io.kabu.backend.analyzer.handler.Handler
 import io.kabu.backend.node.DerivativeTypeNode
 import io.kabu.backend.node.FunctionNode
+import io.kabu.backend.node.TypeNode
+import io.kabu.backend.node.WatcherContextTypeNode
 import io.kabu.backend.node.factory.node.AssignablePropertyNode
 import io.kabu.backend.node.factory.node.DispatcherCallsCounterPropertyNode
 import io.kabu.backend.node.factory.node.RegularFunctionNode
@@ -38,8 +40,14 @@ class WatcherLambdaHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
         // creating parameter of watcher lambda
         val returningProviderTypeNode = returningProvider.typeNode
         val watcherContextTypeNode = watcherLambda.watcherContextTypeNode
-        val typeNode = DerivativeTypeNode(namespaceNode, mutableListOf(returningProviderTypeNode, watcherContextTypeNode)) {
-            LambdaTypeName.get(returnType = returningProviderTypeNode.typeName, receiver = watcherContextTypeNode.className)
+        val typeNode = DerivativeTypeNode(
+            namespaceNode = namespaceNode,
+            generatorDependencies = mutableListOf(returningProviderTypeNode, watcherContextTypeNode)
+        ) { deps ->
+            LambdaTypeName.get(
+                returnType = (deps[0] as TypeNode).typeName,
+                receiver = (deps[1] as WatcherContextTypeNode).className,
+            )
         }
         registerNode(typeNode)
 

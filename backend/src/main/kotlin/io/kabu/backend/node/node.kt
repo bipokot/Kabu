@@ -90,25 +90,25 @@ class FixedTypeNode(
 
 class DerivativeTypeNode(
     override var namespaceNode: NamespaceNode?,
-    private val additionalDependencies: MutableList<Node>,
-    private val generator: () -> TypeName,
+    private val generatorDependencies: MutableList<Node>,
+    private val generator: (generatorDependencies: List<Node>) -> TypeName,
 ) : TypeNode() {
     override val name: String
         get() = (typeName as? ClassName)?.simpleName ?: typeName.toString()
     override val dependencies: Iterable<Node>
-        get() = additionalDependencies.toMutableList()
+        get() = generatorDependencies.toMutableList()
             .apply { namespaceNode?.let { add(it) } }
             .filterNot { it is FixedTypeNode }
 
     override val derivativeNodes = mutableSetOf<Node>()
     override val typeName: TypeName
-        get() = generator()
+        get() = generator(generatorDependencies)
 
     override fun createDeclarations() = emptyList<Declaration>()
     override fun replaceDependency(replaced: Node, replaceBy: Node) {
-        for (i in additionalDependencies.indices) {
-            if (additionalDependencies[i] === replaced) {
-                additionalDependencies[i] = replaceBy
+        for (i in generatorDependencies.indices) {
+            if (generatorDependencies[i] === replaced) {
+                generatorDependencies[i] = replaceBy
             }
         }
         if (namespaceNode === replaced) namespaceNode = replaceBy as NamespaceNode

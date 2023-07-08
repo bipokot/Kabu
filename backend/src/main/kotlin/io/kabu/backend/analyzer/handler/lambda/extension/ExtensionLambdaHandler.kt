@@ -7,6 +7,7 @@ import io.kabu.backend.analyzer.AnalyzerImpl
 import io.kabu.backend.diagnostic.builder.extensionAnnotationMissingError
 import io.kabu.backend.diagnostic.builder.unknownFunctionParameterNameError
 import io.kabu.backend.inout.input.method.PatternMethod
+import io.kabu.backend.node.ContextMediatorTypeNode
 import io.kabu.backend.node.DerivativeTypeNode
 import io.kabu.backend.node.factory.node.ContextMediatorTypeNodeImpl
 import io.kabu.backend.node.namespace.NamespaceNode
@@ -56,8 +57,8 @@ class ExtensionLambdaHandler(
             analyzeMethod(it, contextMediatorTypeNode, analyzer.methodsRegistry, EXTENSION_CONTEXT_PROPERTY_NAME)
         }
 
-        val returningTypeNode = DerivativeTypeNode(namespaceNode, mutableListOf(contextMediatorTypeNode)) {
-            LambdaTypeName.get(returnType = UNIT, receiver = contextMediatorTypeNode.className)
+        val returningTypeNode = DerivativeTypeNode(namespaceNode, mutableListOf(contextMediatorTypeNode)) { deps ->
+            LambdaTypeName.get(returnType = UNIT, receiver = (deps.first() as ContextMediatorTypeNode).className)
         }
         registerNode(returningTypeNode)
 
