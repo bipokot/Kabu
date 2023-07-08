@@ -15,7 +15,7 @@ abstract class AbstractFunctionDeclaration : AbstractCallableDeclaration() {
     @Suppress("LongParameterList")
     fun generateFunSpec(
         name: String,
-        parameters: OrderedNamedProviders,
+        providers: OrderedNamedProviders,
         returnType: TypeName,
         receiverType: TypeName? = null,
         isInfix: Boolean = false,
@@ -32,8 +32,8 @@ abstract class AbstractFunctionDeclaration : AbstractCallableDeclaration() {
             if (receiverType != null) receiver(receiverType)
             returns(returnType)
 
-            parameters.providers.forEach {
-                addParameter(parameters[it], it.type)
+            providers.providers.forEach {
+                addParameter(providers[it], it.type)
             }
 
             addCode(codeBlock)

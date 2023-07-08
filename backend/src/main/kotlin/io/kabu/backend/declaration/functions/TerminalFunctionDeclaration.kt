@@ -49,7 +49,7 @@ open class TerminalFunctionDeclaration(
 
         return generateFunSpec(
             name = functionName,
-            parameters = funDeclarationProviders.rightNamedProviders,
+            providers = funDeclarationProviders.rightNamedProviders,
             returnType = returnedType,
             receiverType = funDeclarationProviders.left.type,
             isInfix = operator is InfixFunction,
@@ -69,6 +69,6 @@ open class TerminalFunctionDeclaration(
     }
 
     override fun toString(): String {
-        return "TerminalFunction(operator=$operator, parameters=$funDeclarationProviders)"
+        return "TerminalFunction(operator=$operator, providers=$funDeclarationProviders)"
     }
 }

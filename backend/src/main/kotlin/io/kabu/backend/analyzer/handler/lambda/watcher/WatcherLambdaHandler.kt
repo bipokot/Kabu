@@ -37,7 +37,6 @@ class WatcherLambdaHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
             handleCaptureTypeGroup(group.key, group.value)
         }
 
-        // creating parameter of watcher lambda
         val returningProviderTypeNode = returningProvider.typeNode
         val watcherContextTypeNode = watcherLambda.watcherContextTypeNode
         val typeNode = DerivativeTypeNode(

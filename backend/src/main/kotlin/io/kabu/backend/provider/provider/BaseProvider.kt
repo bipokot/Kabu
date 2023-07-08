@@ -10,7 +10,7 @@ import io.kabu.backend.util.poet.TypeNameUtils.shorten
 /**
  * Represents a runtime object, which can provide some useful values.
  *
- * @property type source code type of the parameter value (think of ot as Ctrl+Shift+P in client source code)
+ * @property type type of the runtime object
  */
 open class BaseProvider( //todo abstract?
     override var typeNode: TypeNode,

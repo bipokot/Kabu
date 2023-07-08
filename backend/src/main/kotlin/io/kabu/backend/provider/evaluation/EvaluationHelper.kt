@@ -4,13 +4,8 @@ import io.kabu.backend.provider.group.FunDeclarationProviders
 import io.kabu.backend.provider.group.NamedProvider
 import io.kabu.backend.provider.provider.Provider
 
-/** Evaluated parameters inside operator function body */
 object EvaluationHelper {
 
-    /**
-     * Returns evaluated parameters and statements in their conventional ordering,
-     * independent of operator's argument ordering
-     */
     fun doEvaluation(
         funDeclarationProviders: FunDeclarationProviders,
         codeBlockContext: FunctionBlockContext,
@@ -20,7 +15,7 @@ object EvaluationHelper {
 
         renameThisProvider(codeBlockContext)
 
-        // determining list of evaluated parameters and their evaluation statements
+        // determining list of evaluated providers and their evaluation statements
         val evaluatedParametersWithStatements = evaluationOrderedList.mapNotNull {
             getReplacementProviderInfo(codeBlockContext, it)
         }
@@ -49,7 +44,7 @@ object EvaluationHelper {
         // adding current actual providers
         namedProviders.forEach { namedProvider ->
             codeBlockContext.registerActualProvider(
-                parameter = namedProvider.provider,
+                provider = namedProvider.provider,
                 name = namedProvider.name,
                 statements = emptyList(), // statements have already been added
             )

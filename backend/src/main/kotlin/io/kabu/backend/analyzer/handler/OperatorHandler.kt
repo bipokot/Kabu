@@ -30,7 +30,7 @@ class OperatorHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
 
     fun handle(expression: OperatorExpression): Provider {
         if (expression.operator is Assign) {
-            // delegating creation of parameter for this expression to left parameter (to create setter/set functions)
+            // delegating creation of provider for this expression to left parameter (to create setter/set functions)
             return providerOf(expression.children[0])
         }
 
@@ -136,7 +136,7 @@ class OperatorHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
     ): BaseProvider {
         val assigningParameter = providerOf((expression.parent as BinaryExpression).children[1])
 
-        // combining parameters for "set" operator
+        // combining providers for "set" operator
         val rawProvidersOfAssign = RawProviders(rawProviders.providersList + assigningParameter, operatorInfoParameter = null)
         val assignOperator = (expression.parent as BinaryExpression).operator as Assign
 
@@ -224,7 +224,7 @@ class OperatorHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
     ): BaseProvider {
         val assigningParameter = providerOf((expression.parent as BinaryExpression).children[1])
 
-        // combining parameters for "set" operator
+        // combining providers for "set" operator
         val rawProvidersOfAssign = RawProviders(rawProviders.providersList + assigningParameter, operatorInfoParameter = null)
         val assignOperator = (expression.parent as BinaryExpression).operator as Assign
 

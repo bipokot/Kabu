@@ -132,15 +132,15 @@ class AnalyzerImpl(
         val left: List<Provider> = expressions.take(1)
             .map { providerOf(it) }
 
-        // must be in between left and right parameters obtaining
-        val operatorInfoParameter = method.parameters.getOrNull(nextExpectedParameterIndex)
+        // must be in between left and right providers obtaining
+        val operatorInfoProvider = method.parameters.getOrNull(nextExpectedParameterIndex)
             ?.takeIf { it.type.isOperatorInfoType }
             ?.let { BaseProvider(it.type.toFixedTypeNode(), it.origin) } //todo check: creating different objects for same method parameter
 
         val right: List<Provider> = expressions.drop(1)
             .map { providerOf(it) }
 
-        return RawProviders(left + right, operatorInfoParameter)
+        return RawProviders(left + right, operatorInfoProvider)
     }
 
     internal fun checkStrictMethodParametersOrdering(expressionName: String, typeName: TypeName?) {

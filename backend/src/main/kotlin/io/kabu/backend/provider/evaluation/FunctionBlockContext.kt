@@ -31,44 +31,44 @@ class FunctionBlockContext(
         }
     }
 
-    fun registerActualProvider(parameter: Provider, name: String, statements: List<String>) {
+    fun registerActualProvider(provider: Provider, name: String, statements: List<String>) {
         _allStatements += statements
-        actualProviders.register(parameter, name)
+        actualProviders.register(provider, name)
         //todo mb losing non-actual providers names in allProviders...
-        allProviders.register(parameter, name)
+        allProviders.register(provider, name)
     }
 
     //todo rn getCodeForProvider
-    fun getCodeForActualProvider(parameter: Provider): String {
+    fun getCodeForActualProvider(provider: Provider): String {
         return actualProvidersProvider
-            .getChildRetrievalWay(selfName = null, parameter, actualProvidersProvider)!!.codeBlock.toString()
+            .getChildRetrievalWay(selfName = null, provider, actualProvidersProvider)!!.codeBlock.toString()
     }
 
-    fun unregisterActualProvider(parameter: Provider) {
-        actualProviders.unregister(parameter)
+    fun unregisterActualProvider(provider: Provider) {
+        actualProviders.unregister(provider)
     }
 
     // order is preserved
-    fun replaceActualProvider(parameter: Provider, parameters: List<Provider>) {
-        if (parameters.singleOrNull() == parameter) return // skipping replacement for itself
+    fun replaceActualProvider(replacedProvider: Provider, replaceBy: List<Provider>) {
+        if (replaceBy.singleOrNull() == replacedProvider) return // skipping replacement for itself
 
         val actualProvidersBackup = OrderedNamedProviders().apply {
             actualProviders.providers
                 .forEach { provider -> register(provider, actualProviders[provider]) }
         }
 
-        val providerReplacements = parameters.map { getReplacement(it) }
+        val providerReplacements = replaceBy.map { getReplacement(it) }
 
         actualProviders.providers.forEach { actualProviders.unregister(it) }
 
         actualProvidersBackup.providers.forEach { provider ->
-            if (provider !== parameter) {
+            if (provider !== replacedProvider) {
                 // copying other providers
                 registerActualProvider(provider, actualProvidersBackup[provider], emptyList())
             } else {
                 // replacing target provider
                 providerReplacements.forEach {
-                    registerActualProvider(it.parameter, it.name, listOf(it.statements))
+                    registerActualProvider(it.provider, it.name, listOf(it.statements))
                 }
             }
         }
@@ -123,7 +123,7 @@ class FunctionBlockContext(
     private fun nameIsAlreadyTaken(name: String) = allProviders.getOrNull(name) != null
 
     private data class Replacement(
-        val parameter: Provider,
+        val provider: Provider,
         val name: String,
         val statements: String,
     )

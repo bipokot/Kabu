@@ -23,8 +23,8 @@ open class ContextCreatorMethod(
     origin
 ) {
 
-    open fun getInvocationCode(parameters: List<Provider>, providerContainer: ProviderContainer): String {
-        val invocationArgumentsString = parameters.joinToString(", ") {
+    open fun getInvocationCode(providers: List<Provider>, providerContainer: ProviderContainer): String {
+        val invocationArgumentsString = providers.joinToString(", ") {
             providerContainer.getChildRetrievalWay(selfName = null, it, providerContainer)!!.codeBlock.toString()
         }
         return "${packageName}.${name}($invocationArgumentsString)"
