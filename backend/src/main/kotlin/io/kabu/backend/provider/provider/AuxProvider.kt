@@ -25,12 +25,8 @@ class AuxProvider(
     ): RetrievalWay? {
         if (provider !== watchedProvider) return null
 
-        val watcherContextName = ""
-
-        val providerWithEvaluationCode =
-            watchedProvider.provideCodeForConstructionFromAux(selfName!!, watcherContextName)!!
-        val code = providerWithEvaluationCode.code
-        return RetrievalWay(CodeBlock.of(code), isReentrant = false)
+        val watchedProviderCreationCode = watchedProvider.provideCodeForConstructionFromAux(selfName!!)
+        return RetrievalWay(CodeBlock.of(watchedProviderCreationCode), isReentrant = false)
     }
 
     override fun isReplacementRequired() = true

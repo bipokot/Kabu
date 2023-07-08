@@ -13,8 +13,6 @@ abstract class AbstractWatchedProvider(
     origin: Origin? = null,
 ) : HolderProvider(typeNode, providers, analyzer, origin) {
 
-    abstract fun provideCodeForConstructionFromAux(
-        auxName: String, //todo introduce `class VariableName(val value: String)` / `class Code(val value: String)`
-        watcherContextName: String,
-    ): ReplacementProviderWithCode?
+    //todo introduce `class VariableName(val value: String)` / `class Code(val value: String)`
+    abstract fun provideCodeForConstructionFromAux(auxName: String): String
 }
