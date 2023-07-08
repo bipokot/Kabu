@@ -3,7 +3,6 @@ package io.kabu.backend.provider.evaluation
 import io.kabu.backend.provider.group.FunDeclarationProviders
 import io.kabu.backend.provider.group.NamedProvider
 import io.kabu.backend.provider.provider.Provider
-import io.kabu.backend.util.ifTake
 
 /** Evaluated parameters inside operator function body */
 object EvaluationHelper {
@@ -18,6 +17,8 @@ object EvaluationHelper {
     ) {
         val evaluationOrderedList = funDeclarationProviders.providersList.reversed()
         val invertedOrdering = funDeclarationProviders.invertedOrdering
+
+        renameThisProvider(codeBlockContext)
 
         // determining list of evaluated parameters and their evaluation statements
         val evaluatedParametersWithStatements = evaluationOrderedList.mapNotNull {
@@ -55,6 +56,15 @@ object EvaluationHelper {
         }
     }
 
+    private fun renameThisProvider(codeBlockContext: FunctionBlockContext) {
+        codeBlockContext.actualProviders.getOrNull(THIS)?.let { thisProvider ->
+            val newName = codeBlockContext.nextVarName()
+            codeBlockContext.registerLocalVar(newName)
+            codeBlockContext.addStatements(listOf("val $newName = $THIS"))
+            codeBlockContext.actualProviders[thisProvider] = newName
+        }
+    }
+
     private fun getReplacementProviderInfo(
         functionBlockContext: FunctionBlockContext,
         provider: Provider,
@@ -62,24 +72,17 @@ object EvaluationHelper {
         var evaluationStatements: String? = null
         var providerName = functionBlockContext.getCodeForActualProvider(provider)
 
-        val renamingStatement = ifTake(providerName == THIS) {
-            providerName = functionBlockContext.nextVarName()
-            "val $providerName = $THIS"
-        }
-
         val replacementWay = provider.getReplacementWay(context = functionBlockContext, providerName)
         val replacementProvider = if (replacementWay != null) {
             val replacement = replacementWay.provider
             if (replacement.isUsefulTransitively()) {
                 providerName = functionBlockContext.getUnoccupiedLocalVarName(replacement.generateName())
                     .also { functionBlockContext.registerLocalVar(it) }
-                val renamingStatementString = if (renamingStatement != null) "$renamingStatement; " else ""
-                evaluationStatements = "${renamingStatementString}val $providerName = ${replacementWay.code}"
+                evaluationStatements = "val $providerName = ${replacementWay.code}"
 
                 replacement
             } else null
         } else {
-            if (renamingStatement != null) evaluationStatements = renamingStatement
             provider.takeIf { it.isUsefulTransitively() }
         }
 

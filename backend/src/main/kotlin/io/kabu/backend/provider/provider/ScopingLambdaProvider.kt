@@ -26,9 +26,4 @@ class ScopingLambdaProvider(
         val contextClassName = (watcherContextTypeNode.typeName as ClassName).canonicalName
         return RetrievalWay("with($contextClassName()){${selfName!!}()}".asCodeBlock(), isReentrant = false)
     }
-
-    override fun isReplacementRequired(): Boolean {
-        //todo consider nested provider and Analyzer options to decide whether to perform evaluation of this provider
-        return true
-    }
 }
