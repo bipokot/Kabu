@@ -71,22 +71,21 @@ object EvaluationHelper {
     ): ProviderInfo? {
         var evaluationStatements: String? = null
         var providerName = functionBlockContext.getCodeForActualProvider(provider)
+        var replacementProvider = provider
 
         val replacementWay = provider.getReplacementWay(context = functionBlockContext, providerName)
-        val replacementProvider = if (replacementWay != null) {
+        if (replacementWay != null) {
             val replacement = replacementWay.provider
             if (replacement.isUsefulTransitively()) {
                 providerName = functionBlockContext.getUnoccupiedLocalVarName(replacement.generateName())
                     .also { functionBlockContext.registerLocalVar(it) }
                 evaluationStatements = "val $providerName = ${replacementWay.code}"
-
-                replacement
-            } else null
-        } else {
-            provider.takeIf { it.isUsefulTransitively() }
+                replacementProvider = replacement
+            }
         }
 
         return replacementProvider
+            .takeIf { it.isUsefulTransitively() }
             ?.let { ProviderInfo(replacementProvider, providerName, evaluationStatements) }
     }
 

@@ -21,8 +21,6 @@ class AccessingCodeReducer {
                 functionBlockContext.replaceActualProvider(provider, replacements)
                 if (listOf(provider) != replacements) replacementWasPerformed = true
             }
-            
-            println(functionBlockContext.joinAllStatements())
 
         } while (replacementWasPerformed)
     }

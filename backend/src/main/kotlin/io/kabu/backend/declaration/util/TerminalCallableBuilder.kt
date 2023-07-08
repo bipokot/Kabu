@@ -18,7 +18,7 @@ import io.kabu.backend.util.poet.asCodeBlock
 class TerminalCallableBuilder {
 
     fun createTerminationStatements(
-        analyzer: io.kabu.backend.analyzer.Analyzer,
+        analyzer: io.kabu.backend.analyzer.Analyzer, //todo rm FQCNs
         functionBlockContext: FunctionBlockContext,
         requiredReturnStatement: String?,
     ): CodeBlock {
