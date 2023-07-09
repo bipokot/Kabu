@@ -51,6 +51,7 @@ class Writer {
                     .addMember(CodeBlock.of("%S", "FunctionName"))
                     .addMember(CodeBlock.of("%S", "ObjectPropertyName"))
                     .addMember(CodeBlock.of("%S", "MemberVisibilityCanBePrivate"))
+                    .addMember(CodeBlock.of("%S", "UNCHECKED_CAST"))
                     .build()
 
             )
