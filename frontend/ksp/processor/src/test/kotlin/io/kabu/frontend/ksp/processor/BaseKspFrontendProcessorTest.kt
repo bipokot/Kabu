@@ -165,7 +165,7 @@ open class BaseKspFrontendProcessorTest {
     private fun getScriptOutput(sampleScript: String): String {
         logger.debug { "Running script for '$sampleScript'" }
         val projectRoot = "../../../"
-        val mainKtsLib = "${projectRoot}frontend/ksp/processor/lib/kotlin-main-kts-1.7.20.jar"
+        val mainKtsLib = "${projectRoot}frontend/ksp/testing/lib/kotlin-main-kts-1.9.0.jar"
 //        val runtimeClassFiles = "${projectRoot}runtime/build/libs/runtime-1.0-SNAPSHOT.jar"
 //        val annotationClassFiles = "${projectRoot}annotation/build/libs/annotation-1.0-SNAPSHOT.jar"
         val runtimeClassFiles = "${projectRoot}runtime/build/classes/kotlin/main"

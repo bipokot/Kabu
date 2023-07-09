@@ -1,4 +1,4 @@
-def kctVersion = "1.4.9"
+def kctVersion = "1.5.0"
 
 ext.deps = [
         "kotlin"      : [
