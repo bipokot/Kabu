@@ -1,12 +1,11 @@
-<img src="doc/img/logo_kabu.svg" alt="logo" width="400"/>
-
 [![Release](https://jitpack.io/v/bipokot/Kabu.svg)](https://jitpack.io/#bipokot/Kabu)
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Declarative%20DSL%20generation%20for%20Kotlin%20is%20here&url=https://github.com/bipokot/Kabu&hashtags=kotlin,dsl,generation)
 
-# Kabu
-KSP-based processor for creating Kotlin DSLs in a declarative way.
+<img src="doc/img/logo_kabu.svg" alt="Kabu" width="250"/>
 
-## Overview
+**Kabu** generates Kotlin DSLs for you.
+
+<hr>
 
 ```kotlin
 // Example-001
@@ -53,11 +52,9 @@ Patterns can be almost as complex as you can do it with Kotlin.
 
 <img src="doc/img/animation_example_chooser.gif" alt="'Chooser' example" width="600"/>
 
-Explore [a project with a set of examples](https://github.com/bipokot/KabuExamples). Each documentation example with `Example-XXX` code can be found in that project.
+### More examples
+Explore [a project with a set of examples](https://github.com/bipokot/KabuExamples). Each documentation example with `Example-XXX` code can be found in that project. Feel free to experiment with patterns and have fun!
 
-Feel free to experiment with patterns and have fun!
-
-### Some examples
 <details>
 <summary>Hello, World!</summary>
 
@@ -436,7 +433,7 @@ dependencies {
 }
 ```
 
-#### Processor options
+#### Optional preferences
 Optional preferences can be set in a `build.gradle` file:
 
 ```gradle
@@ -445,7 +442,7 @@ ksp {
 }
 ```
 
-Available options:
+Available parameters:
 - `ksp.io.kabu.allowUnsafe`
 	- "true" - *unsafe* features of patterns are enabled
 	- "false" - *unsafe* features of patterns are disabled
