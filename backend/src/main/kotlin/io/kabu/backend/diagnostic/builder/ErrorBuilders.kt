@@ -1,3 +1,4 @@
+@file:Suppress("TooManyFunctions")
 package io.kabu.backend.diagnostic.builder
 
 import io.kabu.backend.diagnostic.Origin
@@ -16,10 +17,6 @@ import io.kabu.backend.util.Constants.EXTENSION_ANNOTATION_CONTEXT_CREATOR
 import io.kabu.backend.util.Constants.EXTENSION_ANNOTATION_CONTEXT_PARAMETER
 import io.kabu.backend.util.Constants.RECEIVER_PARAMETER_NAME
 
-
-internal fun mismatchingParameterTypeError(parameter: BaseProvider): Nothing {
-    diagnosticError("Tried to copy from parameter with mismatching type: $parameter", parameter.origin)
-}
 
 internal fun strictParametersOrderingError(expressionName: String, expectedParameter: EntryParameter): Nothing {
     diagnosticError(
@@ -69,14 +66,6 @@ internal fun extensionAnnotationMissingError(expression: LambdaExpression): Noth
     )
 }
 
-internal fun receiverExistsError(receiverParameter: BaseProvider): Nothing {
-    diagnosticError(
-        "A function parameter cannot have name '$RECEIVER_PARAMETER_NAME' if the function has a receiver. " +
-            "This name is reserved.",
-        receiverParameter.origin
-    )
-}
-
 internal fun sameNamedParametersError(name: String, parameters: List<EntryParameter>): Nothing {
     diagnosticError("Function contains parameters with same name: '$name'", parameters.mapNotNull { it.origin })
 }
@@ -121,7 +110,7 @@ internal fun parameterIsNotEvaluatedYetError(
     expression: KotlinExpression,
 ): Nothing {
     diagnosticError(
-        "Property $argumentName is not accessible prior to evaluation of extension lambda. " +
+        "Property '$argumentName' is not accessible prior to evaluation of extension lambda. " +
             "Available parameter names: $availableParameters.",
         expression
     )

@@ -4,7 +4,6 @@ import com.squareup.kotlinpoet.CodeBlock
 import io.kabu.backend.analyzer.Analyzer
 import io.kabu.backend.diagnostic.Origin
 import io.kabu.backend.node.TypeNode
-import io.kabu.backend.provider.evaluation.EvaluationRequirement
 import io.kabu.backend.provider.evaluation.RetrievalWay
 import io.kabu.backend.util.decaps
 
@@ -16,7 +15,7 @@ class WatcherContextProvider(
     origin: Origin? = null,
 ) : BaseProvider(typeNode, origin), Provider {
 
-    override fun getProviderName(): String {
+    override fun generateName(): String {
         return typeNode.name.decaps()
     }
 
@@ -37,6 +36,5 @@ class WatcherContextProvider(
         return RetrievalWay(CodeBlock.of(code), isReentrant = false)
     }
 
-    override fun getEvaluationRequirement(): EvaluationRequirement =
-        EvaluationRequirement.MANDATORY
+    override fun isReplacementRequired() = true
 }

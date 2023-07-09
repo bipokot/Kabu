@@ -45,7 +45,7 @@ open class BaseKspFrontendProcessorTest {
 
     private fun removeTempDir(path: Path) {
         val file: File = path.toFile()
-//        if (!file.deleteRecursively()) error("ERROR: temp dir deletion failed: ${path.toAbsolutePath()}")
+        if (!file.deleteRecursively()) error("ERROR: temp dir deletion failed: ${path.toAbsolutePath()}")
     }
 
     protected fun compileAndCheckWithoutSyntaxHighlight(
@@ -53,17 +53,16 @@ open class BaseKspFrontendProcessorTest {
         block: KotlinCompilation.Result.() -> Unit,
     ) {
         val kotlinSource = createKotlinFile(code)
-        val compilationResult = compile(kspWithCompilation = false, kotlinSource, SourceFile.java("Empty.java", "public class Empty {}"))
+        val compilationResult = compile(kspWithCompilation = false, kotlinSource, emptyJavaSourceFile())
         compilationResult.block()
     }
-
 
     protected fun compileAndCheck(
         @Language("kotlin", prefix = KOTLIN_TEST_FILE_PREFIX, suffix = KOTLIN_TEST_FILE_SUFFIX) code: String,
         block: KotlinCompilation.Result.() -> Unit,
     ) {
         val kotlinSource = createKotlinFile(code)
-        val compilationResult = compile(kspWithCompilation = false, kotlinSource, SourceFile.java("Empty.java", "public class Empty {}"))
+        val compilationResult = compile(kspWithCompilation = false, kotlinSource, emptyJavaSourceFile())
         compilationResult.block()
     }
 
@@ -76,7 +75,10 @@ open class BaseKspFrontendProcessorTest {
         }
     }
 
-    private fun compile(kspWithCompilation: Boolean, vararg source: SourceFile): KotlinCompilation.Result = KotlinCompilation().apply {
+    private fun compile(
+        kspWithCompilation: Boolean,
+        vararg source: SourceFile,
+    ): KotlinCompilation.Result = KotlinCompilation().apply {
         verbose = false
         sources = source.toList()
         symbolProcessorProviders = listOf(KspFrontendProcessorProvider())
@@ -88,20 +90,6 @@ open class BaseKspFrontendProcessorTest {
         kspIncrementalLog = false
         this.kspWithCompilation = kspWithCompilation
     }.compile()
-
-    private fun assertSourceEquals(@Language("kotlin") expected: String, actual: String) {
-        assertEquals(
-            expected.trimIndent(),
-            // unfortunate hack needed as we cannot enter expected text with tabs rather than spaces
-            actual.trimIndent().replace("\t", "    ")
-        )
-    }
-
-    private fun KotlinCompilation.Result.sourceFor(fileName: String): String {
-        return kspGeneratedSources().find { it.name == fileName }
-            ?.readText()
-            ?: throw IllegalArgumentException("Could not find file $fileName in ${kspGeneratedSources()}")
-    }
 
     private fun KotlinCompilation.Result.kspGeneratedSources(): List<File> {
         val kspWorkingDir = workingDir.resolve("ksp")
@@ -156,12 +144,14 @@ open class BaseKspFrontendProcessorTest {
         onCompilationResult: KotlinCompilation.Result.() -> Unit = { assertOk() },
     ) {
         val kotlinSource = createKotlinFile(code)
-        val compilationResult = compile(kspWithCompilation = true, kotlinSource, SourceFile.java("Empty.java", "public class Empty {}"))
+        val compilationResult = compile(kspWithCompilation = true, kotlinSource, emptyJavaSourceFile())
         compilationResult.onCompilationResult()
         cases.forEach {
             validateCase(compilationResult, it)
         }
     }
+
+    private fun emptyJavaSourceFile() = SourceFile.java("Empty.java", "public class Empty {}")
 
     private fun validateCase(compilationResult: KotlinCompilation.Result, testCase: TestCase) {
         val actualOutput = getScriptOutput(testCase.sampleScript)
@@ -175,7 +165,7 @@ open class BaseKspFrontendProcessorTest {
     private fun getScriptOutput(sampleScript: String): String {
         logger.debug { "Running script for '$sampleScript'" }
         val projectRoot = "../../../"
-        val mainKtsLib = "${projectRoot}frontend/ksp/processor/lib/kotlin-main-kts-1.7.20.jar"
+        val mainKtsLib = "${projectRoot}frontend/ksp/testing/lib/kotlin-main-kts-1.9.0.jar"
 //        val runtimeClassFiles = "${projectRoot}runtime/build/libs/runtime-1.0-SNAPSHOT.jar"
 //        val annotationClassFiles = "${projectRoot}annotation/build/libs/annotation-1.0-SNAPSHOT.jar"
         val runtimeClassFiles = "${projectRoot}runtime/build/classes/kotlin/main"

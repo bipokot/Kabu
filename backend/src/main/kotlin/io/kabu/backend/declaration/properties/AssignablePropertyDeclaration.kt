@@ -28,6 +28,6 @@ class AssignablePropertyDeclaration(
     }
 
     override fun toString(): String {
-        return "AssignableProperty(name=$name, parameters=$funDeclarationProviders)"
+        return "AssignableProperty(name=$name, providers=$funDeclarationProviders)"
     }
 }

@@ -31,7 +31,7 @@ class FunctionDeclaration(
 
         return generateFunSpec(
             name = functionName,
-            parameters = funDeclarationProviders.rightNamedProviders,
+            providers = funDeclarationProviders.rightNamedProviders,
             receiverType = funDeclarationProviders.left.type,
             returnType = returnTypeNode.typeName,
             isInfix = operator is InfixFunction,
@@ -60,6 +60,6 @@ class FunctionDeclaration(
     }
 
     override fun toString(): String {
-        return "Function(name=$functionName, parameters=$funDeclarationProviders, returns=$returnTypeNode)"
+        return "Function(name=$functionName, providers=$funDeclarationProviders, returns=$returnTypeNode)"
     }
 }

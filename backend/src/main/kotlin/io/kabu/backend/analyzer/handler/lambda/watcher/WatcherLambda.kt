@@ -9,13 +9,9 @@ import io.kabu.backend.util.Constants
 
 class WatcherLambda(val watcherContextTypeNode: WatcherContextTypeNode) {
 
-    val captureTypes = mutableListOf<CaptureType>()
-
     val captureTypeGroups: MutableMap<CaptureTypeGroup, MutableList<CaptureType>> = mutableMapOf()
 
     fun register(captureType: CaptureType) {
-        captureTypes += captureType
-
         val group = findGroupForCaptureType(captureType)
         captureTypeGroups[group]!! += captureType
     }
@@ -40,6 +36,8 @@ class WatcherLambda(val watcherContextTypeNode: WatcherContextTypeNode) {
     private fun areCompatible(captureType: CaptureType, group: CaptureTypeGroup): Boolean {
         val captureTypes = captureType.funDeclarationProviders.providersList.map { it.type }
         val groupTypes = group.funDeclarationProviders.providersList.map { it.type }
+
+        //todo exact types match (ignoring type parameters)!
         return captureTypes.size == groupTypes.size &&
             captureTypes.zip(groupTypes).all { it.first == it.second } &&
             captureType.operator.overriding?.function == group.operator.overriding?.function
@@ -49,7 +47,7 @@ class WatcherLambda(val watcherContextTypeNode: WatcherContextTypeNode) {
 class CaptureTypeGroup(
     val operator: Operator,
     val funDeclarationProviders: FunDeclarationProviders,
-    val returnTypeNode: TypeNode,
+    val returnTypeNode: TypeNode, //todo revise?
 //    // in case of operator==Assign, tells us about actual accessor expression: (Access|Index)
     val assignableSuffixExpression: KotlinExpression?,
 //    val rawProviders: RawProviders? = null

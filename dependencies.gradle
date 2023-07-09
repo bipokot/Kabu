@@ -1,4 +1,4 @@
-def kctVersion = "1.4.9"
+def kctVersion = "1.5.0"
 
 ext.deps = [
         "kotlin"      : [
@@ -23,7 +23,7 @@ ext.deps = [
         ],
         "ksp"         : "com.google.devtools.ksp:symbol-processing-api:$kspVersion",
         "antlrRuntime": "org.antlr:antlr4-runtime:4.11.1", // https://mvnrepository.com/artifact/org.antlr/antlr4-runtime
-        "kotlinPoet"  : "com.squareup:kotlinpoet:1.5.0",
+        "kotlinPoet"  : "com.squareup:kotlinpoet:1.6.0",
         "jackson"     : "com.fasterxml.jackson.module:jackson-module-kotlin:2.11.0",
         "textTree"    : "org.barfuin.texttree:text-tree:2.1.2",
 ]

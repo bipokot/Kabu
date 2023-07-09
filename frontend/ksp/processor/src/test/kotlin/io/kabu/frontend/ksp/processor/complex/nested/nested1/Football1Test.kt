@@ -62,6 +62,8 @@ class Football1Test : BaseKspFrontendProcessorTest() {
                 !26 - "Spanish La Liga"
             }
             print(team)            
-        """) - Termination("FootballTeam(name=Barcelona, players=[Player(name=Leo Messi, number=10), Player(name=Gerard Pique, number=2)], trophies=[Trophy(name=UEFA League Champions, times=5), Trophy(name=Spanish La Liga, times=26)])")
+        """) - Termination("FootballTeam(name=Barcelona, players=[Player(name=Leo Messi, number=10), " +
+                "Player(name=Gerard Pique, number=2)], trophies=[Trophy(name=UEFA League Champions, times=5), " +
+                "Trophy(name=Spanish La Liga, times=26)])")
     )
 }

@@ -27,8 +27,8 @@ class ContextConstructorMethod(
 
     override val returnedType = declaringType
 
-    override fun getInvocationCode(parameters: List<Provider>, providerContainer: ProviderContainer): String {
-        val invocationArgumentsString = parameters.joinToString(", ") {
+    override fun getInvocationCode(providers: List<Provider>, providerContainer: ProviderContainer): String {
+        val invocationArgumentsString = providers.joinToString(", ") {
             providerContainer.getChildRetrievalWay(selfName = null, it, providerContainer)!!.codeBlock.toString()
         }
         return "${declaringType}($invocationArgumentsString)"

@@ -4,6 +4,10 @@ import com.squareup.kotlinpoet.UNIT
 import io.kabu.backend.analyzer.Analyzer
 import io.kabu.backend.analyzer.AnalyzerImpl
 import io.kabu.backend.diagnostic.diagnosticError
+import io.kabu.backend.node.factory.node.RegularFunctionNode
+import io.kabu.backend.node.factory.node.TerminalFunctionNode
+import io.kabu.backend.node.factory.node.WrapperPropertyNode
+import io.kabu.backend.node.factory.node.util.RegularFunctionNodeKind
 import io.kabu.backend.parser.Access
 import io.kabu.backend.parser.Assign
 import io.kabu.backend.parser.BinaryExpression
@@ -26,7 +30,7 @@ class OperatorHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
 
     fun handle(expression: OperatorExpression): Provider {
         if (expression.operator is Assign) {
-            // delegating creation of parameter for this expression to left parameter (to create setter/set functions)
+            // delegating creation of provider for this expression to left parameter (to create setter/set functions)
             return providerOf(expression.children[0])
         }
 
@@ -115,8 +119,13 @@ class OperatorHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
         val funDeclarationProviders = FunDeclarationProvidersFactory
             .from(rawProviders, expression.operator.invertedArgumentOrdering)
 
-        nodeFactory.createTerminalFunctionNode(funDeclarationProviders, expression.operator, analyzer, namespaceNode)
-            .also { registerNode(it) }
+        val terminalFunction = TerminalFunctionNode(
+            funDeclarationProviders = funDeclarationProviders,
+            namespaceNode = namespaceNode,
+            operator = expression.operator,
+            analyzer = analyzer,
+        )
+        registerNode(terminalFunction)
 
         return EmptyProvider()
     }
@@ -127,8 +136,11 @@ class OperatorHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
     ): BaseProvider {
         val assigningParameter = providerOf((expression.parent as BinaryExpression).children[1])
 
-        // combining parameters for "set" operator
-        val rawProvidersOfAssign = RawProviders(rawProviders.providersList + assigningParameter, operatorInfoParameter = null)
+        // combining providers for "set" operator
+        val rawProvidersOfAssign = RawProviders(
+            rawProviders.providersList + assigningParameter,
+            operatorInfoParameter = null
+        )
         val assignOperator = (expression.parent as BinaryExpression).operator as Assign
 
         val funDeclarationProviders = FunDeclarationProvidersFactory.from(
@@ -136,11 +148,11 @@ class OperatorHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
             assignOperator.invertedArgumentOrdering
         )
 
-        val functionNode = nodeFactory.createTerminalFunctionNode(
+        val functionNode = TerminalFunctionNode(
             funDeclarationProviders = funDeclarationProviders,
+            namespaceNode = namespaceNode,
             operator = assignOperator,
             analyzer = analyzer,
-            namespaceNode = namespaceNode,
         )
         registerNode(functionNode)
 
@@ -172,8 +184,13 @@ class OperatorHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
         val fieldTypes = evaluatedParameters.map { it.typeNode }
         val holderTypeNode = createAndRegisterHolderType(fieldTypes)
 
-        val functionNode = nodeFactory
-            .createFunctionNode(funDeclarationProviders, expression.operator, holderTypeNode, namespaceNode)
+        val functionNode = RegularFunctionNode(
+            funDeclarationProviders = funDeclarationProviders,
+            operator = expression.operator,
+            typeNode = holderTypeNode,
+            namespaceNode = namespaceNode,
+            kind = RegularFunctionNodeKind.Default,
+        )
         registerNode(functionNode)
 
         return HolderProvider(holderTypeNode, evaluatedParameters, analyzer)
@@ -193,9 +210,9 @@ class OperatorHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
         val fieldTypes = evaluatedParameters.map { it.typeNode }
         val holderTypeNode = createAndRegisterHolderType(fieldTypes)
 
-        val propertyNode = nodeFactory.createWrapperPropertyNode(
+        val propertyNode = WrapperPropertyNode(
             name = propertyName,
-            typeNode = holderTypeNode,
+            returnTypeNode = holderTypeNode,
             namespaceNode = namespaceNode,
             funDeclarationProviders = funDeclarationProviders,
         )
@@ -210,7 +227,7 @@ class OperatorHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
     ): BaseProvider {
         val assigningParameter = providerOf((expression.parent as BinaryExpression).children[1])
 
-        // combining parameters for "set" operator
+        // combining providers for "set" operator
         val rawProvidersOfAssign = RawProviders(rawProviders.providersList + assigningParameter, operatorInfoParameter = null)
         val assignOperator = (expression.parent as BinaryExpression).operator as Assign
 

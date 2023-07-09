@@ -50,7 +50,8 @@ class Football2Test : BaseKspFrontendProcessorTest() {
                 player % "Mark Andre Ter Stegen" / 1
             }
             print(team)           
-        """) - Termination("FootballTeam(name=Barcelona, players=[Player(name=Leo Messi, number=10), Player(name=Mark Andre Ter Stegen, number=1)])"),
+        """) - Termination("FootballTeam(name=Barcelona, players=[Player(name=Leo Messi, number=10), " +
+                "Player(name=Mark Andre Ter Stegen, number=1)])"),
         sample("""
             val team = football team "Barca" {
                 player % "Xavi" / 6 

@@ -1,6 +1,6 @@
 package io.kabu.backend.declaration
 
 
-abstract class Declaration
+open class Declaration
 
 

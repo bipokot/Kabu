@@ -31,7 +31,7 @@ class SimpleContextTest : BaseKspFrontendProcessorTest() {
     )
 
     @Test
-    fun `123 % { "a" * 2 }`() = compileAndCheckAndRun(
+    fun `simple extension`() = compileAndCheckAndRun(
         """
             @Pattern("i % @Extend(context = ctx(), parameter = context) {}")
             fun foo(i: Int, context: Context) {

@@ -5,7 +5,11 @@ import io.kabu.backend.analyzer.AnalyzerImpl
 import io.kabu.backend.analyzer.handler.Handler
 import io.kabu.backend.node.DerivativeTypeNode
 import io.kabu.backend.node.FunctionNode
+import io.kabu.backend.node.TypeNode
+import io.kabu.backend.node.WatcherContextTypeNode
+import io.kabu.backend.node.factory.node.AssignablePropertyNode
 import io.kabu.backend.node.factory.node.DispatcherCallsCounterPropertyNode
+import io.kabu.backend.node.factory.node.RegularFunctionNode
 import io.kabu.backend.node.factory.node.util.RegularFunctionNodeKind
 import io.kabu.backend.parser.Access
 import io.kabu.backend.parser.Assign
@@ -33,15 +37,20 @@ class WatcherLambdaHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
             handleCaptureTypeGroup(group.key, group.value)
         }
 
-        // creating parameter of watcher lambda
         val returningProviderTypeNode = returningProvider.typeNode
         val watcherContextTypeNode = watcherLambda.watcherContextTypeNode
-        val typeNode = DerivativeTypeNode(namespaceNode, mutableListOf(returningProviderTypeNode, watcherContextTypeNode)) {
-            LambdaTypeName.get(returnType = returningProviderTypeNode.typeName, receiver = watcherContextTypeNode.className)
+        val typeNode = DerivativeTypeNode(
+            namespaceNode = namespaceNode,
+            generatorDependencies = mutableListOf(returningProviderTypeNode, watcherContextTypeNode)
+        ) { deps ->
+            LambdaTypeName.get(
+                returnType = (deps[0] as TypeNode).typeName,
+                receiver = (deps[1] as WatcherContextTypeNode).className,
+            )
         }
         registerNode(typeNode)
 
-        return if (watcherLambda.captureTypes.isEmpty()) {
+        return if (watcherLambda.captureTypeGroups.isEmpty()) {
             ScopingLambdaProvider(
                 typeNode = typeNode,
                 returningProvider = returningProvider,
@@ -94,8 +103,13 @@ class WatcherLambdaHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
             val operator = captureType.operator
             val typeNode = captureType.returnTypeNode
 
-            val functionNode = nodeFactory
-                .createFunctionNode(funDeclarationProviders, operator, typeNode, namespaceNode)
+            val functionNode = RegularFunctionNode(
+                funDeclarationProviders = funDeclarationProviders,
+                operator = operator,
+                typeNode = typeNode,
+                namespaceNode = namespaceNode,
+                kind = RegularFunctionNodeKind.Default,
+            )
             registerNode(functionNode)
         } else {
             val groupBaseName = group.getBaseNameForDeclarations()
@@ -112,7 +126,7 @@ class WatcherLambdaHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
 
                 val helperFunctionName = groupBaseName + "_helperFunction$index"
 
-                val functionNode = nodeFactory.createFunctionNode(
+                val functionNode = RegularFunctionNode(
                     funDeclarationProviders = funDeclarationProviders,
                     operator = operator,
                     typeNode = typeNode,
@@ -130,9 +144,13 @@ class WatcherLambdaHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
             val typeNode = group.returnTypeNode
 
             val kind = RegularFunctionNodeKind.DispatcherFunction(counterNode, helperFunctionsNodes)
-
-            val functionNode = nodeFactory
-                .createFunctionNode(funDeclarationProviders, operator, typeNode, namespaceNode, kind)
+            val functionNode = RegularFunctionNode(
+                funDeclarationProviders = funDeclarationProviders,
+                namespaceNode = namespaceNode,
+                typeNode = typeNode,
+                operator = operator,
+                kind = kind
+            )
             registerNode(functionNode)
         }
     }
@@ -152,11 +170,11 @@ class WatcherLambdaHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
             forSetter = true
         )
 
-        val propertyNode = nodeFactory.createAssignablePropertyNode(
+        val propertyNode = AssignablePropertyNode(
             name = name,
-            typeNode = rawProviders.right.single().typeNode,
+            returnTypeNode = rawProviders.right.single().typeNode,
             namespaceNode = namespaceNode,
-            funDeclarationProviders = funDeclarationProviders
+            funDeclarationProviders = funDeclarationProviders,
         )
         registerNode(propertyNode)
     }

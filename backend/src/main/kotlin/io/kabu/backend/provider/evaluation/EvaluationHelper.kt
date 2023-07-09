@@ -3,15 +3,9 @@ package io.kabu.backend.provider.evaluation
 import io.kabu.backend.provider.group.FunDeclarationProviders
 import io.kabu.backend.provider.group.NamedProvider
 import io.kabu.backend.provider.provider.Provider
-import io.kabu.backend.util.ifTake
 
-/** Evaluated parameters inside operator function body */
 object EvaluationHelper {
 
-    /**
-     * Returns evaluated parameters and statements in their conventional ordering,
-     * independent of operator's argument ordering
-     */
     fun doEvaluation(
         funDeclarationProviders: FunDeclarationProviders,
         codeBlockContext: FunctionBlockContext,
@@ -19,11 +13,14 @@ object EvaluationHelper {
         val evaluationOrderedList = funDeclarationProviders.providersList.reversed()
         val invertedOrdering = funDeclarationProviders.invertedOrdering
 
-        // determining list of evaluated parameters and their evaluation statements
+        renameThisProvider(codeBlockContext)
+
+        // determining list of evaluated providers and their evaluation statements
         val evaluatedParametersWithStatements = evaluationOrderedList.mapNotNull {
-            convertToEvaluatedParameter(codeBlockContext, it)
+            getReplacementProviderInfo(codeBlockContext, it)
         }
 
+        // separating evaluation code from resulting order of providers
         val namedProviders = mutableListOf<NamedProvider>()
         val statementsLists = mutableListOf<List<String>>()
         evaluatedParametersWithStatements.forEach { providerInfo ->
@@ -31,58 +28,61 @@ object EvaluationHelper {
             statementsLists += listOfNotNull(providerInfo.statements)
         }
 
+        // adding statements of evaluation
         statementsLists.forEach {
             codeBlockContext.addStatements(it)
         }
 
+        // obtaining "conventional ordering" from "evaluation ordering"
         if (!invertedOrdering) namedProviders.reverse()
 
+        // making all existing providers obsolete
         evaluationOrderedList.forEach {
             codeBlockContext.unregisterActualProvider(it)
         }
 
+        // adding current actual providers
         namedProviders.forEach { namedProvider ->
             codeBlockContext.registerActualProvider(
-                parameter = namedProvider.provider,
+                provider = namedProvider.provider,
                 name = namedProvider.name,
                 statements = emptyList(), // statements have already been added
             )
         }
     }
 
-    private fun convertToEvaluatedParameter(
+    private fun renameThisProvider(codeBlockContext: FunctionBlockContext) {
+        codeBlockContext.actualProviders.getOrNull(THIS)?.let { thisProvider ->
+            val newName = codeBlockContext.nextVarName()
+            codeBlockContext.registerLocalVar(newName)
+            codeBlockContext.addStatements(listOf("val $newName = $THIS"))
+            codeBlockContext.actualProviders[thisProvider] = newName
+        }
+    }
+
+    private fun getReplacementProviderInfo(
         functionBlockContext: FunctionBlockContext,
         provider: Provider,
     ): ProviderInfo? {
         var evaluationStatements: String? = null
         var providerName = functionBlockContext.getCodeForActualProvider(provider)
+        var replacementProvider = provider
 
-        val renamingStatement = ifTake(providerName == THIS) {
-            providerName = functionBlockContext.nextVarName()
-            "val $providerName = $THIS"
+        val replacementWay = provider.getReplacementWay(context = functionBlockContext, providerName)
+        if (replacementWay != null) {
+            val replacement = replacementWay.provider
+            if (replacement.isUsefulTransitively()) {
+                providerName = functionBlockContext.getUnoccupiedLocalVarName(replacement.generateName())
+                    .also { functionBlockContext.registerLocalVar(it) }
+                evaluationStatements = "val $providerName = ${replacementWay.code}"
+                replacementProvider = replacement
+            }
         }
 
-        val evaluationWay = provider.getEvaluationWay(context = functionBlockContext, providerName)
-        val code = evaluationWay.code
-        val evaluatedProvider: Provider? = if (code is EvaluationCode.Code) {
-            val newProvider = evaluationWay.provider
-            if (newProvider.isUsefulTransitively()) {
-                providerName = getNameForEvaluatedProvider(providerName)
-                val renamingStatementString = if (renamingStatement != null) "$renamingStatement; " else ""
-                evaluationStatements = "${renamingStatementString}val $providerName = ${code.code}"
-
-                newProvider
-            } else null
-        } else {
-            if (renamingStatement != null) evaluationStatements = renamingStatement
-            provider.takeIf { it.isUsefulTransitively() }
-        }
-
-        return evaluatedProvider
-            ?.let { ProviderInfo(evaluatedProvider, providerName, evaluationStatements) }
+        return replacementProvider
+            .takeIf { it.isUsefulTransitively() }
+            ?.let { ProviderInfo(replacementProvider, providerName, evaluationStatements) }
     }
-
-    private fun getNameForEvaluatedProvider(name: String): String = name + "Evaluated"
 
     private data class ProviderInfo(
         val provider: Provider,

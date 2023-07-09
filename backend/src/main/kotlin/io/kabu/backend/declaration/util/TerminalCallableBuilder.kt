@@ -20,7 +20,7 @@ import io.kabu.backend.util.poet.asCodeBlock
 class TerminalCallableBuilder {
 
     fun createTerminationStatements(
-        analyzer: io.kabu.backend.analyzer.Analyzer,
+        analyzer: Analyzer,
         functionBlockContext: FunctionBlockContext,
         requiredReturnStatement: String?,
     ): CodeBlock {
@@ -29,16 +29,16 @@ class TerminalCallableBuilder {
         val providers: List<Provider> =
             gatherRequiredProviders(analyzer, functionBlockContext.actualProvidersProvider)
 
-        AccessingCodeReducer().reduceAccessingCodeNew(functionBlockContext)
+        AccessingCodeReducer().reduceAccessingCode(functionBlockContext)
 
         return generateCode(analyzer, providers, requiredReturnStatement, functionBlockContext)
     }
 
     private fun gatherRequiredProviders(
-        analyzer: io.kabu.backend.analyzer.Analyzer,
+        analyzer: Analyzer,
         providerContainer: ProviderContainer,
     ): List<Provider> {
-        analyzer as io.kabu.backend.analyzer.AnalyzerImpl
+        analyzer as AnalyzerImpl
         val parametersRegistry = analyzer.parametersRegistry
         if (parametersRegistry.receiverCatchIsNecessary) couldNotRetrieveReceiverValueError(analyzer.method)
 
@@ -62,7 +62,7 @@ class TerminalCallableBuilder {
     }
 
     private fun generateCode(
-        analyzer: io.kabu.backend.analyzer.Analyzer,
+        analyzer: Analyzer,
         providers: List<Provider>,
         requiredReturnStatement: String?,
         functionBlockContext: FunctionBlockContext,
@@ -71,7 +71,7 @@ class TerminalCallableBuilder {
         val codes = providers.map {
             val retrievalWay = evaluatedProvidersProvider
                 .getChildRetrievalWay(selfName = null, it, evaluatedProvidersProvider)!!
-            retrievalWay.codeBlock.toString()
+            retrievalWay.codeBlock.toString() //todo ignoring reentrant!!!
         }
 
         val contextPropertyName = analyzer.contextPropertyName

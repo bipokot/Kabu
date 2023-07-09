@@ -10,6 +10,7 @@ import io.kabu.backend.provider.provider.Provider
  * Parameters for signature of an operator function.
  * Appear in the list in an order corresponding to function signature
  * First provider in the list represents receiver of property/function.
+ * TODO be able to compose fun/prop signature with provided FunDeclarationProviders and fun/property name?
  */
 class FunDeclarationProviders(
     val providers: OrderedNamedProviders,

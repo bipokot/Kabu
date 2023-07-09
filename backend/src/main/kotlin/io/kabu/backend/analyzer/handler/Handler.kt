@@ -13,6 +13,9 @@ import io.kabu.backend.diagnostic.builder.watcherLambdaMissingError
 import io.kabu.backend.node.FixedTypeNode
 import io.kabu.backend.node.HolderTypeNode
 import io.kabu.backend.node.TypeNode
+import io.kabu.backend.node.factory.node.HolderTypeNodeImpl
+import io.kabu.backend.node.factory.node.TerminalAssignablePropertyNode
+import io.kabu.backend.node.factory.node.TerminalReadOnlyPropertyNode
 import io.kabu.backend.parser.Assign
 import io.kabu.backend.parser.BinaryExpression
 import io.kabu.backend.parser.Comparison
@@ -65,10 +68,13 @@ open class Handler(
             .from(rawProviders, operator.invertedArgumentOrdering)
 
         val functionBlockContext = FunctionBlockContext(funDeclarationProviders)
+        //todo not adding operator info provider here!
         var evaluatedParameters = functionBlockContext.doEvaluation()
 
+        // adding operator info provider
         val operatorInfoType = rawProviders.operatorInfoParameter?.type
             ?: run {
+                //todo requiring operator info temporarily
                 when(operator) {
                     is Comparison -> RankingComparisonInfo::class.asClassName()
                     is InclusionCheck -> InclusionInfo::class.asClassName()
@@ -76,6 +82,7 @@ open class Handler(
                 }
             }
         if (operatorInfoType != null) {
+            // adding operator info provider between providers of binary (for now) operation
             val operatorInfoProvider =
                 OperatorInfoProvider(operatorInfoType.toFixedTypeNode(), "operatorInfo") //todo constant name
             evaluatedParameters = evaluatedParameters.toMutableList()
@@ -94,9 +101,11 @@ open class Handler(
             evaluatedParameters.add(positionOfOperatorInfoProvider, operatorInfoProvider)
         }
 
+        // registering holder type
         val fieldTypes = evaluatedParameters.map { it.typeNode }
         val holderTypeNode = createAndRegisterHolderType(fieldTypes)
 
+        // registering capture type for operation
         val returningTypeNode = expressionReturnedTypeOf(operator.expressionType)!!.toFixedTypeNode()
         val translationReturnedTypeNode =
             (if (operator is Assign) UNIT else operator.overriding!!.mustReturn.asFixedTypeName()).toFixedTypeNode()
@@ -110,6 +119,7 @@ open class Handler(
         val watcherLambda = analyzer.currentWatcherLambda ?: watcherLambdaMissingError(operator)
         watcherLambda.register(captureType)
 
+        // creating watched provider of appropriate type
         val watchedProvider = when(operator) {
             is Comparison -> ComparisonProvider(holderTypeNode, evaluatedParameters, analyzer)
             is InclusionCheck -> InclusionProvider(holderTypeNode, evaluatedParameters, analyzer)
@@ -142,11 +152,11 @@ open class Handler(
 
         val funDeclarationProviders = FunDeclarationProvidersFactory.from(rawProviders, invertedOrdering = false)
 
-        val propertyNode = nodeFactory.createTerminalReadOnlyPropertyNode(
+        val propertyNode = TerminalReadOnlyPropertyNode(
             name = name,
-            funDeclarationProviders = funDeclarationProviders,
             typeNode = propertyType,
             namespaceNode = namespaceNode,
+            funDeclarationProviders = funDeclarationProviders,
             analyzer = analyzer,
         )
         registerNode(propertyNode)
@@ -169,11 +179,11 @@ open class Handler(
         val funDeclarationProviders =
             FunDeclarationProvidersFactory.from(rawProvidersOfAssign, invertedOrdering = false, forSetter = true)
 
-        val propertyNode = nodeFactory.createTerminalAssignablePropertyNode(
+        val propertyNode = TerminalAssignablePropertyNode(
             name = propertyName,
             typeNode = propertyTypeNode,
-            funDeclarationProviders = funDeclarationProviders,
             namespaceNode = namespaceNode,
+            funDeclarationProviders = funDeclarationProviders,
             analyzer = analyzer
         )
         registerNode(propertyNode)
@@ -182,7 +192,7 @@ open class Handler(
     }
 
     protected fun createAndRegisterHolderType(fieldTypes: List<TypeNode>): HolderTypeNode {
-        val typeNode = nodeFactory.createHolderTypeNode(
+        val typeNode = HolderTypeNodeImpl(
             name = namespaceNode.typeNameGenerator.generateNextTypeName(),
             fieldTypes = fieldTypes,
             namespaceNode = namespaceNode,

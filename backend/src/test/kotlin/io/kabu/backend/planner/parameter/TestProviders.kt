@@ -3,9 +3,8 @@ package io.kabu.backend.planner.parameter
 import com.squareup.kotlinpoet.CodeBlock
 import io.kabu.backend.diagnostic.Origin
 import io.kabu.backend.node.TypeNode
-import io.kabu.backend.provider.evaluation.EvaluationRequirement
 import io.kabu.backend.provider.evaluation.FunctionBlockContext
-import io.kabu.backend.provider.evaluation.ProviderWithEvaluationCode
+import io.kabu.backend.provider.evaluation.ReplacementProviderWithCode
 import io.kabu.backend.provider.evaluation.RetrievalWay
 import io.kabu.backend.provider.provider.Provider
 import io.kabu.backend.provider.provider.ProviderContainer
@@ -18,30 +17,22 @@ interface TestProvider : Provider {
     override val isUseful: Boolean
         get() = false
 
+    @Suppress("UNUSED_PARAMETER")
     override var typeNode: TypeNode
         get() = TODO("Not yet implemented")
         set(value) {}
 
-    override fun getEvaluationWay(context: FunctionBlockContext, forName: String): ProviderWithEvaluationCode {
+    override fun getReplacementWay(context: FunctionBlockContext, forName: String): ReplacementProviderWithCode? {
         TODO()
     }
 
-    override fun getEvaluationRequirement(): EvaluationRequirement {
-        return EvaluationRequirement.NONE
-    }
-
-    override fun provideCodeForConstructionFromAux(
-        auxName: String,
-        watcherContextName: String,
-    ): ProviderWithEvaluationCode? {
-        TODO()
-    }
+    override fun isReplacementRequired() = false
 }
 
 
 class TestHolderProvider(val name: String, val children: List<Provider>): TestProvider {
 
-    override fun getProviderName() = name
+    override fun generateName() = name
 
     override val childrenProviders: List<Provider>
         get() = children
@@ -61,7 +52,7 @@ class TestHolderProvider(val name: String, val children: List<Provider>): TestPr
 
 class TestLambdaProvider(val name: String, val returns: Provider): TestProvider {
 
-    override fun getProviderName() = name
+    override fun generateName() = name
 
     override val childrenProviders: List<Provider>
         get() = listOf(returns)
@@ -80,7 +71,7 @@ class TestLambdaProvider(val name: String, val returns: Provider): TestProvider 
 
 class TestEmptyProvider(val name: String): TestProvider {
 
-    override fun getProviderName() = name
+    override fun generateName() = name
 
     override val childrenProviders: List<Provider>
         get() = emptyList()
@@ -100,7 +91,7 @@ class TestArgumentProvider(val originalName: String): TestProvider {
 
     override val isUseful: Boolean = true
 
-    override fun getProviderName() = originalName
+    override fun generateName() = originalName
 
     override val childrenProviders: List<Provider>
         get() = emptyList()

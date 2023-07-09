@@ -18,7 +18,7 @@ import io.kabu.backend.node.Node
 import io.kabu.backend.node.Nodes
 import io.kabu.backend.node.ObjectTypeNode
 import io.kabu.backend.node.PackageNode
-import io.kabu.backend.node.factory.NodeFactory
+import io.kabu.backend.node.factory.node.AccessorObjectTypeNode
 import io.kabu.backend.node.namespace.NamespaceNode
 import io.kabu.backend.parser.IdentifierLeaf
 import io.kabu.backend.parser.KotlinExpression
@@ -52,8 +52,6 @@ class AnalyzerImpl(
     override fun <T: Node> registerNode(node: T): T =
         node.also { nodes.add(it) }
 
-    override val nodeFactory = NodeFactory()
-
     override val expression = try {
         val patternOrigin = Origin(excerpt = method.pattern, parent = method.origin)
         PatternParser(PatternString(method.pattern, patternOrigin)).parse().getOrThrow()
@@ -79,7 +77,7 @@ class AnalyzerImpl(
 
     private var nextExpectedParameterIndex: Int = 0
 
-    override val postponeLambdaExecution: Boolean = false
+    override val postponeLambdaExecution: Boolean = true
 
     init {
         ExpressionValidator().validateExpression(expression)
@@ -110,7 +108,7 @@ class AnalyzerImpl(
 
         val accessorName = AccessorObjectNameGenerator.generateName()
 
-        return nodeFactory.createAccessorObjectTypeNode(accessorName, targetPackageNode)
+        return AccessorObjectTypeNode(accessorName, targetPackageNode)
     }
 
     fun <R> withWatcherLambda(watcherLambda: WatcherLambda, block: () -> R): R {
@@ -134,15 +132,16 @@ class AnalyzerImpl(
         val left: List<Provider> = expressions.take(1)
             .map { providerOf(it) }
 
-        // must be in between left and right parameters obtaining
-        val operatorInfoParameter = method.parameters.getOrNull(nextExpectedParameterIndex)
+        // must be in between left and right providers obtaining
+        //todo check: creating different objects for same method parameter
+        val operatorInfoProvider = method.parameters.getOrNull(nextExpectedParameterIndex)
             ?.takeIf { it.type.isOperatorInfoType }
             ?.let { BaseProvider(it.type.toFixedTypeNode(), it.origin) }
 
         val right: List<Provider> = expressions.drop(1)
             .map { providerOf(it) }
 
-        return RawProviders(left + right, operatorInfoParameter)
+        return RawProviders(left + right, operatorInfoProvider)
     }
 
     internal fun checkStrictMethodParametersOrdering(expressionName: String, typeName: TypeName?) {

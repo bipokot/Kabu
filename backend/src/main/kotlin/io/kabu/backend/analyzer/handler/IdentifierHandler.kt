@@ -4,6 +4,8 @@ import com.squareup.kotlinpoet.ANY
 import io.kabu.backend.analyzer.AnalyzerImpl
 import io.kabu.backend.diagnostic.diagnosticError
 import io.kabu.backend.node.FixedTypeNode
+import io.kabu.backend.node.factory.node.PlaceholderPropertyNode
+import io.kabu.backend.node.factory.node.WrapperPropertyNode
 import io.kabu.backend.parser.BinaryExpression
 import io.kabu.backend.parser.IdentifierLeaf
 import io.kabu.backend.provider.evaluation.FunctionBlockContext
@@ -89,7 +91,7 @@ class IdentifierHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
     private fun createPlaceholderProperty(name: String): EmptyProvider {
         val typeNode = createAndRegisterHolderType(emptyList())
 
-        val propertyNode = nodeFactory.createPlaceholderPropertyNode(
+        val propertyNode = PlaceholderPropertyNode(
             name = name,
             typeNode = typeNode,
             namespaceNode = namespaceNode,
@@ -114,8 +116,7 @@ class IdentifierHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
         val fieldTypes = evaluatedParameters.map { it.typeNode }
         val holderTypeNode = createAndRegisterHolderType(fieldTypes)
 
-        val functionNode = nodeFactory
-            .createWrapperPropertyNode(name, holderTypeNode, namespaceNode, funDeclarationProviders)
+        val functionNode = WrapperPropertyNode(name, holderTypeNode, namespaceNode, funDeclarationProviders)
         registerNode(functionNode)
 
         return HolderProvider(holderTypeNode, evaluatedParameters, analyzer)

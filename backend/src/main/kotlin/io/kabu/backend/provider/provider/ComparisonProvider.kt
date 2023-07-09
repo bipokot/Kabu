@@ -5,8 +5,7 @@ import io.kabu.backend.analyzer.handler.lambda.watcher.OperatorInfoTypes.RANKING
 import io.kabu.backend.analyzer.handler.lambda.watcher.OperatorInfoTypes.STRICTNESS_COMPARISON_INFO_TYPE
 import io.kabu.backend.node.HolderTypeNode
 import io.kabu.backend.node.TypeNode
-import io.kabu.backend.provider.evaluation.EvaluationCode
-import io.kabu.backend.provider.evaluation.ProviderWithEvaluationCode
+import io.kabu.backend.provider.evaluation.ReplacementProviderWithCode
 import io.kabu.backend.provider.provider.WatcherLambdaProvider.Companion.STACK_PROPERTY_NAME
 
 
@@ -16,23 +15,11 @@ class ComparisonProvider(
     analyzer: Analyzer,
 ) : AbstractWatchedProvider(typeNode, providers, analyzer) {
 
-    override fun provideCodeForConstructionFromAux(
-        auxName: String,
-        watcherContextName: String,
-    ): ProviderWithEvaluationCode {
+    override fun provideCodeForConstructionFromAux(auxName: String): String {
         val holderClassCanonicalName = (typeNode as HolderTypeNode).className.canonicalName
 
-        //todo use FieldAccessCodeGenerator(analyzer).generateFieldAccessorCode(selfName!!, privateFieldName)
-        //todo watcherContextName is unused
-        val stack = if (watcherContextName.isNotEmpty()) {
-            // outside of context - explicit context name required
-            "$watcherContextName.$STACK_PROPERTY_NAME"
-        } else {
-            // inside of context - no explicit context name required
-            STACK_PROPERTY_NAME
-        }
-
         //todo do safeCast method to bring right exceptions to the user
+        //todo make holder creation through CodeBlock(%T, className)
 
         val code = buildString {
             append("$auxName.let{aux->")
@@ -40,7 +27,7 @@ class ComparisonProvider(
             val providerInfoProviderIndex = providers.indexOf(providerInfoProvider)
             for (i in providers.size - 1 downTo 0) {
                 if (i == providerInfoProviderIndex) continue
-                append("val v$i=$stack.pop() as ${providers[i].type};")
+                append("val v$i=$STACK_PROPERTY_NAME.pop() as ${providers[i].type};")
             }
 
             append("val v$providerInfoProviderIndex=")
@@ -62,6 +49,6 @@ class ComparisonProvider(
             append("}")
         }
 
-        return ProviderWithEvaluationCode(this, EvaluationCode.Code(code))
+        return code
     }
 }

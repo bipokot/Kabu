@@ -6,7 +6,6 @@ import io.kabu.backend.analyzer.handler.lambda.extension.ContextCreatorDefinitio
 import io.kabu.backend.diagnostic.Origin
 import io.kabu.backend.diagnostic.builder.parameterIsNotEvaluatedYetError
 import io.kabu.backend.node.TypeNode
-import io.kabu.backend.provider.evaluation.EvaluationRequirement
 import io.kabu.backend.provider.evaluation.RetrievalWay
 import io.kabu.backend.util.poet.asCodeBlock
 
@@ -26,12 +25,12 @@ class ExtensionLambdaProvider(
         providerContainer: ProviderContainer,
     ): List<Provider> {
         return requiredArguments.map { argumentName ->
-            // finding an already evaluated parameter which corresponds to particular argument name
+            // finding an already evaluated provider which corresponds to particular argument name
             val argumentProvider = providerContainer
                 .findProvider { it is ArgumentProvider && it.originalName == argumentName }
 
             if (argumentProvider == null) {
-                // parameter not found
+                // provider not found
                 val availableProviders = providerContainer
                     .findProviders { it is ArgumentProvider }
                     .filterIsInstance<ArgumentProvider>()
@@ -50,10 +49,10 @@ class ExtensionLambdaProvider(
     ): RetrievalWay? {
         if (provider !== returningProvider) return null
 
-        // finding parameters for required names
-        val creatorParameters =
+        // finding providers for required names
+        val creatorParameterProviders =
             extractProvidersForRequiredArgumentNames(contextCreatorDefinition.arguments, providerContainer!!)
-        val creatorParametersTypes = creatorParameters.map { it.type }
+        val creatorParametersTypes = creatorParameterProviders.map { it.type }
 
         // finding compatible creator method
         val creatorMethod = analyzer.methodsRegistry.findCreatorMethod(
@@ -63,13 +62,12 @@ class ExtensionLambdaProvider(
         )
 
         // constructing evaluation code
-        val contextCreatorInvocation = creatorMethod.getInvocationCode(creatorParameters, providerContainer)
+        val contextCreatorInvocation = creatorMethod.getInvocationCode(creatorParameterProviders, providerContainer)
         val contextMediatorClassName = (contextMediatorTypeNode.typeName as ClassName).canonicalName
 
         val code = "($contextCreatorInvocation).also{with($contextMediatorClassName(it)){${selfName!!}()}}"
         return RetrievalWay(code.asCodeBlock(), isReentrant = false)
     }
 
-    override fun getEvaluationRequirement(): EvaluationRequirement =
-        EvaluationRequirement.MANDATORY
+    override fun isReplacementRequired() = true
 }

@@ -22,7 +22,7 @@ open class HolderProvider(
         this@HolderProvider.providers.forEachIndexed { index, provider -> register(provider, getNameForIndex(index)) }
     }
 
-    override fun getProviderName(): String {
+    override fun generateName(): String {
         return typeNode.name.decaps()
     }
 

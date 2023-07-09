@@ -34,6 +34,6 @@ class TerminalAssignablePropertyDeclaration(
     }
 
     override fun toString(): String {
-        return "TerminalAssignableProperty(name=$name, parameters=$funDeclarationProviders)"
+        return "TerminalAssignableProperty(name=$name, providers=$funDeclarationProviders)"
     }
 }
