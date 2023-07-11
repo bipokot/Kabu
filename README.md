@@ -528,13 +528,6 @@ The information of comparison operator used can be obtained in one of two possib
 - You can check whether `<`/`<=` was used or `>`/`>=`. To do that, put the parameter of type `RankingComparisonInfo` between corresponding parameters in a function signature. It will receive the information about actually used operator.
 - You can check whether `<`/`>` was used or `<=`/`>=`. To do that, put the parameter of type `StrictnessComparisonInfo` between corresponding parameters in a function signature. It will receive the information about actually used operator.
 
-Restrictions:
-- if there is
-	- more than one comparison operations for the same types in a pattern
-	- these comparison operations are in the same *inferred lambda*
-- then
-	- you can't mix `RankingComparisonInfo` and `StrictnessComparisonInfo` parameters for these operations in order to get actual used operator info
-
 #### Inclusion check
 For example `groups { user in "admins" }` can be distinguished from `groups { user !in "admins" }` (note the negation of `in` operator).
 Put the parameter of type `InclusionInfo` between corresponding parameters in a function signature to receive the information about actually used inclusion operator (`in` or `!in`).
