@@ -237,8 +237,8 @@ operator fun String.minus(result: TestCase.ScriptResult) = TestCase(this.trimInd
             import io.kabu.annotation.Pattern 
             import io.kabu.annotation.LocalPattern 
             import io.kabu.annotation.ContextCreator
+            import io.kabu.annotation.Context
             // lines below are for future imports or other declarations to fix line numbers used in tests            
-            
             
             
             

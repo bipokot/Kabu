@@ -7,7 +7,9 @@ import com.google.devtools.ksp.processing.SymbolProcessor
 import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
 import com.google.devtools.ksp.processing.SymbolProcessorProvider
 import com.google.devtools.ksp.symbol.KSAnnotated
+import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
+import io.kabu.annotation.Context
 import io.kabu.annotation.ContextCreator
 import io.kabu.annotation.Pattern
 import io.kabu.annotation.LocalPattern
@@ -37,11 +39,14 @@ class KspFrontendProcessor(
     override fun process(resolver: Resolver): List<KSAnnotated> {
         openLogging()
         try {
+            val contextCreators = getContextCreatorMethods(resolver) +
+                    getContextCreatorMethodsFromContextClasses(resolver)
+
             val processingInput = ProcessingInput(
                 fileWriter = KspFileWriter(codeGenerator),
                 globalPatterns = getGlobalPatternMethods(resolver),
                 localPatterns = getLocalPatternMethods(resolver),
-                contextCreators = getContextCreatorMethods(resolver)
+                contextCreators = contextCreators,
             )
 
             val backendProcessor = BackendProcessor(Options.fromPartial(parseOptions(options)))
@@ -71,6 +76,19 @@ class KspFrontendProcessor(
 
         val result = functionDeclarations.map { function ->
             ContextCreatorFunctionBuilder().build(function)
+        }
+
+        return result
+    }
+
+    private fun getContextCreatorMethodsFromContextClasses(resolver: Resolver): List<ContextCreatorMethod> {
+        val typesDeclarations = resolver
+            .getSymbolsWithAnnotation(Context::class.qualifiedName!!)
+            .filterIsInstance<KSClassDeclaration>()
+            .toList()
+
+        val result = typesDeclarations.map { type ->
+            ContextCreatorFunctionBuilder().build(type)
         }
 
         return result

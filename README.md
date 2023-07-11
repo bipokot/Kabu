@@ -218,7 +218,8 @@ data class FootballTeam(
     val trophies: List<Trophy>
 )
 
-class PlayersBuilder @ContextCreator("playersBuilder") constructor() {
+@Context("playersBuilder")
+class PlayersBuilder {
     val players = mutableListOf<Player>()
 
     @LocalPattern("name - number")
@@ -227,7 +228,8 @@ class PlayersBuilder @ContextCreator("playersBuilder") constructor() {
     }
 }
 
-class FootballTeamBuilder @ContextCreator("footballTeamBuilder") constructor() {
+@Context("footballTeamBuilder")
+class FootballTeamBuilder {
 
     val trophies = mutableListOf<Trophy>()
     var isChampion = false
@@ -282,7 +284,8 @@ fun main() {
 ```kotlin
 // Example-009
 
-class Actions @ContextCreator("actions") constructor() {
+@Context("actions")
+class Actions {
     val trueActions = mutableListOf<() -> Unit>()
     val falseActions = mutableListOf<() -> Unit>()
 
@@ -474,7 +477,8 @@ An *extension point* defines a lambda based scope in which multiple operations f
 // Example-009
 
 // context class
-class Actions @ContextCreator("actions") constructor() {
+@Context("actions")
+class Actions {
     val trueActions = mutableListOf<() -> Unit>()
     val falseActions = mutableListOf<() -> Unit>()
 

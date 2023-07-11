@@ -11,7 +11,7 @@ class IfElseTest : BaseKspFrontendProcessorTest() {
     @Test
     fun test() = compileAndCheckAndRun(
         """
-        class Context @ContextCreator("context") constructor() {
+        class Ctx @ContextCreator("context") constructor() {
             val trueActions = mutableListOf<() -> Unit>()
             val falseActions = mutableListOf<() -> Unit>()
         
@@ -36,12 +36,12 @@ class IfElseTest : BaseKspFrontendProcessorTest() {
         }
         
         @Pattern("condition @Extend(context = context(), parameter = context) {}")
-        fun ifElse(condition: Boolean, context: Context) {
+        fun ifElse(condition: Boolean, context: Ctx) {
             (if (condition) context.trueActions else context.falseActions).forEach { it() }
         }
         
         @Pattern("condition Yoda said @Extend(context = context(), parameter = context) {}")
-        fun yodaIfElse(condition: Boolean, context: Context) = ifElse(condition, context)
+        fun yodaIfElse(condition: Boolean, context: Ctx) = ifElse(condition, context)
 
         """,
         sample("""

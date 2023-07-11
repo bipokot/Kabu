@@ -57,6 +57,9 @@ Context creator:
 - must be annotated with `@ContextCreator` annotation
 - may have parameters
 
+### `@Context` annotation
+`@Context` annotation placed on a class means that primary constructor of this class acts as *context creator*. This is a shortcut to marking primary constructor with `@ContextCreator` annotation.
+
 ## Unbounded and recursive extensions nesting
 Local patterns can have their own extension points, so building complex DSLs with arbitrary depth of extensions nesting is possible.
 Recursive (and transitively recursive) extensions nesting is possible too because local pattens can have extension points bound to the same context class.
@@ -85,7 +88,7 @@ jsonObject {
 ## Steps to define an extension point
 1. Choose a *context name* (following the rules for identifier name). It may relate to a context class name.
 2. Create a *context class* containing functions marked with `@LocalPattern`, which constitute a set of allowed operations inside a lambda.
-3. Define at least one way to create the *context class*. Mark it with a `@ContextCreator` annotation and specify chosen *context name*.
+3. Define at least one way to create the *context class*. Mark it with a `@ContextCreator` annotation and specify chosen *context name*. Or mark the context class with `@Context` annotation if primary constructor will act as context creator.
 4. Mark an empty lambda with `@Extend` annotation inside a pattern. Specify required parameters of the annotation.
 
 ### Example
@@ -147,7 +150,8 @@ data class FootballTeam(
     val trophies: List<Trophy>
 )
 
-class PlayersBuilder @ContextCreator("playersBuilder") constructor() {
+@Context("playersBuilder")
+class PlayersBuilder {
     val players = mutableListOf<Player>()
 
     @LocalPattern("name - number")
@@ -156,7 +160,8 @@ class PlayersBuilder @ContextCreator("playersBuilder") constructor() {
     }
 }
 
-class FootballTeamBuilder @ContextCreator("footballTeamBuilder") constructor() {
+@Context("footballTeamBuilder")
+class FootballTeamBuilder {
 
     val trophies = mutableListOf<Trophy>()
     var isChampion = false
