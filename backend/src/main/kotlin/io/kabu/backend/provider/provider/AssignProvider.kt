@@ -1,17 +1,14 @@
 package io.kabu.backend.provider.provider
 
-import io.kabu.backend.analyzer.Analyzer
 import io.kabu.backend.node.HolderTypeNode
 import io.kabu.backend.node.TypeNode
-import io.kabu.backend.provider.evaluation.ReplacementProviderWithCode
 import io.kabu.backend.provider.provider.WatcherLambdaProvider.Companion.STACK_PROPERTY_NAME
 
 
 class AssignProvider(
     typeNode: TypeNode,
     providers: List<Provider>,
-    analyzer: Analyzer,
-) : AbstractWatchedProvider(typeNode, providers, analyzer) {
+) : AbstractWatchedProvider(typeNode, providers) {
 
     override fun provideCodeForConstructionFromAux(auxName: String): String {
         val holderClassCanonicalName = (typeNode as HolderTypeNode).className.canonicalName

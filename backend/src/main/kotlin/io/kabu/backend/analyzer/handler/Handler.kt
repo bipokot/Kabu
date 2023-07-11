@@ -121,10 +121,10 @@ open class Handler(
 
         // creating watched provider of appropriate type
         val watchedProvider = when(operator) {
-            is Comparison -> ComparisonProvider(holderTypeNode, evaluatedParameters, analyzer)
-            is InclusionCheck -> InclusionProvider(holderTypeNode, evaluatedParameters, analyzer)
-            is ModAssign -> AssignProvider(holderTypeNode, evaluatedParameters, analyzer)
-            else -> AssignProvider(holderTypeNode, evaluatedParameters, analyzer)
+            is Comparison -> ComparisonProvider(holderTypeNode, evaluatedParameters)
+            is InclusionCheck -> InclusionProvider(holderTypeNode, evaluatedParameters)
+            is ModAssign -> AssignProvider(holderTypeNode, evaluatedParameters)
+            else -> AssignProvider(holderTypeNode, evaluatedParameters)
         }
 
         return AuxProvider(returningTypeNode, watchedProvider)

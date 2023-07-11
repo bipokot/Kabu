@@ -8,12 +8,12 @@ import com.squareup.kotlinpoet.TypeSpec
 import io.kabu.backend.declaration.AbstractTypeDeclaration
 import io.kabu.backend.declaration.Declaration
 import io.kabu.backend.generator.addDeclarations
-import io.kabu.backend.parameter.EntryParameter
+import io.kabu.backend.parameter.Parameter
 
 
 class ContextMediatorClassDeclaration(
     override val className: ClassName,
-    val contextProperty: EntryParameter,
+    val contextProperty: Parameter,
 ) : AbstractTypeDeclaration() {
 
     // for adding declarations on generation code phase

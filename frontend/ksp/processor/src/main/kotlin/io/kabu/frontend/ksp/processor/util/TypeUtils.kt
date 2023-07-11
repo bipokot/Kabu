@@ -17,7 +17,7 @@ import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeName
 import io.kabu.backend.exception.PatternProcessingException
 import io.kabu.backend.inout.input.method.Method
-import io.kabu.backend.parameter.EntryParameter
+import io.kabu.backend.parameter.Parameter
 import io.kabu.frontend.ksp.diagnostic.builder.parameterProcessingError
 
 
@@ -32,7 +32,7 @@ internal fun KSFunctionDeclaration.toMethod(): Method {
         val name = parameter.name!!.asString() //todo check
 
         try {
-            EntryParameter(name, parameter.type.toTypeName(), parameterOrigin)
+            Parameter(name, parameter.type.toTypeName(), parameterOrigin)
         } catch (e: PatternProcessingException) {
             parameterProcessingError(name, methodName, e, parameterOrigin)
         }

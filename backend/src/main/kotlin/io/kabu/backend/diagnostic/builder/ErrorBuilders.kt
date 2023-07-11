@@ -5,20 +5,19 @@ import io.kabu.backend.diagnostic.Origin
 import io.kabu.backend.diagnostic.diagnosticError
 import io.kabu.backend.exception.PatternParsingException
 import io.kabu.backend.inout.input.method.PatternMethod
-import io.kabu.backend.parameter.EntryParameter
+import io.kabu.backend.parameter.Parameter
 import io.kabu.backend.parser.Annotation
 import io.kabu.backend.parser.KotlinExpression
 import io.kabu.backend.parser.LambdaExpression
 import io.kabu.backend.parser.NaryExpression
 import io.kabu.backend.parser.Operator
-import io.kabu.backend.provider.provider.BaseProvider
 import io.kabu.backend.util.Constants.EXTENSION_ANNOTATION
 import io.kabu.backend.util.Constants.EXTENSION_ANNOTATION_CONTEXT_CREATOR
 import io.kabu.backend.util.Constants.EXTENSION_ANNOTATION_CONTEXT_PARAMETER
 import io.kabu.backend.util.Constants.RECEIVER_PARAMETER_NAME
 
 
-internal fun strictParametersOrderingError(expressionName: String, expectedParameter: EntryParameter): Nothing {
+internal fun strictParametersOrderingError(expressionName: String, expectedParameter: Parameter): Nothing {
     diagnosticError(
         "Strict method parameters ordering failed on '$expressionName'. Expected '${expectedParameter.name}'",
         expectedParameter.origin
@@ -66,18 +65,18 @@ internal fun extensionAnnotationMissingError(expression: LambdaExpression): Noth
     )
 }
 
-internal fun sameNamedParametersError(name: String, parameters: List<EntryParameter>): Nothing {
+internal fun sameNamedParametersError(name: String, parameters: List<Parameter>): Nothing {
     diagnosticError("Function contains parameters with same name: '$name'", parameters.mapNotNull { it.origin })
 }
 
-internal fun signatureParameterMissingInPatternError(signatureParameter: EntryParameter): Nothing {
+internal fun signatureParameterMissingInPatternError(signatureParameter: Parameter): Nothing {
     diagnosticError(
         "Signature parameter $signatureParameter is missing in expression pattern",
         signatureParameter.origin
     )
 }
 
-internal fun signatureParameterMissingError(signatureParameter: EntryParameter): Nothing {
+internal fun signatureParameterMissingError(signatureParameter: Parameter): Nothing {
     diagnosticError(
         "Signature parameter $signatureParameter not found",
         signatureParameter.origin

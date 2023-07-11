@@ -2,7 +2,7 @@ package io.kabu.backend.inout.input.method
 
 import com.squareup.kotlinpoet.TypeName
 import io.kabu.backend.diagnostic.Origin
-import io.kabu.backend.parameter.EntryParameter
+import io.kabu.backend.parameter.Parameter
 import io.kabu.backend.provider.provider.Provider
 import io.kabu.backend.provider.provider.ProviderContainer
 
@@ -11,7 +11,7 @@ open class ContextCreatorMethod(
     name: String,
     returnedType: TypeName,
     receiverType: TypeName?,
-    parameters: List<EntryParameter>,
+    parameters: List<Parameter>,
     val contextName: String,
     origin: Origin
 ) : Method(

@@ -2,7 +2,7 @@ package io.kabu.backend.planner
 
 import com.squareup.kotlinpoet.TypeName
 import io.kabu.backend.common.log.InterceptingLogging
-import io.kabu.backend.parameter.EntryParameter
+import io.kabu.backend.parameter.Parameter
 import io.kabu.backend.planner.AnalyzerTestUtils.logger
 import io.kabu.backend.util.Constants
 
@@ -17,8 +17,8 @@ object AnalyzerTestUtils {
     val logger = InterceptingLogging.logger {}
 }
 
-fun parametersOf(vararg params: Pair<String, TypeName>): List<EntryParameter> {
-    return params.map { EntryParameter(it.first, it.second) }
+fun parametersOf(vararg params: Pair<String, TypeName>): List<Parameter> {
+    return params.map { Parameter(it.first, it.second) }
 }
 
 fun completion(vararg parameters: Any?) {

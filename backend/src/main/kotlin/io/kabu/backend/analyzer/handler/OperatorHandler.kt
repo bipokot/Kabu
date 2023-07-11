@@ -193,7 +193,7 @@ class OperatorHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
         )
         registerNode(functionNode)
 
-        return HolderProvider(holderTypeNode, evaluatedParameters, analyzer)
+        return HolderProvider(holderTypeNode, evaluatedParameters)
     }
 
     private fun createHolderTypeAndProperty(
@@ -218,7 +218,7 @@ class OperatorHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
         )
         registerNode(propertyNode)
 
-        return HolderProvider(holderTypeNode, evaluatedParameters, analyzer)
+        return HolderProvider(holderTypeNode, evaluatedParameters)
     }
 
     private fun createHolderTypeAndIndexedAssignOperator(

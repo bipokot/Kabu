@@ -119,6 +119,6 @@ class IdentifierHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
         val functionNode = WrapperPropertyNode(name, holderTypeNode, namespaceNode, funDeclarationProviders)
         registerNode(functionNode)
 
-        return HolderProvider(holderTypeNode, evaluatedParameters, analyzer)
+        return HolderProvider(holderTypeNode, evaluatedParameters)
     }
 }

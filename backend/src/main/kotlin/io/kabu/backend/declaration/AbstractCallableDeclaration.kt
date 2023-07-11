@@ -2,6 +2,7 @@ package io.kabu.backend.declaration
 
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
+import com.squareup.kotlinpoet.TypeName
 import io.kabu.backend.analyzer.handler.lambda.watcher.OperatorInfoTypes
 import io.kabu.backend.node.TypeNode
 import io.kabu.backend.parser.FunctionMustReturn
@@ -97,8 +98,8 @@ abstract class AbstractCallableDeclaration : Declaration() {
             .asCodeBlock()
     }
 
-    private fun getReturnStatementForComparison(operatorInfoType: TypeNode?): String {
-        return when (operatorInfoType?.typeName) {
+    private fun getReturnStatementForComparison(operatorInfoType: TypeName?): String {
+        return when (operatorInfoType) {
             OperatorInfoTypes.RANKING_COMPARISON_INFO_TYPE -> "return 42"
             OperatorInfoTypes.STRICTNESS_COMPARISON_INFO_TYPE -> "return 0"
             else -> "return 42"

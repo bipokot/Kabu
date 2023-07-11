@@ -1,8 +1,6 @@
 package io.kabu.backend.integration
 
 import io.kabu.backend.declaration.Declaration
-import io.kabu.backend.integration.NameAndType
-import io.kabu.backend.integration.NamedTypeNode
 import io.kabu.backend.node.FixedTypeNode
 import io.kabu.backend.node.FunctionNode
 import io.kabu.backend.node.Node

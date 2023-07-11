@@ -11,7 +11,7 @@ import io.kabu.backend.inout.input.method.ContextCreatorMethod
 import io.kabu.backend.inout.input.method.GlobalPatternMethod
 import io.kabu.backend.inout.input.method.LocalPatternMethod
 import io.kabu.backend.inout.input.method.Method
-import io.kabu.backend.parameter.EntryParameter
+import io.kabu.backend.parameter.Parameter
 
 
 val ProcessingInput.dslDefinitionString: String
@@ -69,7 +69,7 @@ private fun ContextCreatorMethod.dslString() = when (this) {
     }
 }
 
-private fun StringBuilder.appendParameters(parameters: List<EntryParameter>) {
+private fun StringBuilder.appendParameters(parameters: List<Parameter>) {
     if (parameters.isNotEmpty()) {
         appendLine("${IND3}parameters(")
         parameters.forEach {

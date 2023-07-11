@@ -8,7 +8,7 @@ import com.squareup.kotlinpoet.STRING
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.UNIT
 import io.kabu.backend.analyzer.handler.lambda.watcher.OperatorInfoTypes
-import io.kabu.backend.parameter.EntryParameter
+import io.kabu.backend.parameter.Parameter
 
 class PatternWithSignature(input: String) {
 
@@ -28,7 +28,7 @@ class PatternWithSignature(input: String) {
      */
     private fun parseShortParametersString(shortStringParameters: String): Signature {
 
-        fun decode(shortCode: String): EntryParameter {
+        fun decode(shortCode: String): Parameter {
             var code = shortCode
 
             // nullability
@@ -41,7 +41,7 @@ class PatternWithSignature(input: String) {
 
             // type
             val typeName = typeCodeToTypeName(code).copy(nullable = nullable)
-            return EntryParameter(identifier, typeName)
+            return Parameter(identifier, typeName)
         }
 
         var str = shortStringParameters
@@ -58,7 +58,6 @@ class PatternWithSignature(input: String) {
         val parametersPart = str
 
         val receiver = receiverPart?.trim()?.let(::decode)?.type
-        //todo orEmpty
         val params = parametersPart.trim().takeIf { it.isNotEmpty() }?.split(WHITESPACES)?.map(::decode) ?: emptyList()
         val returns = returnsPart?.trim()?.let(::decode)?.type ?: UNIT
 

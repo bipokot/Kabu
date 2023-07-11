@@ -11,7 +11,7 @@ import io.kabu.backend.node.ContextMediatorTypeNode
 import io.kabu.backend.node.DerivativeTypeNode
 import io.kabu.backend.node.factory.node.ContextMediatorTypeNodeImpl
 import io.kabu.backend.node.namespace.NamespaceNode
-import io.kabu.backend.parameter.EntryParameter
+import io.kabu.backend.parameter.Parameter
 import io.kabu.backend.parser.LambdaExpression
 import io.kabu.backend.processor.MethodsRegistry
 import io.kabu.backend.provider.provider.ArgumentProvider
@@ -48,7 +48,7 @@ class ExtensionLambdaHandler(
         val contextMediatorTypeNode = ContextMediatorTypeNodeImpl(
             name = contextMediatorClassSimpleName,
             namespaceNode = contextMediatorNamespaceNode,
-            contextProperty = EntryParameter(EXTENSION_CONTEXT_PROPERTY_NAME, extensionContextTypeName),
+            contextProperty = Parameter(EXTENSION_CONTEXT_PROPERTY_NAME, extensionContextTypeName),
         )
         registerNode(contextMediatorTypeNode)
 

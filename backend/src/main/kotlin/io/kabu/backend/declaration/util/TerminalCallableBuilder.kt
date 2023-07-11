@@ -46,7 +46,7 @@ class TerminalCallableBuilder {
             .findProviders { it is ArgumentProvider }
 
         var latestIdentifierParameterIndex = -1
-        val providers: List<Provider> = parametersRegistry.entryParameters.map { signatureParameter ->
+        val providers: List<Provider> = parametersRegistry.parameters.map { signatureParameter ->
             if (signatureParameter.type.isOperatorInfoType) {
                 patternOrderedEnumeration.elementAtOrNull(latestIdentifierParameterIndex + 1)
                     ?.takeIf { it.type.isOperatorInfoType }
