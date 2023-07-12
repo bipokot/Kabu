@@ -16,7 +16,7 @@ class ParametersRegistry(
 ) {
 
     val parameters: List<Parameter> = composeParameters()
-        .also { validateEntryParameters(it) }
+        .also { validateParameters(it) }
     val parametersTypes: Map<String, FixedTypeNode> = parameters
         .groupBy({ it.name }, { it.type.toFixedTypeNode() })
         .mapValues { it.value.single() }
@@ -25,16 +25,11 @@ class ParametersRegistry(
     private var operatorInfoParametersUsed = false
     val strictMethodParametersOrdering get() = operatorInfoParametersUsed
 
-    //todo simplify
     private fun composeParameters(): List<Parameter> {
-        val receiver = method.receiver
-        val parameterList = method.parameters.map { //todo unnecessary map?
-            Parameter(it.name, it.type, it.origin)
-        }
-        return listOfNotNull(receiver) + parameterList
+        return listOfNotNull(method.receiver) + method.parameters
     }
 
-    private fun validateEntryParameters(parameters: List<Parameter>) {
+    private fun validateParameters(parameters: List<Parameter>) {
         checkStrictParametersOrdering(parameters)
         checkReceiverParameterPresence()
         checkForSameNamedParameters(parameters)

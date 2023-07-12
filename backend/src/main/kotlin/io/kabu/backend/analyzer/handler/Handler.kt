@@ -4,8 +4,6 @@ import com.squareup.kotlinpoet.BOOLEAN
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.UNIT
 import com.squareup.kotlinpoet.asClassName
-import io.kabu.runtime.InclusionInfo
-import io.kabu.runtime.RankingComparisonInfo
 import io.kabu.backend.analyzer.Analyzer
 import io.kabu.backend.analyzer.AnalyzerImpl
 import io.kabu.backend.analyzer.handler.lambda.watcher.CaptureType
@@ -27,9 +25,9 @@ import io.kabu.backend.parser.Operator
 import io.kabu.backend.provider.evaluation.FunctionBlockContext
 import io.kabu.backend.provider.group.FunDeclarationProvidersFactory
 import io.kabu.backend.provider.group.RawProviders
+import io.kabu.backend.provider.provider.AbstractProvider
 import io.kabu.backend.provider.provider.AssignProvider
 import io.kabu.backend.provider.provider.AuxProvider
-import io.kabu.backend.provider.provider.BaseProvider
 import io.kabu.backend.provider.provider.ComparisonProvider
 import io.kabu.backend.provider.provider.EmptyProvider
 import io.kabu.backend.provider.provider.InclusionProvider
@@ -37,6 +35,8 @@ import io.kabu.backend.provider.provider.OperatorInfoProvider
 import io.kabu.backend.provider.provider.Provider
 import io.kabu.backend.util.poet.TypeNameUtils.toFixedTypeNode
 import io.kabu.backend.util.poet.asFixedTypeName
+import io.kabu.runtime.InclusionInfo
+import io.kabu.runtime.RankingComparisonInfo
 
 
 open class Handler(
@@ -46,7 +46,7 @@ open class Handler(
     protected fun createHolderTypeAndAssignablePropertyViaWatchedParameter(
         rawProviders: RawProviders,
         expression: KotlinExpression
-    ): BaseProvider {
+    ): AbstractProvider {
         val assignExpression = expression.parent as BinaryExpression
         val assignOperator = assignExpression.operator as Assign
 
@@ -63,7 +63,7 @@ open class Handler(
         rawProviders: RawProviders,
         operator: Operator,
         assignableSuffixExpression: KotlinExpression?
-    ): BaseProvider {
+    ): AbstractProvider {
         val funDeclarationProviders = FunDeclarationProvidersFactory
             .from(rawProviders, operator.invertedArgumentOrdering)
 

@@ -12,7 +12,7 @@ open class LambdaProvider(
     val returningProvider: Provider,
     val analyzer: Analyzer,
     origin: Origin? = null,
-) : BaseProvider(typeNode, origin) {
+) : AbstractProvider(typeNode, origin) {
 
     override fun generateName(): String {
         return returningProvider.generateName() + "Lambda"

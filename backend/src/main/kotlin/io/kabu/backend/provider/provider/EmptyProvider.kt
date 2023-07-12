@@ -10,7 +10,7 @@ import io.kabu.backend.util.poet.TypeNameUtils.toFixedTypeNode
 class EmptyProvider(
     typeNode: TypeNode,
     origin: Origin? = null,
-) : BaseProvider(typeNode, origin) {
+) : AbstractProvider(typeNode, origin) {
 
     constructor() : this(ANY.toFixedTypeNode())
 

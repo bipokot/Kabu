@@ -1,7 +1,7 @@
 package io.kabu.backend.integration.namegen
 
 class IndexedSequentialTypeNameGenerator(
-    private val typeNameGenerator: IndexedTypeNameGenerator,
+    private val typeNameGenerator: TypeNameGenerator,
 ) : SequentialTypeNameGenerator {
 
     private var index = 1

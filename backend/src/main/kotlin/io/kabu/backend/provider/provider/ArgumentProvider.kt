@@ -8,7 +8,7 @@ open class ArgumentProvider(
     typeNode: TypeNode,
     val originalName: String, // name defined by user
     origin: Origin? = null,
-) : BaseProvider(typeNode, origin) {
+) : AbstractProvider(typeNode, origin) {
 
     override val isUseful: Boolean = true
 

@@ -13,7 +13,7 @@ class WatcherContextProvider(
     private val childProvider: Provider,
     private val analyzer: Analyzer,
     origin: Origin? = null,
-) : BaseProvider(typeNode, origin), Provider {
+) : AbstractProvider(typeNode, origin), Provider {
 
     override fun generateName(): String {
         return typeNode.name.decaps()

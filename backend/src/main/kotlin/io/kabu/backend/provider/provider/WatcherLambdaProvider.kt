@@ -16,7 +16,7 @@ class WatcherLambdaProvider(
     val watcherContextProvider: WatcherContextProvider,
     val analyzer: Analyzer,
     origin: Origin? = null,
-) : BaseProvider(typeNode, origin) {
+) : AbstractProvider(typeNode, origin) {
 
     override fun generateName(): String {
         return watcherContextProvider.generateName() + "Lambda"

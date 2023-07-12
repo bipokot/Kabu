@@ -19,14 +19,14 @@ import io.kabu.backend.parser.Indexing
 import io.kabu.backend.parser.LambdaExpression
 import io.kabu.backend.parser.NaryExpression
 import io.kabu.backend.provider.group.FunDeclarationProvidersFactory
-import io.kabu.backend.provider.provider.BaseProvider
+import io.kabu.backend.provider.provider.AbstractProvider
 import io.kabu.backend.provider.provider.ScopingLambdaProvider
 import io.kabu.backend.provider.provider.WatcherContextProvider
 import io.kabu.backend.provider.provider.WatcherLambdaProvider
 
 class WatcherLambdaHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
 
-    fun handle(expression: LambdaExpression): BaseProvider {
+    fun handle(expression: LambdaExpression): AbstractProvider {
         val watcherLambda = analyzer.currentWatcherLambda!!
 
         // examining the first statement of lambda

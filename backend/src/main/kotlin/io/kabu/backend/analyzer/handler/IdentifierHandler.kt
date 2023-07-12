@@ -11,17 +11,16 @@ import io.kabu.backend.parser.IdentifierLeaf
 import io.kabu.backend.provider.evaluation.FunctionBlockContext
 import io.kabu.backend.provider.group.FunDeclarationProvidersFactory
 import io.kabu.backend.provider.group.RawProviders
+import io.kabu.backend.provider.provider.AbstractProvider
 import io.kabu.backend.provider.provider.ArgumentProvider
-import io.kabu.backend.provider.provider.BaseProvider
 import io.kabu.backend.provider.provider.EmptyProvider
 import io.kabu.backend.provider.provider.HolderProvider
 import io.kabu.backend.provider.provider.NoReceiverProvider
 import io.kabu.backend.util.Constants
-import io.kabu.backend.util.poet.TypeNameUtils.toFixedTypeNode
 
 class IdentifierHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
 
-    fun handle(expression: IdentifierLeaf): BaseProvider {
+    fun handle(expression: IdentifierLeaf): AbstractProvider {
         val parametersRegistry = analyzer.parametersRegistry
         val typeNode: FixedTypeNode? = parametersRegistry.parametersTypes[expression.name]
         return if (typeNode != null) {
@@ -49,7 +48,7 @@ class IdentifierHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
         )
     }
 
-    private fun createProperty(expression: IdentifierLeaf): BaseProvider {
+    private fun createProperty(expression: IdentifierLeaf): AbstractProvider {
         val parametersRegistry = analyzer.parametersRegistry
 
         if (parametersRegistry.receiverCatchIsNecessary) {
@@ -102,10 +101,8 @@ class IdentifierHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
     }
 
     private fun createReceiverHolderParameter(name: String): HolderProvider {
-        val method = analyzer.method
-        val receiverType = method.receiver?.type //todo use receiverTypeNode
+        val receiverTypeNode = analyzer.parametersRegistry.parametersTypes[Constants.RECEIVER_PARAMETER_NAME]
             ?: diagnosticError("Creating receiver holder type declaration but no receiver type found", method)
-        val receiverTypeNode = receiverType.toFixedTypeNode()
         val receiver = ArgumentProvider(receiverTypeNode, Constants.RECEIVER_PARAMETER_NAME)
 
         // Type

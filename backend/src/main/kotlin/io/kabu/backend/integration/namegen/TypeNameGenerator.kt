@@ -3,5 +3,5 @@ package io.kabu.backend.integration.namegen
 
 interface TypeNameGenerator {
 
-    fun generateTypeName(attempt: Int): String
+    fun generateTypeName(counter: Int): String
 }

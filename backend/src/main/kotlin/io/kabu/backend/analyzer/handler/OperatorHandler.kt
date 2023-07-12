@@ -21,7 +21,7 @@ import io.kabu.backend.parser.UnaryExpression
 import io.kabu.backend.provider.evaluation.FunctionBlockContext
 import io.kabu.backend.provider.group.FunDeclarationProvidersFactory
 import io.kabu.backend.provider.group.RawProviders
-import io.kabu.backend.provider.provider.BaseProvider
+import io.kabu.backend.provider.provider.AbstractProvider
 import io.kabu.backend.provider.provider.EmptyProvider
 import io.kabu.backend.provider.provider.HolderProvider
 import io.kabu.backend.provider.provider.Provider
@@ -133,7 +133,7 @@ class OperatorHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
     private fun createTerminalIndexedAssignOperator(
         rawProviders: RawProviders,
         expression: NaryExpression
-    ): BaseProvider {
+    ): AbstractProvider {
         val assigningParameter = providerOf((expression.parent as BinaryExpression).children[1])
 
         // combining providers for "set" operator
@@ -162,7 +162,7 @@ class OperatorHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
     private fun createTerminalAssignableProperty(
         rawProviders: RawProviders,
         expression: BinaryExpression,
-    ): BaseProvider {
+    ): AbstractProvider {
         val propertyName = (expression.right as IdentifierLeaf).name
         val receiverProvider = rawProviders.providersList[0]
         val assigningProvider = providerOf((expression.parent as BinaryExpression).children[1])
@@ -224,7 +224,7 @@ class OperatorHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
     private fun createHolderTypeAndIndexedAssignOperator(
         rawProviders: RawProviders,
         expression: NaryExpression
-    ): BaseProvider {
+    ): AbstractProvider {
         val assigningParameter = providerOf((expression.parent as BinaryExpression).children[1])
 
         // combining providers for "set" operator

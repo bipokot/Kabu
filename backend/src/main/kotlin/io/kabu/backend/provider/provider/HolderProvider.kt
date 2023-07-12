@@ -14,7 +14,7 @@ open class HolderProvider(
     typeNode: TypeNode,
     private val providers: List<Provider>,
     origin: Origin? = null,
-) : BaseProvider(typeNode, origin), Provider {
+) : AbstractProvider(typeNode, origin), Provider {
 
     private val fields: OrderedNamedProviders = OrderedNamedProviders().apply {
         this@HolderProvider.providers.forEachIndexed { index, provider -> register(provider, getNameForIndex(index)) }

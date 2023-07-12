@@ -7,7 +7,7 @@ import com.squareup.kotlinpoet.asTypeName
 import io.kabu.backend.diagnostic.diagnosticError
 import io.kabu.backend.integration.detector.user.legacy.types.StandardMethod
 import io.kabu.backend.integration.detector.user.legacy.types.StandardProperty
-import io.kabu.backend.provider.provider.BaseProvider
+import io.kabu.backend.provider.provider.AbstractProvider
 import io.kabu.backend.util.fromJSON
 import io.kabu.backend.util.poet.RegularSerializedType
 import io.kabu.backend.util.poet.SerializedType
@@ -55,14 +55,14 @@ open class TypeConflictChecker(private val klass: KClass<*>) : ConflictChecker()
             operatorFunctionName == standardMethod.name &&
                     parametersAreCompatible(
                         standardMethod.parameterTypes,
-                        parametersWithoutReceiver as List<BaseProvider>
+                        parametersWithoutReceiver as List<AbstractProvider>
                     )
         }
     }
 
     private fun parametersAreCompatible(
         standardFunctionParameters: List<SerializedType>,
-        requestedOperatorParameters: List<BaseProvider>,
+        requestedOperatorParameters: List<AbstractProvider>,
     ): Boolean {
         return standardFunctionParameters.size == requestedOperatorParameters.size
             && standardFunctionParameters.zip(requestedOperatorParameters)

@@ -14,7 +14,7 @@ class AuxProvider(
     typeNode: TypeNode,
     private val watchedProvider: AbstractWatchedProvider,
     origin: Origin? = null,
-) : BaseProvider(typeNode, origin) {
+) : AbstractProvider(typeNode, origin) {
 
     override val childrenProviders: List<Provider> = listOf(watchedProvider)
 

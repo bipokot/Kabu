@@ -12,7 +12,7 @@ import io.kabu.backend.util.poet.asCodeBlock
 
 class ExtensionLambdaProvider(
     typeNode: TypeNode,
-    returningProvider: BaseProvider, //todo don't need? //todo rename
+    returningProvider: AbstractProvider, //todo don't need? //todo rename
     val contextMediatorTypeNode: TypeNode,
     val contextCreatorDefinition: ContextCreatorDefinition,
     val destinationParameterTypeNode: TypeNode,
