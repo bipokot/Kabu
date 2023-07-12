@@ -66,7 +66,7 @@ internal fun extensionAnnotationMissingError(expression: LambdaExpression): Noth
 }
 
 internal fun sameNamedParametersError(name: String, parameters: List<Parameter>): Nothing {
-    diagnosticError("Function contains parameters with same name: '$name'", parameters.mapNotNull { it.origin })
+    diagnosticError("Function contains parameters with same name: '$name'", parameters.map { it.origin })
 }
 
 internal fun signatureParameterMissingInPatternError(signatureParameter: Parameter): Nothing {

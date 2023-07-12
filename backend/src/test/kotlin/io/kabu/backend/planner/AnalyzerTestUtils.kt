@@ -1,8 +1,6 @@
 package io.kabu.backend.planner
 
-import com.squareup.kotlinpoet.TypeName
 import io.kabu.backend.common.log.InterceptingLogging
-import io.kabu.backend.parameter.Parameter
 import io.kabu.backend.planner.AnalyzerTestUtils.logger
 import io.kabu.backend.util.Constants
 
@@ -15,10 +13,6 @@ object AnalyzerTestUtils {
     const val targetPackage = "${Constants.BACKEND_PACKAGE}.planner"
     const val FILEPATH = "src/test/resources/io/kabu/backend/planner/plannerSuccessTest.json"
     val logger = InterceptingLogging.logger {}
-}
-
-fun parametersOf(vararg params: Pair<String, TypeName>): List<Parameter> {
-    return params.map { Parameter(it.first, it.second) }
 }
 
 fun completion(vararg parameters: Any?) {

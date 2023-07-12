@@ -4,6 +4,7 @@ import com.squareup.kotlinpoet.LambdaTypeName
 import com.squareup.kotlinpoet.UNIT
 import io.kabu.backend.analyzer.Analyzer
 import io.kabu.backend.analyzer.AnalyzerImpl
+import io.kabu.backend.diagnostic.Origin
 import io.kabu.backend.diagnostic.builder.extensionAnnotationMissingError
 import io.kabu.backend.diagnostic.builder.unknownFunctionParameterNameError
 import io.kabu.backend.inout.input.method.PatternMethod
@@ -48,7 +49,8 @@ class ExtensionLambdaHandler(
         val contextMediatorTypeNode = ContextMediatorTypeNodeImpl(
             name = contextMediatorClassSimpleName,
             namespaceNode = contextMediatorNamespaceNode,
-            contextProperty = Parameter(EXTENSION_CONTEXT_PROPERTY_NAME, extensionContextTypeName),
+            //todo Origin() && Parameter ?
+            contextProperty = Parameter(EXTENSION_CONTEXT_PROPERTY_NAME, extensionContextTypeName, Origin()),
         )
         registerNode(contextMediatorTypeNode)
 
