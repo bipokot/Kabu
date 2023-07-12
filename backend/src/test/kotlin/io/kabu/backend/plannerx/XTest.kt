@@ -37,7 +37,7 @@ open class XTest {
                     packageName = "io.kabu.backend.plannerx",
                     name = "completion",
                     returnedType = returned,
-                    receiverType = receiver,
+                    receiver = receiver,
                     parameters = parameters,
                     pattern = patternWithSignature.pattern,
                     origin = Origin()

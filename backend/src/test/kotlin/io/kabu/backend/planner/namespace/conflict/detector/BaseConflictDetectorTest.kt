@@ -92,7 +92,7 @@ private fun getOutcomeAndOriginString(raw: String): Pair<String, String> {
         packageName = TARGET_PACKAGE,
         name = CLIENT_METHOD,
         returnedType = returned,
-        receiverType = receiver,
+        receiver = receiver,
         parameters = parameters,
         pattern = patternWithSignature.pattern,
         origin = Origin()

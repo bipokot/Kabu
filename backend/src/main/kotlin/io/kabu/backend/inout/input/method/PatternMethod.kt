@@ -8,7 +8,7 @@ abstract class PatternMethod(
     packageName: String,
     name: String,
     returnedType: TypeName,
-    receiverType: TypeName?,
+    receiver: Parameter?,
     parameters: List<Parameter>,
     val pattern: String, //todo get origin of pattern annotation as well
     origin: Origin
@@ -16,7 +16,7 @@ abstract class PatternMethod(
     packageName,
     name,
     returnedType,
-    receiverType,
+    receiver,
     parameters,
-    origin
+    origin,
 )

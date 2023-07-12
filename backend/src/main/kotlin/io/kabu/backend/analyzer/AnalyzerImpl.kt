@@ -29,10 +29,8 @@ import io.kabu.backend.parser.PatternString
 import io.kabu.backend.processor.MethodsRegistry
 import io.kabu.backend.processor.Options
 import io.kabu.backend.provider.group.RawProviders
-import io.kabu.backend.provider.provider.BaseProvider
 import io.kabu.backend.provider.provider.Provider
 import io.kabu.backend.util.Constants
-import io.kabu.backend.util.poet.TypeNameUtils.toFixedTypeNode
 
 
 class AnalyzerImpl(

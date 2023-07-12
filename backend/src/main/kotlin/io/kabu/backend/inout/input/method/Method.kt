@@ -9,12 +9,12 @@ open class Method(
     val packageName: String,
     val name: String,
     open val returnedType: TypeName,
-    val receiverType: TypeName?,
+    val receiver: Parameter?,
     val parameters: List<Parameter>,
-    override val origin: Origin
+    override val origin: Origin,
 ) : HasOrigin {
 
-    val hasReceiver get() = receiverType != null
+    val hasReceiver get() = receiver != null
 
     override fun toString() = "Method $name ($origin)"
 }

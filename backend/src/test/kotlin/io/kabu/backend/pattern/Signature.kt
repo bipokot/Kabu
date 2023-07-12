@@ -5,7 +5,7 @@ import io.kabu.backend.parameter.Parameter
 
 /** Result of parsing the signature string of test string  */
 data class Signature(
-    val receiverType: TypeName?,
+    val receiver: Parameter?,
     val parameters: List<Parameter>,
     val returnedType: TypeName
 )

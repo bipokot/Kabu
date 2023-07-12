@@ -10,7 +10,7 @@ open class ContextCreatorMethod(
     packageName: String,
     name: String,
     returnedType: TypeName,
-    receiverType: TypeName?,
+    receiver: Parameter?,
     parameters: List<Parameter>,
     val contextName: String,
     origin: Origin
@@ -18,9 +18,9 @@ open class ContextCreatorMethod(
     packageName,
     name,
     returnedType,
-    receiverType,
+    receiver,
     parameters,
-    origin
+    origin,
 ) {
 
     open fun getInvocationCode(providers: List<Provider>, providerContainer: ProviderContainer): String {
@@ -36,7 +36,7 @@ open class ContextCreatorMethod(
             packageName = packageName,
             name = name,
             returnedType = returnedType,
-            receiverType = receiverType,
+            receiver = receiver,
             parameters = parameters,
             contextName = contextName,
             origin = origin

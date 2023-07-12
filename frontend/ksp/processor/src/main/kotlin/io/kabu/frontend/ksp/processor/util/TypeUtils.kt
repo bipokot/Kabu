@@ -15,36 +15,47 @@ import com.squareup.kotlinpoet.LambdaTypeName
 import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeName
+import io.kabu.backend.diagnostic.Origin
 import io.kabu.backend.exception.PatternProcessingException
 import io.kabu.backend.inout.input.method.Method
 import io.kabu.backend.parameter.Parameter
+import io.kabu.backend.util.Constants.RECEIVER_PARAMETER_NAME
 import io.kabu.frontend.ksp.diagnostic.builder.parameterProcessingError
 
 
 internal fun KSFunctionDeclaration.toMethod(): Method {
+
+    fun createParameter(
+        name: String,
+        typeReference: KSTypeReference,
+        origin: Origin,
+        methodName: String,
+    ) = try {
+        Parameter(name, typeReference.toTypeName(), origin)
+    } catch (e: PatternProcessingException) {
+        parameterProcessingError(name, methodName, e, origin)
+    }
+
     val methodOrigin = originOf(this)
     val methodName = simpleName.asString()
-    val receiverType = extensionReceiver?.toTypeName()
+    val receiver = extensionReceiver
+        ?.let { createParameter(RECEIVER_PARAMETER_NAME, it, originOf(it, parent = methodOrigin), methodName) }
     val returnType = returnType?.toTypeName()!!
     val parameters = parameters.map { parameter ->
         validateValueParameter(parameter)
         val parameterOrigin = originOf(parameter, parent = methodOrigin)
-        val name = parameter.name!!.asString() //todo check
+        val name = parameter.name!!.asString()
 
-        try {
-            Parameter(name, parameter.type.toTypeName(), parameterOrigin)
-        } catch (e: PatternProcessingException) {
-            parameterProcessingError(name, methodName, e, parameterOrigin)
-        }
+        createParameter(name, parameter.type, parameterOrigin, methodName)
     }
 
     return Method(
         packageName = packageName.asString(),
         name = methodName,
         returnedType = returnType,
-        receiverType = receiverType,
+        receiver = receiver,
         parameters = parameters,
-        origin = methodOrigin
+        origin = methodOrigin,
     )
 }
 

@@ -30,12 +30,12 @@ fun completionOutputOf(raw: String, sample: String): String {
     println("Raw: $raw")
 
     val patternWithSignature = PatternWithSignature(raw)
-    val (receiverType, parameters, returnedType) = patternWithSignature.signature
+    val (receiver, parameters, returnedType) = patternWithSignature.signature
     val method = GlobalPatternMethod(
         packageName = TARGET_PACKAGE,
-        name = if (receiverType != null) CLIENT_METHOD_WITH_RECEIVER else CLIENT_METHOD,
+        name = if (receiver != null) CLIENT_METHOD_WITH_RECEIVER else CLIENT_METHOD,
         returnedType = returnedType,
-        receiverType = receiverType,
+        receiver = receiver,
         parameters = parameters,
         pattern = patternWithSignature.pattern,
         origin = unknownOrigin
@@ -46,10 +46,6 @@ fun completionOutputOf(raw: String, sample: String): String {
             accessorObjectIsInSamePackage = true
         )
     )
-//    AnalyzerNew(method, namespace, MethodsRegistry(), null, options).analyze()
-//    println("\n$delimiter\n${namespace.plan}\n$delimiter")
-//    val scriptGenerated = namespace.writePlanToString()
-    // ---
     val nodes = AnalyzerImpl(method, MethodsRegistry(), null, options).analyze()
     getDiagramOfNodes(nodes)
     val integrator = Integrator()

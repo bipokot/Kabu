@@ -25,14 +25,13 @@ class ParametersRegistry(
     private var operatorInfoParametersUsed = false
     val strictMethodParametersOrdering get() = operatorInfoParametersUsed
 
+    //todo simplify
     private fun composeParameters(): List<Parameter> {
-        val receiverParameter = method.receiverType?.let {
-            Parameter(RECEIVER_PARAMETER_NAME, it, method.origin) //todo origin for receiver
-        }
-        val parameterList = method.parameters.map {
+        val receiver = method.receiver
+        val parameterList = method.parameters.map { //todo unnecessary map?
             Parameter(it.name, it.type, it.origin)
         }
-        return listOfNotNull(receiverParameter) + parameterList
+        return listOfNotNull(receiver) + parameterList
     }
 
     private fun validateEntryParameters(parameters: List<Parameter>) {

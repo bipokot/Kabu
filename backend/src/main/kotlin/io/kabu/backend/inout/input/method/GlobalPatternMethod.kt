@@ -8,7 +8,7 @@ class GlobalPatternMethod(
     packageName: String,
     name: String,
     returnedType: TypeName,
-    receiverType: TypeName?,
+    receiver: Parameter?,
     parameters: List<Parameter>,
     pattern: String,
     origin: Origin
@@ -16,7 +16,7 @@ class GlobalPatternMethod(
     packageName,
     name,
     returnedType,
-    receiverType,
+    receiver,
     parameters,
     pattern,
     origin
@@ -28,7 +28,7 @@ class GlobalPatternMethod(
             packageName = packageName,
             name = name,
             returnedType = returnedType,
-            receiverType = receiverType,
+            receiver = receiver,
             parameters = parameters,
             pattern = pattern,
             origin = origin

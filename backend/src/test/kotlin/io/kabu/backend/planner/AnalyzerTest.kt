@@ -94,7 +94,7 @@ private fun getPlanForPatternWithSignature(patternWithSignature: PatternWithSign
         packageName = targetPackage,
         name = clientMethod,
         returnedType = returned,
-        receiverType = receiver,
+        receiver = receiver,
         parameters = parameters,
         pattern = patternWithSignature.pattern,
         origin = Origin()

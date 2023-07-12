@@ -39,7 +39,7 @@ class AnalyzerAdHocTest : Assert() {
                 packageName = targetPackage,
                 name = clientMethod,
                 returnedType = returned,
-                receiverType = receiver,
+                receiver = receiver,
                 parameters = parameters,
                 pattern = patternWithSignature.pattern,
                 origin = Origin()

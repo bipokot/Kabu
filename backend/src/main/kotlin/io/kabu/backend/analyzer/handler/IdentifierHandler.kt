@@ -103,13 +103,13 @@ class IdentifierHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
 
     private fun createReceiverHolderParameter(name: String): HolderProvider {
         val method = analyzer.method
-        val receiverType = method.receiverType //todo use receiverTypeNode
+        val receiverType = method.receiver?.type //todo use receiverTypeNode
             ?: diagnosticError("Creating receiver holder type declaration but no receiver type found", method)
         val receiverTypeNode = receiverType.toFixedTypeNode()
-        val receiverParameter = ArgumentProvider(receiverTypeNode, Constants.RECEIVER_PARAMETER_NAME)
+        val receiver = ArgumentProvider(receiverTypeNode, Constants.RECEIVER_PARAMETER_NAME)
 
         // Type
-        val rawProviders = RawProviders(listOf(receiverParameter), null)
+        val rawProviders = RawProviders(listOf(receiver), null)
         val funDeclarationProviders = FunDeclarationProvidersFactory.from(rawProviders, invertedOrdering = false)
         val functionBlockContext = FunctionBlockContext(funDeclarationProviders)
         val evaluatedParameters = functionBlockContext.doEvaluation()
