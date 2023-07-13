@@ -42,8 +42,7 @@ class ExtensionLambdaHandler(
             analyzer.methodsRegistry.getExtensionContextType(extensionContextCreatorDefinition.name)
         val extensionContextTypeNode = extensionContextTypeName.toFixedTypeNode()
 
-        //todo namespaceNode.getRoot() - mediator classes don't belong to particular pattern
-        val contextMediatorNamespaceNode = namespaceNode
+        val contextMediatorNamespaceNode = namespaceNode.getRoot()
 
         val contextMediatorClassSimpleName = contextMediatorNamespaceNode.typeNameGenerator.generateNextTypeName()
         val contextMediatorTypeNode = ContextMediatorTypeNodeImpl(
