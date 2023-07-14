@@ -8,7 +8,7 @@ import io.kabu.backend.node.PackageNode
  * Resolves conflict when integrating a PackageNode
  */
 @Suppress("MaxLineLength")
-class PackageNodeAndPackageNodeUniversalConflictResolver(private val integrator: Integrator): ConflictResolver {
+class PackageNodeAndPackageNodeUniversalConflictResolver(private val integrator: Integrator) : ConflictResolver {
 
     override fun resolve(node1: Node, node2: Node) {
         node1 as PackageNode; node2 as PackageNode
@@ -21,5 +21,12 @@ class PackageNodeAndPackageNodeUniversalConflictResolver(private val integrator:
         val conflicting = integrator.integratedOf(node1, node2)
 
         integrator.rewireNodes(current, conflicting)
+
+        // rewiring accessor objects
+        val currentAccessorObjectNode = current.accessorObjectNode
+        val conflictingAccessorObjectNode = conflicting.accessorObjectNode
+        if (currentAccessorObjectNode != null && conflictingAccessorObjectNode == null) {
+            conflicting.accessorObjectNode = currentAccessorObjectNode
+        }
     }
 }

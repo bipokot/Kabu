@@ -4,21 +4,17 @@ import com.squareup.kotlinpoet.LambdaTypeName
 import com.squareup.kotlinpoet.UNIT
 import io.kabu.backend.analyzer.Analyzer
 import io.kabu.backend.analyzer.AnalyzerImpl
-import io.kabu.backend.diagnostic.Origin
 import io.kabu.backend.diagnostic.builder.extensionAnnotationMissingError
 import io.kabu.backend.diagnostic.builder.unknownFunctionParameterNameError
 import io.kabu.backend.inout.input.method.PatternMethod
 import io.kabu.backend.node.ContextMediatorTypeNode
 import io.kabu.backend.node.DerivativeTypeNode
-import io.kabu.backend.node.factory.node.ContextMediatorTypeNodeImpl
 import io.kabu.backend.node.namespace.NamespaceNode
-import io.kabu.backend.parameter.Parameter
 import io.kabu.backend.parser.LambdaExpression
 import io.kabu.backend.processor.MethodsRegistry
 import io.kabu.backend.provider.provider.ArgumentProvider
 import io.kabu.backend.provider.provider.ExtensionLambdaProvider
 import io.kabu.backend.util.Constants.EXTENSION_ANNOTATION
-import io.kabu.backend.util.Constants.EXTENSION_CONTEXT_PROPERTY_NAME
 import io.kabu.backend.util.poet.TypeNameUtils.toFixedTypeNode
 
 class ExtensionLambdaHandler(
@@ -42,20 +38,9 @@ class ExtensionLambdaHandler(
             analyzer.methodsRegistry.getExtensionContextType(extensionContextCreatorDefinition.name)
         val extensionContextTypeNode = extensionContextTypeName.toFixedTypeNode()
 
-        val contextMediatorNamespaceNode = namespaceNode.getRoot()
-
-        val contextMediatorClassSimpleName = contextMediatorNamespaceNode.typeNameGenerator.generateNextTypeName()
-        val contextMediatorTypeNode = ContextMediatorTypeNodeImpl(
-            name = contextMediatorClassSimpleName,
-            namespaceNode = contextMediatorNamespaceNode,
-            //todo Origin() && Parameter ?
-            contextProperty = Parameter(EXTENSION_CONTEXT_PROPERTY_NAME, extensionContextTypeName, Origin()),
-        )
-        registerNode(contextMediatorTypeNode)
-
-        val localPatternMethods = analyzer.methodsRegistry.getLocalPatternMethods(extensionContextTypeName)
-        localPatternMethods.forEach {
-            analyzeMethod(it, contextMediatorTypeNode, analyzer.methodsRegistry, EXTENSION_CONTEXT_PROPERTY_NAME)
+        val contextMediatorTypeNode = methodsRegistry.getContextMediatorTypeNode(extensionContextTypeName).also { node ->
+            registerNode(node)
+            node.dependencies.forEach { registerNode(it) } //todo not recursive yet
         }
 
         val returningTypeNode = DerivativeTypeNode(namespaceNode, mutableListOf(contextMediatorTypeNode)) { deps ->

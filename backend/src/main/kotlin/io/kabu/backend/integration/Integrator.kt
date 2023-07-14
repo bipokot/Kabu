@@ -31,6 +31,8 @@ class Integrator {
     fun integrate(graph: Set<Node>, removeIrrelevant: Boolean = true) {
         val sortedNodes = sortTopologically(graph)
         sortedNodes.forEach { node ->
+            if (node in integrated) return@forEach // skipping already integrated nodes
+
             println("Integrating: '$node'")
 
             val conflictingNode = findConflictingNode(node)

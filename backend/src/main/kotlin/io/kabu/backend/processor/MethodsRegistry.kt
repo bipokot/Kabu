@@ -6,11 +6,26 @@ import io.kabu.backend.diagnostic.diagnosticError
 import io.kabu.backend.inout.input.ProcessingInput
 import io.kabu.backend.inout.input.method.ContextCreatorMethod
 import io.kabu.backend.inout.input.method.LocalPatternMethod
+import io.kabu.backend.node.TypeNode
 
 class MethodsRegistry(processingInput: ProcessingInput? = null) {
 
     private val localPatterns: Map<TypeName, List<LocalPatternMethod>> // registry of LocalPattern methods
     private val contextCreators: List<ContextCreatorMethod> // registry of ContextCreator
+
+    //todo not registry responsibility
+    private val map: MutableMap<TypeName, TypeNode> = mutableMapOf()
+
+    fun registerContextMediatorTypeNode(extensionContextTypeName: TypeName, contextMediatorTypeNode: TypeNode) {
+        if (extensionContextTypeName in map) {
+            error("Duplicate context mediator registration for: $extensionContextTypeName")
+        }
+        map[extensionContextTypeName] = contextMediatorTypeNode
+    }
+
+    fun getContextMediatorTypeNode(extensionContextTypeName: TypeName): TypeNode {
+        return map[extensionContextTypeName]!!
+    }
 
     init {
         if (processingInput != null) {
