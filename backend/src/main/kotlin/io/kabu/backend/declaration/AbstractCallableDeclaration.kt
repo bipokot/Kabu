@@ -12,27 +12,13 @@ import io.kabu.backend.provider.group.FunDeclarationProviders
 import io.kabu.backend.provider.provider.WatcherLambdaProvider.Companion.STACK_PROPERTY_NAME
 import io.kabu.backend.util.poet.asCodeBlock
 
-//todo DRY
 abstract class AbstractCallableDeclaration : Declaration() {
 
     protected fun getCallableStatements(
         funDeclarationProviders: FunDeclarationProviders,
         returningClassName: ClassName,
     ): CodeBlock {
-        val functionBlockContext = FunctionBlockContext(funDeclarationProviders)
-        functionBlockContext.doEvaluation()
-
-        val statements1 = functionBlockContext.joinAllStatements()
-        val statements2 = run {
-            val allParameters = functionBlockContext.actualProvidersProvider.childrenProviders
-                .joinToString { functionBlockContext.getCodeForActualProvider(it) }
-            "return %T($allParameters)"
-        }
-
-        return listOf(statements1, statements2)
-            .filter { it.isNotBlank() }
-            .joinToString("\n")
-            .asCodeBlock(returningClassName)
+        return getCodeBlockForReturn(funDeclarationProviders, returningClassName)
     }
 
     protected fun getCallableStatements(
@@ -51,6 +37,13 @@ abstract class AbstractCallableDeclaration : Declaration() {
         funDeclarationProviders: FunDeclarationProviders,
         returnTypeNode: TypeNode,
     ): CodeBlock {
+        return getCodeBlockForReturn(funDeclarationProviders, returnTypeNode.typeName)
+    }
+
+    private fun getCodeBlockForReturn(
+        funDeclarationProviders: FunDeclarationProviders,
+        returningTypeName: TypeName,
+    ): CodeBlock {
         val functionBlockContext = FunctionBlockContext(funDeclarationProviders)
         functionBlockContext.doEvaluation()
 
@@ -64,7 +57,7 @@ abstract class AbstractCallableDeclaration : Declaration() {
         return listOf(statements1, statements2)
             .filter { it.isNotBlank() }
             .joinToString("\n")
-            .asCodeBlock(returnTypeNode.typeName)
+            .asCodeBlock(returningTypeName)
     }
 
     private fun codeBlockForFixedTypeNode(
