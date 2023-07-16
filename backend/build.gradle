@@ -19,7 +19,8 @@ dependencies {
     implementation deps.kotlin.stdlib
     implementation deps.kotlin.reflect
     implementation deps.antlrRuntime
-    implementation deps.kotlinPoet
+    implementation deps.kotlinPoet.kotlinPoet
+    implementation deps.kotlinPoet.kotlinPoetKsp
     implementation deps.logging.simple
     api deps.logging.api
     implementation deps.jackson

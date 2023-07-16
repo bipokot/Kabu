@@ -1,4 +1,5 @@
 def kctVersion = "1.5.0"
+def kotlinPoetVersion = "1.14.2"
 
 ext.deps = [
         "kotlin"      : [
@@ -18,12 +19,15 @@ ext.deps = [
                 "kctKsp": "com.github.tschuchortdev:kotlin-compile-testing-ksp:$kctVersion",
         ],
         "logging"     : [
-                "simple"    : "org.slf4j:slf4j-simple:1.7.9",
-                "api": "io.github.microutils:kotlin-logging:1.7.6",
+                "simple": "org.slf4j:slf4j-simple:1.7.9",
+                "api"   : "io.github.microutils:kotlin-logging:1.7.6",
+        ],
+        "kotlinPoet"  : [
+                "kotlinPoet"   : "com.squareup:kotlinpoet:$kotlinPoetVersion",
+                "kotlinPoetKsp": "com.squareup:kotlinpoet-ksp:$kotlinPoetVersion",
         ],
         "ksp"         : "com.google.devtools.ksp:symbol-processing-api:$kspVersion",
         "antlrRuntime": "org.antlr:antlr4-runtime:4.11.1", // https://mvnrepository.com/artifact/org.antlr/antlr4-runtime
-        "kotlinPoet"  : "com.squareup:kotlinpoet:1.14.2",
         "jackson"     : "com.fasterxml.jackson.module:jackson-module-kotlin:2.11.0",
         "textTree"    : "org.barfuin.texttree:text-tree:2.1.2",
 ]
