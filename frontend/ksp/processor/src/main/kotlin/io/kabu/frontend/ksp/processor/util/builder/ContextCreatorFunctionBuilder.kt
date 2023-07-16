@@ -4,6 +4,7 @@ import com.google.devtools.ksp.isConstructor
 import com.google.devtools.ksp.symbol.FunctionKind
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
+import com.squareup.kotlinpoet.ksp.toTypeName
 import io.kabu.annotation.Context
 import io.kabu.annotation.ContextCreator
 import io.kabu.backend.diagnostic.diagnosticError
@@ -16,7 +17,7 @@ import io.kabu.frontend.ksp.processor.util.getAnnotation
 import io.kabu.frontend.ksp.processor.util.getAnnotationOrNull
 import io.kabu.frontend.ksp.processor.util.originOf
 import io.kabu.frontend.ksp.processor.util.toMethod
-import io.kabu.frontend.ksp.processor.util.toTypeName
+import io.kabu.frontend.ksp.processor.util.validate
 
 class ContextCreatorFunctionBuilder : AbstractFunctionBuilder<ContextCreatorMethod>() {
 
@@ -64,7 +65,8 @@ class ContextCreatorFunctionBuilder : AbstractFunctionBuilder<ContextCreatorMeth
 
             val enclosingTypeName = classDeclaration
                 .asStarProjectedType()  //todo generics
-                .toTypeName()
+                .also { it.validate() }
+                .toTypeName() //todo val typeParameterResolver = typeParameters.toTypeParameterResolver()
 
             function.toMethod().toContextConstructorMethod(contextName, enclosingTypeName)
 

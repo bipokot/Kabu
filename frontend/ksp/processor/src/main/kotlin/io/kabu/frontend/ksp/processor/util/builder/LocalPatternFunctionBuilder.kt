@@ -5,6 +5,7 @@ import com.google.devtools.ksp.isConstructor
 import com.google.devtools.ksp.symbol.FunctionKind
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
+import com.squareup.kotlinpoet.ksp.toTypeName
 import io.kabu.annotation.LocalPattern
 import io.kabu.backend.inout.input.method.LocalPatternMethod
 import io.kabu.backend.inout.input.method.LocalPatternMethod.Companion.toLocalPatternMethod
@@ -15,7 +16,7 @@ import io.kabu.frontend.ksp.processor.util.getAnnotation
 import io.kabu.frontend.ksp.processor.util.isInner
 import io.kabu.frontend.ksp.processor.util.originOf
 import io.kabu.frontend.ksp.processor.util.toMethod
-import io.kabu.frontend.ksp.processor.util.toTypeName
+import io.kabu.frontend.ksp.processor.util.validate
 
 class LocalPatternFunctionBuilder : AbstractFunctionBuilder<LocalPatternMethod>() {
 
@@ -34,7 +35,8 @@ class LocalPatternFunctionBuilder : AbstractFunctionBuilder<LocalPatternMethod>(
 
         val declaringType = classDeclaration
             .asStarProjectedType() //todo highlight generic nuances intentionally
-            .toTypeName()
+            .also { it.validate() }
+            .toTypeName() //todo val typeParameterResolver = typeParameters.toTypeParameterResolver()
 
         return function.toMethod().toLocalPatternMethod(declaringType, pattern)
     }

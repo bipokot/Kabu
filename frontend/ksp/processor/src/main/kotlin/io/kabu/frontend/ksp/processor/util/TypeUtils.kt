@@ -9,12 +9,8 @@ import com.google.devtools.ksp.symbol.KSTypeReference
 import com.google.devtools.ksp.symbol.KSValueParameter
 import com.google.devtools.ksp.symbol.Modifier
 import com.google.devtools.ksp.symbol.Variance
-import com.squareup.kotlinpoet.ClassName
-import com.squareup.kotlinpoet.KModifier
-import com.squareup.kotlinpoet.LambdaTypeName
-import com.squareup.kotlinpoet.ParameterSpec
-import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
-import com.squareup.kotlinpoet.TypeName
+import com.squareup.kotlinpoet.ksp.toTypeName
+import com.squareup.kotlinpoet.ksp.toTypeParameterResolver
 import io.kabu.backend.diagnostic.Origin
 import io.kabu.backend.exception.PatternProcessingException
 import io.kabu.backend.inout.input.method.Method
@@ -24,6 +20,9 @@ import io.kabu.frontend.ksp.diagnostic.builder.parameterProcessingError
 
 
 internal fun KSFunctionDeclaration.toMethod(): Method {
+    val typeParameterResolver = typeParameters.toTypeParameterResolver()
+    val methodOrigin = originOf(this)
+    val methodName = simpleName.asString()
 
     fun createParameter(
         name: String,
@@ -31,16 +30,16 @@ internal fun KSFunctionDeclaration.toMethod(): Method {
         origin: Origin,
         methodName: String,
     ) = try {
-        Parameter(name, typeReference.toTypeName(), origin)
+        typeReference.validate()
+        Parameter(name, typeReference.toTypeName(typeParameterResolver), origin)
     } catch (e: PatternProcessingException) {
         parameterProcessingError(name, methodName, e, origin)
     }
 
-    val methodOrigin = originOf(this)
-    val methodName = simpleName.asString()
     val receiver = extensionReceiver
         ?.let { createParameter(RECEIVER_PARAMETER_NAME, it, originOf(it, parent = methodOrigin), methodName) }
-    val returnType = returnType?.toTypeName()!!
+    val returnType = returnType?.toTypeName(typeParameterResolver)!!
+        .also { returnType?.validate() }
     val parameters = parameters.map { parameter ->
         validateValueParameter(parameter)
         val parameterOrigin = originOf(parameter, parent = methodOrigin)
@@ -59,51 +58,30 @@ internal fun KSFunctionDeclaration.toMethod(): Method {
     )
 }
 
-internal fun KSTypeReference.toTypeName(): TypeName {
+internal fun KSTypeReference.validate() {
     val type = resolve()
     validateType(type)
-    
+
     (element as? KSCallableReference)?.let { callableReference ->
         validateCallableReference(callableReference)
 
-        val typeName = LambdaTypeName.get(
-            receiver = callableReference.receiverType?.toTypeName(),
-            parameters = callableReference.functionParameters.map {
-                validateValueParameter(it)
-
-                val modifiers = mutableListOf<KModifier>().apply {
-                    if (it.isVararg) add(KModifier.VARARG)
-                }
-
-                ParameterSpec(name = it.name?.asString() ?: "", type = it.type.toTypeName(), modifiers)
-            },
-            returnType = callableReference.returnType.toTypeName()
-        )
-
-        return if (type.isMarkedNullable) {
-            typeName.copy(nullable = true)
-        } else typeName
+        callableReference.receiverType?.validate()
+        callableReference.functionParameters.forEach {
+            validateValueParameter(it)
+            it.type.validate()
+        }
+        callableReference.returnType.validate()
     }
 
     // assuming interface or class below
-    return type.toTypeName()
+    type.validate()
 }
 
-internal fun KSType.toTypeName(): TypeName {
+internal fun KSType.validate() {
     validateType(this)
-
-    val className = ClassName(declaration.packageName.asString(), declaration.simpleName.asString())
-    val typeName = if (arguments.isEmpty()) className else {
-        className.parameterizedBy(
-            arguments.map { typeArgument ->
-                validateTypeArgument(typeArgument)
-                typeArgument.type!!.toTypeName()
-            }
-        )
+    arguments.forEach { typeArgument ->
+        validateTypeArgument(typeArgument)
     }
-    return if (isMarkedNullable) {
-        typeName.copy(nullable = true)
-    } else typeName
 }
 
 internal fun validateTypeArgument(typeArgument: KSTypeArgument) {
