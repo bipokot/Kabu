@@ -12,7 +12,7 @@ import io.kabu.backend.node.WatcherContextTypeNode
 import io.kabu.backend.node.sortTopologically
 
 
-class Generator {
+class Generator(private val testMode: Boolean = false) {
     private val filename: String = "Generated"
 
     fun writeCode(nodes: Set<Node>, writer: FileWriter) {
@@ -48,7 +48,7 @@ class Generator {
         val gatheredDeclarations = gatherDeclarationsForNodes(unwrittenNodes, writtenNodes)
         val declarations = gatheredDeclarations.declarations
 
-        return Writer().composeFileForDeclarations(packageNode.name, declarations)
+        return Writer(testMode).composeFileForDeclarations(packageNode.name, declarations)
     }
 
     private fun getDeclarationsForNode(node: Node): GatheredDeclarations {

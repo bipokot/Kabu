@@ -9,7 +9,7 @@ import org.junit.Test
 
 class GenerationTest : XTest() {
 
-    private val generator = Generator()
+    private val generator = Generator(testMode = true)
 
     @Test
     fun test() {

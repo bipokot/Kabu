@@ -50,7 +50,7 @@ fun completionOutputOf(raw: String, sample: String): String {
     getDiagramOfNodes(nodes)
     val integrator = Integrator()
     integrator.integrate(nodes, removeIrrelevant = false)
-    val scriptGenerated = Generator().getCodeForPackage(integrator.integrated, method.packageName)
+    val scriptGenerated = Generator(testMode = true).getCodeForPackage(integrator.integrated, method.packageName)
     // ---
 
     val scriptString = scriptGenerated +

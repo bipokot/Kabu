@@ -23,7 +23,7 @@ abstract class AbstractFunctionDeclaration : AbstractCallableDeclaration() {
         isHelper: Boolean = false, //todo up
     ): FunSpec {
         return FunSpec.builder(name).apply {
-            addModifiers(if (isHelper) KModifier.PRIVATE else KModifier.PUBLIC)
+            if (isHelper) addModifiers(KModifier.PRIVATE)
             when {
                 isInfix -> addModifiers(KModifier.INFIX)
                 !isHelper -> addModifiers(KModifier.OPERATOR)

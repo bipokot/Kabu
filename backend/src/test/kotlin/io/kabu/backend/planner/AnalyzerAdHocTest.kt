@@ -47,7 +47,7 @@ class AnalyzerAdHocTest : Assert() {
             val options = Options.DEFAULT.copy(hideInternalProperties = false, accessorObjectIsInSamePackage = true)
             val nodes = AnalyzerImpl(method, MethodsRegistry(), null, options).analyze()
             val integrated = Integrator().apply { integrate(nodes) }.integrated
-            val codeForPackage = Generator().getCodeForPackage(integrated, method.packageName)
+            val codeForPackage = Generator(testMode = true).getCodeForPackage(integrated, method.packageName)
             SimpleFileWriter(TEST_GENERATED_DIR).writeFile(method.packageName, filename, codeForPackage)
         } catch (e: PatternProcessingException) {
             logger.error(e) { "${e.localizedMessage}\n${e.diagnostic}" }
