@@ -6,6 +6,7 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.TypeName
 import io.kabu.backend.declaration.AbstractCallableDeclaration
 import io.kabu.backend.provider.group.OrderedNamedProviders
+import io.kabu.backend.util.poet.gatherTypeVariableNames
 
 
 abstract class AbstractFunctionDeclaration : AbstractCallableDeclaration() {
@@ -23,6 +24,11 @@ abstract class AbstractFunctionDeclaration : AbstractCallableDeclaration() {
         isHelper: Boolean = false, //todo up
     ): FunSpec {
         return FunSpec.builder(name).apply {
+            val typeVariableNames = returnType.gatherTypeVariableNames() +
+                    receiverType?.gatherTypeVariableNames().orEmpty() +
+                    providers.providers.flatMap { it.type.gatherTypeVariableNames() }
+            addTypeVariables(typeVariableNames.toSet())
+
             if (isHelper) addModifiers(KModifier.PRIVATE)
             when {
                 isInfix -> addModifiers(KModifier.INFIX)

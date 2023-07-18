@@ -2,7 +2,9 @@
 package io.kabu.backend.node
 
 import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeName
+import com.squareup.kotlinpoet.TypeVariableName
 import io.kabu.backend.declaration.Declaration
 import io.kabu.backend.integration.NameAndType
 import io.kabu.backend.legacy.TypeNameGeneratorFactory
@@ -10,6 +12,7 @@ import io.kabu.backend.node.namespace.ClassNamespaceNode
 import io.kabu.backend.node.namespace.NamespaceNode
 import io.kabu.backend.node.namespace.PackageNamespaceNode
 import io.kabu.backend.provider.group.FunDeclarationProviders
+import io.kabu.backend.util.poet.gatherTypeVariableNames
 
 
 interface Node {
@@ -179,12 +182,26 @@ open class HolderTypeNode(
             .mapTo(mutableListOf<Node>()) { it }
             .apply { namespaceNode?.let { add(it) } }
 
+    //todo rn rawClassName
     val className: ClassName
         get() = namespaceNode!!.composeClassName(name)
 
     //todo className vs typeName
     override val typeName: TypeName
-        get() = className
+        get() = composeTypeName()
+
+    private fun composeTypeName(): TypeName {
+        val typeVariableNames = gatherTypeVariableNames()
+        return if (typeVariableNames.isEmpty()) className else {
+            className.parameterizedBy(typeVariableNames)
+        }
+    }
+
+    fun gatherTypeVariableNames(): List<TypeVariableName> {
+        return fieldTypes.flatMap {
+            it.typeName.gatherTypeVariableNames()
+        }.toSet().toList()
+    }
 
     init {
         updateLinks()

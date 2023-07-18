@@ -43,9 +43,6 @@ abstract class AbstractFunctionBuilder<out T: Method> {
         areNotSupported(function.isPrivate(), function) { "Private functions as $role" } // tested
         areNotSupported(function.isProtected(), function) { "Protected functions as $role" } // tested
         areNotSupported(function.isAbstract, function) { "Abstract functions as $role" } // tested
-        areNotSupported(function.typeParameters.isNotEmpty(), function) {
-            "Functions with type parameters as $role"
-        } // tested
         areNotSupported(function.isActual, function) { "Functions with 'actual' keyword as $role" }
         areNotSupported(function.isExpect, function) { "Functions with 'expect' keyword as $role" }
         notSupportedFunctionModifiers(

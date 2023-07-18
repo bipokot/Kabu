@@ -85,10 +85,10 @@ internal fun KSType.validate() {
 }
 
 internal fun validateTypeArgument(typeArgument: KSTypeArgument) {
-    areNotSupported(typeArgument.variance == Variance.CONTRAVARIANT, typeArgument) {
-        "Contravariant type arguments"
-    } // tested
-    areNotSupported(typeArgument.variance == Variance.COVARIANT, typeArgument) { "Covariant type arguments" } // tested
+//    areNotSupported(typeArgument.variance == Variance.CONTRAVARIANT, typeArgument) { // supported
+//        "Contravariant type arguments"
+//    } // tested
+//    areNotSupported(typeArgument.variance == Variance.COVARIANT, typeArgument) { "Covariant type arguments" } // supported
     areNotSupported(typeArgument.variance == Variance.STAR, typeArgument) { "Star projections" } // tested
 }
 
