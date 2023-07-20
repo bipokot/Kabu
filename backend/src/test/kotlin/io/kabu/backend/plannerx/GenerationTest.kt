@@ -19,7 +19,6 @@ class GenerationTest : XTest() {
     private fun testPattern(patternWithSignature: String) {
         // analyze method + pattern
         val nodes = analyzePatternWithSignature(patternWithSignature)
-        getDiagramOfNodes(nodes)
 
         // integrate nodes
         val integrator = Integrator()

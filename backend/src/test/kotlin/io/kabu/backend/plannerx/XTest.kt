@@ -56,8 +56,8 @@ open class XTest {
             val visualizer = GraphVisualizer()
             val styledDiagram = visualizer.generateMermaidDiagramAsFlowchart(nodes, styling = true)
             val unStyledDiagram = visualizer.generateMermaidDiagramAsFlowchart(nodes, styling = false)
-            println(visualizer.getMermaidRenderLink(styledDiagram))
-            println(unStyledDiagram)
+            logger.debug { visualizer.getMermaidRenderLink(styledDiagram) }
+            logger.debug { unStyledDiagram }
             return unStyledDiagram
         }
     }

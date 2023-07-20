@@ -43,7 +43,7 @@ class MethodsRegistry(processingInput: ProcessingInput? = null) {
 
         return when {
             groupedByExtensionContextType.isEmpty() ->
-                diagnosticError("No context creator for context name $contextName.")
+                diagnosticError("Context creator for context name '$contextName' not found.")
 
             groupedByExtensionContextType.size > 1 -> diagnosticError(
                 "Context creators for one context name '$contextName' must have the same return type\n " +

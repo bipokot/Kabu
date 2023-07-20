@@ -5,6 +5,7 @@ import com.squareup.kotlinpoet.UNIT
 import io.kabu.backend.analyzer.Analyzer
 import io.kabu.backend.analyzer.AnalyzerImpl
 import io.kabu.backend.analyzer.handler.lambda.watcher.OperatorInfoTypes.isOperatorInfoType
+import io.kabu.backend.common.log.InterceptingLogging
 import io.kabu.backend.diagnostic.builder.couldNotRetrieveReceiverValueError
 import io.kabu.backend.diagnostic.builder.signatureParameterMissingError
 import io.kabu.backend.diagnostic.builder.signatureParameterMissingInPatternError
@@ -24,7 +25,7 @@ class TerminalCallableBuilder {
         functionBlockContext: FunctionBlockContext,
         requiredReturnStatement: String?,
     ): CodeBlock {
-        println(renderProviderTree(functionBlockContext.actualProvidersProvider))
+        logger.debug { renderProviderTree(functionBlockContext.actualProvidersProvider) }
 
         val providers: List<Provider> =
             gatherRequiredProviders(analyzer, functionBlockContext.actualProvidersProvider)
@@ -113,5 +114,9 @@ class TerminalCallableBuilder {
             .filterNot { it.isBlank() }
             .joinToString(separator = "\n")
             .asCodeBlock()
+    }
+
+    private companion object {
+        val logger = InterceptingLogging.logger {}
     }
 }

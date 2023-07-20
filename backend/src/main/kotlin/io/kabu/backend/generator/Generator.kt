@@ -97,7 +97,7 @@ class Generator(private val testMode: Boolean = false) {
             val unwrittenIterator = unwrittenNodes.iterator()
             while (unwrittenIterator.hasNext()) {
                 val node = unwrittenIterator.next()
-                logger.debug { "Checking node: $node" }
+                logger.trace { "Checking node: $node" }
                 val hasNoUnwrittenDependencies = node.dependencies.none { it in unwrittenNodes }
                 if (hasNoUnwrittenDependencies) {
                     val gatheredDeclarations = getDeclarationsForNode(node)

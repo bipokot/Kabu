@@ -5,6 +5,7 @@ import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeVariableName
+import io.kabu.backend.common.log.InterceptingLogging
 import io.kabu.backend.declaration.Declaration
 import io.kabu.backend.integration.NameAndType
 import io.kabu.backend.legacy.TypeNameGeneratorFactory
@@ -32,8 +33,12 @@ interface AbstractNode : Node {
                 it.derivativeNodes.add(this)
             }
         } catch (e: Exception) {
-            println(e)
+            logger.error("Links inconsistency in node '$this'", e)
         }
+    }
+
+    private companion object {
+        val logger = InterceptingLogging.logger {}
     }
 }
 

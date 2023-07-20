@@ -23,16 +23,15 @@ class PropertyAndPropertyUniversalConflictResolver(private val integrator: Integ
         val current = integrator.notIntegratedOf(node1, node2)
         if (!isResolvable(current, conflicting)) integrator.unresolvedConflictError(current, conflicting)
 
-        visualize(integrator.integrated, "Before rewire")
-        integrator.validateLinks()
+        visualize(integrator.integrated, "Before conflict resolving")
 
         integrator.rewireNodes(current, conflicting)
-        visualize(integrator.integrated, "After functions rewire")
         integrator.validateLinks()
 
         integrator.rewireNodes(current.returnTypeNode, conflicting.returnTypeNode)
-        visualize(integrator.integrated, "After return types rewire")
         integrator.validateLinks()
+
+        visualize(integrator.integrated, "After conflict resolving")
     }
 
     private fun isResolvable(current: PropertyNode, conflicting: PropertyNode): Boolean {

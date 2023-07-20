@@ -29,6 +29,8 @@ class FunctionAndFunctionUniversalConflictResolver(private val integrator: Integ
         val current = integrator.notIntegratedOf(node1, node2)
         if (!isResolvable(current, conflicting)) integrator.unresolvedConflictError(current, conflicting)
 
+        visualize(integrator.integrated, "Before conflict resolving")
+
         conflicting.parameters.forEachIndexed { index, nameAndType ->
             val correspondingNameAndType = current.parameters[index]
             if (nameAndType.name != correspondingNameAndType.name) {
@@ -38,16 +40,13 @@ class FunctionAndFunctionUniversalConflictResolver(private val integrator: Integ
         val parameterNames = renameClashingParametersNames(conflicting.parameters.map { it.name })
         conflicting.parameters.forEachIndexed { index, nameAndType -> nameAndType.name = parameterNames[index] }
 
-        visualize(integrator.integrated, "Before rewire")
-        integrator.validateLinks()
-
         integrator.rewireNodes(current, conflicting)
-        visualize(integrator.integrated, "After functions rewire")
         integrator.validateLinks()
 
         integrator.rewireNodes(current.returnTypeNode, conflicting.returnTypeNode)
-        visualize(integrator.integrated, "After return types rewire")
         integrator.validateLinks()
+
+        visualize(integrator.integrated, "After conflict resolving")
     }
 
     private fun generalizeName(typeNode: TypeNode): String {

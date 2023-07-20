@@ -7,7 +7,6 @@ import io.kabu.backend.generator.Generator
 import io.kabu.backend.inout.input.method.GlobalPatternMethod
 import io.kabu.backend.integration.Integrator
 import io.kabu.backend.pattern.PatternWithSignature
-import io.kabu.backend.plannerx.XTest.Companion.getDiagramOfNodes
 import io.kabu.backend.processor.MethodsRegistry
 import io.kabu.backend.processor.Options
 import io.kabu.backend.processor.PartialOptions
@@ -27,7 +26,7 @@ fun Any?.completionWithReceiver(vararg parameters: Any?) {
 }
 
 fun completionOutputOf(raw: String, sample: String): String {
-    println("Raw: $raw")
+    logger.debug("Raw: $raw")
 
     val patternWithSignature = PatternWithSignature(raw)
     val (receiver, parameters, returnedType) = patternWithSignature.signature
@@ -47,7 +46,6 @@ fun completionOutputOf(raw: String, sample: String): String {
         )
     )
     val nodes = AnalyzerImpl(method, MethodsRegistry(), null, options).analyze()
-    getDiagramOfNodes(nodes)
     val integrator = Integrator()
     integrator.integrate(nodes, removeIrrelevant = false)
     val scriptGenerated = Generator(testMode = true).getCodeForPackage(integrator.integrated, method.packageName)
@@ -83,14 +81,13 @@ fun completionOutputOf(raw: String, sample: String): String {
         }
         Assert.assertTrue(res is ResultWithDiagnostics.Success)
     }
-    println(out)
+    logger.debug(out)
     return out
 }
 
 private const val CLIENT_METHOD = "completion"
 private const val CLIENT_METHOD_WITH_RECEIVER = "completionWithReceiver"
 private const val TARGET_PACKAGE = "$BACKEND_PACKAGE.r2c"
-private const val FILENAME = "Generated"
 private const val DELIMITER = "================================================="
 val unknownOrigin = Origin()
 private val logger = InterceptingLogging.logger {}
