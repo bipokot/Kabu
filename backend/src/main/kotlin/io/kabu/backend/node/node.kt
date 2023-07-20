@@ -182,18 +182,16 @@ open class HolderTypeNode(
             .mapTo(mutableListOf<Node>()) { it }
             .apply { namespaceNode?.let { add(it) } }
 
-    //todo rn rawClassName
-    val className: ClassName
+    val rawClassName: ClassName
         get() = namespaceNode!!.composeClassName(name)
 
-    //todo className vs typeName
     override val typeName: TypeName
         get() = composeTypeName()
 
     private fun composeTypeName(): TypeName {
         val typeVariableNames = gatherTypeVariableNames()
-        return if (typeVariableNames.isEmpty()) className else {
-            className.parameterizedBy(typeVariableNames)
+        return if (typeVariableNames.isEmpty()) rawClassName else {
+            rawClassName.parameterizedBy(typeVariableNames)
         }
     }
 

@@ -11,7 +11,7 @@ class InclusionProvider(
 ) : AbstractWatchedProvider(typeNode, providers) {
 
     override fun provideCodeForConstructionFromAux(auxName: String): String {
-        val holderClassCanonicalName = (typeNode as HolderTypeNode).className.canonicalName
+        val holderClassCanonicalName = (typeNode as HolderTypeNode).rawClassName.canonicalName
 
         //todo use FieldAccessCodeGenerator(analyzer).generateFieldAccessorCode(selfName!!, privateFieldName)
 

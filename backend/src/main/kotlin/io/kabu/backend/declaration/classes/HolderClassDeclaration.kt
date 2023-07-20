@@ -24,7 +24,7 @@ class HolderClassDeclaration(
 ) : AbstractTypeDeclaration() {
 
     override val className: ClassName
-        get() = typeNode.className
+        get() = typeNode.rawClassName
 
     private val fields: List<NameAndType> = run {
         val nameAndTypes: List<NameAndType> = fieldTypes.map { NamedTypeNode("<unknown>", it) }
@@ -49,7 +49,7 @@ class HolderClassDeclaration(
             }
         }.build()
 
-        return TypeSpec.classBuilder(typeNode.className).apply {
+        return TypeSpec.classBuilder(typeNode.rawClassName).apply {
             addTypeVariables(typeNode.gatherTypeVariableNames())
             parentTypeName?.let { superclass(it) }
             addModifiers(KModifier.PUBLIC)

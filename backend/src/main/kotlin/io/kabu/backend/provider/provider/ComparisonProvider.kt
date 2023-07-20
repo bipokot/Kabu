@@ -13,7 +13,7 @@ class ComparisonProvider(
 ) : AbstractWatchedProvider(typeNode, providers) {
 
     override fun provideCodeForConstructionFromAux(auxName: String): String {
-        val holderClassCanonicalName = (typeNode as HolderTypeNode).className.canonicalName
+        val holderClassCanonicalName = (typeNode as HolderTypeNode).rawClassName.canonicalName
 
         //todo do safeCast method to bring right exceptions to the user
         //todo make holder creation through CodeBlock(%T, className)
