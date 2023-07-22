@@ -117,7 +117,7 @@ class OperatorHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
         validateApplicability(expression.operator, analyzer, rawProviders)
 
         val funDeclarationProviders = FunDeclarationProvidersFactory
-            .from(rawProviders, expression.operator.invertedArgumentOrdering)
+            .from(rawProviders, expression.operator.overriding.invertedArgumentOrdering)
 
         val terminalFunction = TerminalFunctionNode(
             funDeclarationProviders = funDeclarationProviders,
@@ -145,7 +145,7 @@ class OperatorHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
 
         val funDeclarationProviders = FunDeclarationProvidersFactory.from(
             rawProvidersOfAssign,
-            assignOperator.invertedArgumentOrdering
+            assignOperator.overriding.invertedArgumentOrdering
         )
 
         val functionNode = TerminalFunctionNode(
@@ -176,7 +176,7 @@ class OperatorHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
     ): HolderProvider {
         val funDeclarationProviders = FunDeclarationProvidersFactory.from(
             rawProviders,
-            expression.operator.invertedArgumentOrdering
+            expression.operator.overriding.invertedArgumentOrdering
         )
 
         val functionBlockContext = FunctionBlockContext(funDeclarationProviders)

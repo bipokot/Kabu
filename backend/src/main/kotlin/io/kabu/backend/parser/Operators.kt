@@ -12,34 +12,31 @@ import io.kabu.backend.parser.Arity.UNARY
 /**
  * @property function overridable function name (by convention)
  * @property mustReturn what the translation function must return, if FREE - no restrictions
+ * @property invertedArgumentOrdering if there is difference between argument ordering in use site of operator
+ * and its translation
  */
 data class Overriding(
-    val function: String,
-    val mustReturn: FunctionMustReturn = FunctionMustReturn.FREE
+    val function: String?,
+    val mustReturn: FunctionMustReturn = FunctionMustReturn.FREE,
+    val invertedArgumentOrdering: Boolean = false,
 )
 
 /**
- * Descendants can possibly be used in a resulting code.
- * Only those operators implemented that support overriding in some way
+ * Operator of Kotlin tree.
  *
  * @property expressionType type of this operator expression in usage site
- * @property invertedArgumentOrdering if there is difference between argument ordering in use site of operator
- * and its translation
  */
 sealed class Operator( //todo rename to OperatorType, or use ParsedOperator(OperatorType, origin) in KotlinExpression ?
     val symbol: String,
     val priority: Int,
     val arity: Arity,
     val expressionType: EvaluatedExpressionType = EvaluatedExpressionType.FREE,
-    val overriding: Overriding? = null,
+    val overriding: Overriding,
     //todo remove as we should not mix **type** of an operator and actual parsed operator (with origin) ?
     override val origin: Origin
 ) : HasOrigin {
 
-    /** If there is difference between argument ordering in use site of operator and its translation */
-    open val invertedArgumentOrdering: Boolean = false
-
-    fun getFunctionNameOrThrow(): String = overriding?.function
+    fun getFunctionNameOrThrow(): String = overriding.function
         ?: diagnosticError("Operator $this is not supported", this)
 
     override fun toString() = this::class.simpleName ?: "Operator"
@@ -49,7 +46,7 @@ sealed class UnaryOperator(
     symbol: String,
     priority: Int,
     expressionType: EvaluatedExpressionType = EvaluatedExpressionType.FREE,
-    overriding: Overriding? = null,
+    overriding: Overriding,
     origin: Origin,
 ) : Operator(symbol, priority, UNARY, expressionType, overriding, origin)
 
@@ -57,7 +54,7 @@ sealed class BinaryOperator(
     symbol: String,
     priority: Int,
     expressionType: EvaluatedExpressionType = EvaluatedExpressionType.FREE,
-    overriding: Overriding? = null,
+    overriding: Overriding,
     origin: Origin
 ) : Operator(symbol, priority, BINARY, expressionType, overriding, origin)
 
@@ -65,7 +62,7 @@ sealed class NaryOperator(
     symbol: String,
     priority: Int,
     expressionType: EvaluatedExpressionType,
-    overriding: Overriding? = null,
+    overriding: Overriding,
     origin: Origin
 ) : Operator(symbol, priority, NARY, expressionType, overriding, origin)
 
@@ -90,7 +87,7 @@ class Indexing(origin: Origin) : NaryOperator(
 sealed class UnaryPostfix(
     symbol: String,
     expressionType: EvaluatedExpressionType,
-    overriding: Overriding? = null,
+    overriding: Overriding,
     origin: Origin
 ) : UnaryOperator(symbol, 15, expressionType, overriding, origin) {
 
@@ -116,7 +113,7 @@ sealed class UnaryPostfix(
     )
 }
 
-class Access(origin: Origin) : BinaryOperator(".", 15, origin = origin)
+class Access(origin: Origin) : BinaryOperator(".", 15, overriding = Overriding(null), origin = origin)
 
 //object SafeAccess : BinaryOperator("?.", 15), NotSupported
 //object Question : BinaryOperator("?", 15), NotSupported
@@ -126,7 +123,7 @@ class Access(origin: Origin) : BinaryOperator(".", 15, origin = origin)
 sealed class UnaryPrefix(
     symbol: String,
     expressionType: EvaluatedExpressionType,
-    overriding: Overriding? = null,
+    overriding: Overriding,
     origin: Origin
 ) : UnaryOperator(symbol, 14, expressionType, overriding, origin) {
 
@@ -181,7 +178,7 @@ sealed class UnaryPrefix(
 sealed class Multiplicative(
     symbol: String,
     expressionType: EvaluatedExpressionType,
-    overriding: Overriding? = null,
+    overriding: Overriding,
     origin: Origin
 ) : BinaryOperator(symbol, 12, expressionType, overriding, origin) {
 
@@ -212,7 +209,7 @@ sealed class Multiplicative(
 sealed class Additive(
     symbol: String,
     expressionType: EvaluatedExpressionType,
-    overriding: Overriding? = null,
+    overriding: Overriding,
     origin: Origin
 ) : BinaryOperator(symbol, 11, expressionType, overriding, origin) {
 
@@ -271,7 +268,7 @@ class InfixFunction(
 sealed class InclusionCheck(
     symbol: String,
     expressionType: EvaluatedExpressionType,
-    overriding: Overriding? = null,
+    overriding: Overriding,
     origin: Origin
 ) : BinaryOperator(symbol, 7, expressionType, overriding, origin) {
 
@@ -280,24 +277,22 @@ sealed class InclusionCheck(
         expressionType = EvaluatedExpressionType.BOOLEAN,
         overriding = Overriding(
             function = "contains",
-            mustReturn = FunctionMustReturn.BOOLEAN
+            mustReturn = FunctionMustReturn.BOOLEAN,
+            invertedArgumentOrdering = true,
         ),
         origin = origin
-    ) {
-        override val invertedArgumentOrdering = true
-    }
+    )
 
     class NotIn(origin: Origin) : InclusionCheck(
         symbol = "!in",
         expressionType = EvaluatedExpressionType.BOOLEAN,
         overriding = Overriding(
             function = "contains",
-            mustReturn = FunctionMustReturn.BOOLEAN
+            mustReturn = FunctionMustReturn.BOOLEAN,
+            invertedArgumentOrdering = true,
         ),
         origin = origin
-    ) {
-        override val invertedArgumentOrdering = true
-    }
+    )
 }
 
 //    object Is : NamedCheck("is"), NotSupported
@@ -308,7 +303,7 @@ sealed class InclusionCheck(
 sealed class Comparison(
     symbol: String,
     expressionType: EvaluatedExpressionType,
-    overriding: Overriding? = null,
+    overriding: Overriding,
     origin: Origin
 ) : BinaryOperator(symbol, 6, expressionType, overriding, origin) {
 
@@ -358,7 +353,7 @@ sealed class Comparison(
 sealed class Equality(
     symbol: String,
     expressionType: EvaluatedExpressionType,
-    overriding: Overriding?,
+    overriding: Overriding,
     origin: Origin
 ) : BinaryOperator(symbol, 5, expressionType, overriding, origin) {
     /*
@@ -404,7 +399,7 @@ sealed class Equality(
 sealed class ModAssign(
     symbol: String,
     expressionType: EvaluatedExpressionType,
-    overriding: Overriding? = null,
+    overriding: Overriding,
     origin: Origin
 ) : BinaryOperator(symbol, 1, expressionType, overriding, origin) {
 

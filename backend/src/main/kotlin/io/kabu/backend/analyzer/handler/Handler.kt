@@ -65,7 +65,7 @@ open class Handler(
         assignableSuffixExpression: KotlinExpression?
     ): AbstractProvider {
         val funDeclarationProviders = FunDeclarationProvidersFactory
-            .from(rawProviders, operator.invertedArgumentOrdering)
+            .from(rawProviders, operator.overriding.invertedArgumentOrdering)
 
         val functionBlockContext = FunctionBlockContext(funDeclarationProviders)
         //todo not adding operator info provider here!
@@ -108,7 +108,7 @@ open class Handler(
         // registering capture type for operation
         val returningTypeNode = expressionReturnedTypeOf(operator.expressionType)!!.toFixedTypeNode()
         val translationReturnedTypeNode =
-            (if (operator is Assign) UNIT else operator.overriding!!.mustReturn.asFixedTypeName()).toFixedTypeNode()
+            (if (operator is Assign) UNIT else operator.overriding.mustReturn.asFixedTypeName()).toFixedTypeNode()
         val captureType = CaptureType(
             operator = operator,
             funDeclarationProviders = funDeclarationProviders,

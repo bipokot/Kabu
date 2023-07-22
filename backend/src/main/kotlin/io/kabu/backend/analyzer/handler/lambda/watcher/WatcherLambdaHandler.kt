@@ -166,7 +166,7 @@ class WatcherLambdaHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
         val rawProviders = captureType.rawProviders!!
         val funDeclarationProviders = FunDeclarationProvidersFactory.from(
             rawProviders,
-            captureType.operator.invertedArgumentOrdering,
+            captureType.operator.overriding.invertedArgumentOrdering,
             forSetter = true
         )
 
