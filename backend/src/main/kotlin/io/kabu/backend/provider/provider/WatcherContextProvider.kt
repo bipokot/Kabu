@@ -29,9 +29,6 @@ class WatcherContextProvider(
     ): RetrievalWay? {
         if (provider !== childProvider) return null
 
-//        val privateFieldName = fields[provider]
-//        val code = FieldAccessCodeGenerator(analyzer).generateFieldAccessorCode(selfName!!, privateFieldName)
-
         val code = "(${selfName!!}.stack.pop() as ${provider.type})"
         return RetrievalWay(CodeBlock.of(code), isReentrant = false)
     }

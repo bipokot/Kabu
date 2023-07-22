@@ -11,8 +11,8 @@ import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import io.kabu.annotation.Context
 import io.kabu.annotation.ContextCreator
-import io.kabu.annotation.Pattern
 import io.kabu.annotation.LocalPattern
+import io.kabu.annotation.Pattern
 import io.kabu.backend.common.log.InterceptingLogging
 import io.kabu.backend.common.log.LogSink
 import io.kabu.backend.diagnostic.Diagnostic
@@ -153,7 +153,6 @@ class KspFrontendProcessor(
 
 class KspFrontendProcessorProvider : SymbolProcessorProvider {
     override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {
-//        environment.logger.warn("Creating a processor")
         return KspFrontendProcessor(environment.codeGenerator, environment.options, environment.logger)
     }
 }

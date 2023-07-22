@@ -43,12 +43,12 @@ private fun scriptCompilationConfiguration(): ScriptCompilationConfiguration =
                 "annotation",
             )
             // variant 2: try to extract current classpath and use it for the compilation without filtering
-//            dependenciesFromCurrentContext(wholeClasspath = true)
+            //dependenciesFromCurrentContext(wholeClasspath = true)
             // variant 3: try to extract a classpath from a particular classloader (or Thread.contextClassLoader by default)
             // filtering as in the variant 1 is supported too
-//            dependenciesFromClassloader(classLoader = SimpleScript::class.java.classLoader, wholeClasspath = true)
+            //dependenciesFromClassloader(classLoader = SimpleScript::class.java.classLoader, wholeClasspath = true)
             // variant 4: explicit classpath
-//            updateClasspath(listOf(File("/path/to/jar")))
+            //updateClasspath(listOf(File("/path/to/jar")))
         }
         compilerOptions.append("-language-version=1.8", "-opt-in=kotlin.ExperimentalStdlibApi")
     }

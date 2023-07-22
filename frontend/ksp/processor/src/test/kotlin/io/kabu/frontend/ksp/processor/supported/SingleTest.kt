@@ -11,8 +11,7 @@ class SingleTest : BaseKspFrontendProcessorTest() {
         """
         class A
 
-//        @Pattern("!par") // temp - ok, notemp - ok
-        @Pattern("foo + par") //todo temp - error, notemp - ok
+        @Pattern("foo + par")
         fun f(par: A){
         }
 

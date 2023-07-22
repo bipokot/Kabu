@@ -36,7 +36,6 @@ class GraphVisualizer {
         if (styling) {
             appendLine("direction BT")
         }
-//        appendLine("%%{init: {\"flowchart\": {\"defaultRenderer\": \"elk\"}} }%%")
 
         if (title != null) {
             appendLine("___TITLE___[[${fixPaddings(title)}]]")

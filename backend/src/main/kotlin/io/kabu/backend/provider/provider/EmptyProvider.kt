@@ -17,7 +17,4 @@ class EmptyProvider(
     override fun generateName(): String {
         return typeNode.name.decaps()
     }
-
-//    override fun getEvaluationRequirement(): Provider.EvaluationRequirement =
-//        Provider.EvaluationRequirement.MANDATORY //todo rethink to evaluate "empty lambdas" and not pass them
 }
