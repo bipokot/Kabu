@@ -50,7 +50,7 @@ abstract class AbstractCallableDeclaration : Declaration() {
         val statements1 = functionBlockContext.joinAllStatements()
         val statements2 = run {
             val allParameters = functionBlockContext.actualProvidersProvider.childrenProviders
-                .joinToString { functionBlockContext.getCodeForActualProvider(it) }
+                .joinToString { functionBlockContext.getCodeForProvider(it) }
             "return %T($allParameters)"
         }
 
@@ -72,7 +72,7 @@ abstract class AbstractCallableDeclaration : Declaration() {
 
         // saving
         val actualValues = functionBlockContext.actualProvidersProvider.childrenProviders
-            .map { functionBlockContext.getCodeForActualProvider(it) }
+            .map { functionBlockContext.getCodeForProvider(it) }
         val statements2 = actualValues.joinToString(";") { "$STACK_PROPERTY_NAME.push($it)" }
 
         // returning necessary value
