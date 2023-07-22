@@ -117,7 +117,6 @@ class BackendProcessor(private val options: Options = Options.DEFAULT) {
         return AnalyzerImpl(
             method = method,
             methodsRegistry = methodsRegistry,
-            contextPropertyName = Constants.EXTENSION_CONTEXT_PROPERTY_NAME, //todo rm
             options = options,
             contextMediatorNamespaceNode = contextMediatorTypeNode //todo inconsistency in names
         ).analyze()
@@ -131,7 +130,6 @@ class BackendProcessor(private val options: Options = Options.DEFAULT) {
         return AnalyzerImpl(
             method = method,
             methodsRegistry = methodsRegistry,
-            contextPropertyName = null,
             options = options
         ).analyze()
     }

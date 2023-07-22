@@ -125,7 +125,7 @@ class PatternParser(
                 getLeftAssociativeTreeOfOperationList(tree, { comparison(it) }, { equalityOperator(it) })
             }
             is AssignmentContext -> {
-                require(tree.childCount == 3) //todo can be many of them
+                require(tree.childCount == 3)
                 val operator = visitBinaryOperator(tree.getChild(1))
                 val left = visit(tree.assignableExpression() ?: tree.directlyAssignableExpression())
                 val right = visit(tree.expression())

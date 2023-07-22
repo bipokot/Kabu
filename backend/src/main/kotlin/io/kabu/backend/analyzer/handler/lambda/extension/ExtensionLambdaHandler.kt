@@ -6,12 +6,9 @@ import io.kabu.backend.analyzer.Analyzer
 import io.kabu.backend.analyzer.AnalyzerImpl
 import io.kabu.backend.diagnostic.builder.extensionAnnotationMissingError
 import io.kabu.backend.diagnostic.builder.unknownFunctionParameterNameError
-import io.kabu.backend.inout.input.method.PatternMethod
 import io.kabu.backend.node.ContextMediatorTypeNode
 import io.kabu.backend.node.DerivativeTypeNode
-import io.kabu.backend.node.namespace.NamespaceNode
 import io.kabu.backend.parser.LambdaExpression
-import io.kabu.backend.processor.MethodsRegistry
 import io.kabu.backend.provider.provider.ArgumentProvider
 import io.kabu.backend.provider.provider.ExtensionLambdaProvider
 import io.kabu.backend.util.Constants.EXTENSION_ANNOTATION
@@ -56,23 +53,5 @@ class ExtensionLambdaHandler(
             destinationParameterTypeNode = destinationParameterType,
             analyzer = analyzer,
         )
-    }
-
-    private fun analyzeMethod(
-        method: PatternMethod,
-        contextMediatorNamespaceNode: NamespaceNode,
-        methodsRegistry: MethodsRegistry,
-        contextPropertyName: String?
-    ) {
-        val nodes = AnalyzerImpl(
-            method = method,
-            methodsRegistry = methodsRegistry,
-            contextPropertyName = contextPropertyName,
-            options = analyzer.options,
-            contextMediatorNamespaceNode = contextMediatorNamespaceNode
-        ).analyze()
-        nodes.forEach {
-            registerNode(it)
-        }
     }
 }

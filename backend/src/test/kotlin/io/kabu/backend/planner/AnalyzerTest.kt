@@ -104,5 +104,5 @@ private fun getPlanForPatternWithSignature(patternWithSignature: PatternWithSign
         hideInternalProperties = false,
         accessorObjectIsInSamePackage = true,
     )
-    return AnalyzerImpl(method, MethodsRegistry(), null, options).analyze()
+    return AnalyzerImpl(method, MethodsRegistry(), options).analyze()
 }

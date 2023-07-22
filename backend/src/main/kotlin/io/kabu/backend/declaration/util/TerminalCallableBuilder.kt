@@ -15,6 +15,7 @@ import io.kabu.backend.provider.provider.ArgumentProvider
 import io.kabu.backend.provider.provider.Provider
 import io.kabu.backend.provider.provider.ProviderContainer
 import io.kabu.backend.provider.render.renderProviderTree
+import io.kabu.backend.util.Constants.EXTENSION_CONTEXT_PROPERTY_NAME
 import io.kabu.backend.util.poet.asCodeBlock
 
 
@@ -75,14 +76,13 @@ class TerminalCallableBuilder {
             retrievalWay.codeBlock.toString() //todo ignoring reentrant!!!
         }
 
-        val contextPropertyName = analyzer.contextPropertyName
         val evaluationStatements = functionBlockContext.joinAllStatements()
 
         val method = analyzer.method
         val methodName = method.name
         val receiverExists = method.hasReceiver
         val returningUnit = method.returnedType == UNIT
-        val terminatingLocalPatternMethod = contextPropertyName != null
+        val terminatingLocalPatternMethod = analyzer.isLocalPattern
         if (receiverExists || terminatingLocalPatternMethod) {
             if (receiverExists == terminatingLocalPatternMethod) {
                 diagnosticError("Member functions with receiver aren't supported", method)
@@ -90,7 +90,7 @@ class TerminalCallableBuilder {
             val (receiver, callParameters) = if (receiverExists) {
                 codes.first() to codes.drop(1)
             } else {
-                contextPropertyName to codes
+                EXTENSION_CONTEXT_PROPERTY_NAME to codes
             }
             val names = callParameters.joinToString()
             return if (returningUnit) {

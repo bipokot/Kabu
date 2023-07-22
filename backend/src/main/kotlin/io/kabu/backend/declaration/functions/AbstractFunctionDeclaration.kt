@@ -21,7 +21,7 @@ abstract class AbstractFunctionDeclaration : AbstractCallableDeclaration() {
         receiverType: TypeName? = null,
         isInfix: Boolean = false,
         codeBlock: CodeBlock,
-        isHelper: Boolean = false, //todo up
+        isHelper: Boolean = false,
     ): FunSpec {
         return FunSpec.builder(name).apply {
             val typeVariableNames = returnType.gatherTypeVariableNames() +

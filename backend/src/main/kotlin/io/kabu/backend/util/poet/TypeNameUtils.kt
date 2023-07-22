@@ -28,6 +28,10 @@ object TypeNameUtils {
             return base.replace(packageNamesRegex, "")
         }
 
+    infix fun TypeName.isAssignableTo(other: TypeName): Boolean {
+        return this == other // todo consider inheritance
+    }
+
     private val packageNamesRegex = Regex("\\w+\\.")
 }
 

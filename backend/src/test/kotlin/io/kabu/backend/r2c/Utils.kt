@@ -45,7 +45,7 @@ fun completionOutputOf(raw: String, sample: String): String {
             accessorObjectIsInSamePackage = true
         )
     )
-    val nodes = AnalyzerImpl(method, MethodsRegistry(), null, options).analyze()
+    val nodes = AnalyzerImpl(method, MethodsRegistry(), options).analyze()
     val integrator = Integrator()
     integrator.integrate(nodes, removeIrrelevant = false)
     val scriptGenerated = Generator(testMode = true).getCodeForPackage(integrator.integrated, method.packageName)

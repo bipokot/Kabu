@@ -45,7 +45,7 @@ class AnalyzerAdHocTest : Assert() {
                 origin = Origin()
             )
             val options = Options.DEFAULT.copy(hideInternalProperties = false, accessorObjectIsInSamePackage = true)
-            val nodes = AnalyzerImpl(method, MethodsRegistry(), null, options).analyze()
+            val nodes = AnalyzerImpl(method, MethodsRegistry(), options).analyze()
             val integrated = Integrator().apply { integrate(nodes) }.integrated
             val codeForPackage = Generator(testMode = true).getCodeForPackage(integrated, method.packageName)
             SimpleFileWriter(TEST_GENERATED_DIR).writeFile(method.packageName, filename, codeForPackage)

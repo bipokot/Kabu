@@ -36,7 +36,6 @@ import io.kabu.backend.util.Constants
 class AnalyzerImpl(
     override val method: PatternMethod,
     override val methodsRegistry: MethodsRegistry,
-    override val contextPropertyName: String?,
     val options: Options,
     private val contextMediatorNamespaceNode: NamespaceNode? = null,
 ) : Analyzer {
@@ -56,6 +55,8 @@ class AnalyzerImpl(
     } catch (e: PatternParsingException) {
         patternParsingError(e)
     }
+    override val isLocalPattern: Boolean
+        get() = contextMediatorNamespaceNode != null
 
     val parametersRegistry = ParametersRegistry(method, expression)
 

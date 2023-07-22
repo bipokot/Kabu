@@ -156,7 +156,6 @@ open class ObjectTypeNode(
     val className: ClassName
         get() = namespaceNode!!.composeClassName(name)
 
-    //todo className vs typeName
     override val typeName: TypeName
         get() = className
 

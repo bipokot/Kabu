@@ -44,7 +44,7 @@ open class XTest {
                 )
                 val options = Options.DEFAULT.copy(hideInternalProperties = false, accessorObjectIsInSamePackage = true)
 
-                return AnalyzerImpl(method, MethodsRegistry(), null, options).analyze()
+                return AnalyzerImpl(method, MethodsRegistry(), options).analyze()
 
             } catch (e: PatternProcessingException) {
                 logger.error(e) { "${e.localizedMessage}\n${e.diagnostic}" }

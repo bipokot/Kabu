@@ -77,8 +77,10 @@ abstract class AbstractCallableDeclaration : Declaration() {
 
         // returning necessary value
         val statements3 = when (operator.overriding.mustReturn) {
-            FunctionMustReturn.FREE -> TODO()
-            FunctionMustReturn.ASSIGNABLE -> TODO()
+            FunctionMustReturn.FREE,
+            FunctionMustReturn.ASSIGNABLE,
+            -> error("Incompatible FunctionMustReturn(${operator.overriding.mustReturn}) for fixed returned type")
+
             FunctionMustReturn.BOOLEAN -> "return true"
             FunctionMustReturn.INT -> getReturnStatementForComparison(funDeclarationProviders.operatorInfoType)
             FunctionMustReturn.UNIT -> ""

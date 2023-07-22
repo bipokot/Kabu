@@ -7,6 +7,7 @@ import io.kabu.backend.inout.input.ProcessingInput
 import io.kabu.backend.inout.input.method.ContextCreatorMethod
 import io.kabu.backend.inout.input.method.LocalPatternMethod
 import io.kabu.backend.node.TypeNode
+import io.kabu.backend.util.poet.TypeNameUtils.isAssignableTo
 
 class MethodsRegistry(processingInput: ProcessingInput? = null) {
 
@@ -96,10 +97,4 @@ class MethodsRegistry(processingInput: ProcessingInput? = null) {
     ): Map<TypeName, List<LocalPatternMethod>> {
         return localPatternMethods.groupBy { it.declaringType }
     }
-
-}
-
-//todo move to TypeName utils?
-internal infix fun TypeName.isAssignableTo(other: TypeName): Boolean {
-    return this == other // todo consider inheritance
 }

@@ -69,7 +69,7 @@ class HolderClassDeclaration(
                 }
             }
 
-            if (accessorClassName != null) {
+            if (fieldsHidingEnabled) {
                 fields.forEach {
                     addProperty(
                         PropertySpec.builder(it.name, it.typeNode.typeName).apply {
