@@ -26,7 +26,7 @@ abstract class AbstractCallableDeclaration : Declaration() {
         funDeclarationProviders: FunDeclarationProviders,
         returnTypeNode: TypeNode,
     ): CodeBlock {
-        return if (operator.overriding?.mustReturn == FunctionMustReturn.FREE) {
+        return if (operator.overriding.mustReturn == FunctionMustReturn.FREE) {
             codeBlockForGeneratedTypeNode(funDeclarationProviders, returnTypeNode)
         } else {
             codeBlockForFixedTypeNode(funDeclarationProviders, operator)
@@ -76,13 +76,12 @@ abstract class AbstractCallableDeclaration : Declaration() {
         val statements2 = actualValues.joinToString(";") { "$STACK_PROPERTY_NAME.push($it)" }
 
         // returning necessary value
-        val statements3 = when (operator.overriding?.mustReturn) {
+        val statements3 = when (operator.overriding.mustReturn) {
             FunctionMustReturn.FREE -> TODO()
             FunctionMustReturn.ASSIGNABLE -> TODO()
             FunctionMustReturn.BOOLEAN -> "return true"
             FunctionMustReturn.INT -> getReturnStatementForComparison(funDeclarationProviders.operatorInfoType)
             FunctionMustReturn.UNIT -> ""
-            null -> TODO()
         }
 
         return listOf(statements1, statements2, statements3)

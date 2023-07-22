@@ -4,7 +4,6 @@ package io.kabu.backend.parser
 
 import io.kabu.backend.diagnostic.HasOrigin
 import io.kabu.backend.diagnostic.Origin
-import io.kabu.backend.diagnostic.diagnosticError
 import io.kabu.backend.parser.Arity.BINARY
 import io.kabu.backend.parser.Arity.NARY
 import io.kabu.backend.parser.Arity.UNARY
@@ -26,18 +25,14 @@ data class Overriding(
  *
  * @property expressionType type of this operator expression in usage site
  */
-sealed class Operator( //todo rename to OperatorType, or use ParsedOperator(OperatorType, origin) in KotlinExpression ?
+sealed class Operator(
     val symbol: String,
     val priority: Int,
     val arity: Arity,
     val expressionType: EvaluatedExpressionType = EvaluatedExpressionType.FREE,
     val overriding: Overriding,
-    //todo remove as we should not mix **type** of an operator and actual parsed operator (with origin) ?
-    override val origin: Origin
+    override val origin: Origin //todo mixing type of operator and parsed operator (with origin)?
 ) : HasOrigin {
-
-    fun getFunctionNameOrThrow(): String = overriding.function
-        ?: diagnosticError("Operator $this is not supported", this)
 
     override fun toString() = this::class.simpleName ?: "Operator"
 }

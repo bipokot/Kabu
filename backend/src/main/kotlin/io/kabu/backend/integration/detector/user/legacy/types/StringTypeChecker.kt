@@ -11,7 +11,7 @@ class StringTypeChecker : TypeConflictChecker(String::class) {
         super.check(request)
 
         if (request.operator is Additive.BinaryPlus) {
-            val conflictingStandardMethod = functions.single { it.name == request.operator.overriding!!.function }
+            val conflictingStandardMethod = functions.single { it.name == request.operator.overriding.function!! }
             ownTypeConflict(request, conflictingStandardMethod)
         }
     }

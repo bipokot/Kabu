@@ -20,7 +20,7 @@ class FunctionDeclaration(
     val functionName: String
         get() = when (kind) {
             is RegularFunctionNodeKind.HelperFunction -> kind.name
-            else -> operator.getFunctionNameOrThrow()
+            else -> operator.overriding.function!!
         }
 
     override fun generateFunSpec(): FunSpec {

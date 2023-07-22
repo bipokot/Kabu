@@ -48,7 +48,7 @@ open class TypeConflictChecker(private val klass: KClass<*>) : ConflictChecker()
     }
 
     private fun findFirstClashingFunction(request: OperatorDeclarationRequest): StandardMethod? {
-        val operatorFunctionName = request.operator.overriding?.function
+        val operatorFunctionName = request.operator.overriding.function
         val parametersWithoutReceiver = request.rawProviders.providersList.drop(1)
 
         return functions.find { standardMethod ->

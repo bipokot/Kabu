@@ -40,7 +40,7 @@ class WatcherLambda(val watcherContextTypeNode: WatcherContextTypeNode) {
         //todo exact types match (ignoring type parameters)!
         return captureTypes.size == groupTypes.size &&
             captureTypes.zip(groupTypes).all { it.first == it.second } &&
-            captureType.operator.overriding?.function == group.operator.overriding?.function
+            captureType.operator.overriding.function == group.operator.overriding.function
     }
 }
 
@@ -54,7 +54,7 @@ class CaptureTypeGroup(
 ) {
 
     fun getBaseNameForDeclarations(): String {
-        val namePart = operator.overriding?.function ?: "func"
+        val namePart = operator.overriding.function ?: "func"
         val argsPart = buildString {
             funDeclarationProviders.providersList.forEach {
                 append(it.type.toString().replace(illegalKotlinIdentifierSymbol, "_"))

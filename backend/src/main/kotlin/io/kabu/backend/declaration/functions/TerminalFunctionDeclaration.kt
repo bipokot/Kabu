@@ -24,12 +24,12 @@ open class TerminalFunctionDeclaration(
 
     //todo abstract in base?
     val functionName: String
-        get() = operator.getFunctionNameOrThrow()
+        get() = operator.overriding.function!!
 
     val returnedType: TypeName
         get() = when {
             operator is Assign -> UNIT
-            operator.overriding!!.mustReturn != FunctionMustReturn.FREE -> {
+            operator.overriding.mustReturn != FunctionMustReturn.FREE -> {
                 operator.overriding.mustReturn.asFixedTypeName()
             }
 
@@ -57,15 +57,13 @@ open class TerminalFunctionDeclaration(
         )
     }
 
-    private fun getRequiredByOperatorReturnStatement(operator: Operator) = when (operator.overriding?.mustReturn) {
+    private fun getRequiredByOperatorReturnStatement(operator: Operator) = when (operator.overriding.mustReturn) {
         FunctionMustReturn.BOOLEAN -> "return true"
         FunctionMustReturn.INT -> "return 42"
         FunctionMustReturn.FREE,
         FunctionMustReturn.ASSIGNABLE,
         FunctionMustReturn.UNIT,
         -> null
-
-        null -> null
     }
 
     override fun toString(): String {
