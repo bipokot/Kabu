@@ -11,12 +11,10 @@ import io.kabu.backend.parser.Arity.UNARY
 
 /**
  * @property function overridable function name (by convention)
- * @property translation actual compiler translation
  * @property mustReturn what the translation function must return, if FREE - no restrictions
  */
 data class Overriding(
     val function: String,
-    val translation: String? = null,
     val mustReturn: FunctionMustReturn = FunctionMustReturn.FREE
 )
 
@@ -77,7 +75,7 @@ class Call(origin: Origin) : NaryOperator(
     symbol = "call",
     priority = 15,
     expressionType = EvaluatedExpressionType.FREE,
-    overriding = Overriding("invoke", "a.invoke(parametersList)"),
+    overriding = Overriding("invoke"),
     origin = origin
 )
 
@@ -85,7 +83,7 @@ class Indexing(origin: Origin) : NaryOperator(
     symbol = "index",
     priority = 15,
     expressionType = EvaluatedExpressionType.FREE,
-    overriding = Overriding("get", "a.get(parametersList)"),
+    overriding = Overriding("get"),
     origin = origin
 )
 
@@ -106,14 +104,14 @@ sealed class UnaryPostfix(
     class PlusPlusPostfix(origin: Origin) : UnaryPostfix(
         symbol = "++",
         expressionType = EvaluatedExpressionType.FREE,
-        overriding = Overriding("inc", "a.inc()", FunctionMustReturn.ASSIGNABLE),
+        overriding = Overriding("inc", FunctionMustReturn.ASSIGNABLE),
         origin = origin
     )
 
     class MinusMinusPostfix(origin: Origin) : UnaryPostfix(
         symbol = "--",
         expressionType = EvaluatedExpressionType.FREE,
-        overriding = Overriding("dec", "a.dec()", FunctionMustReturn.ASSIGNABLE),
+        overriding = Overriding("dec", FunctionMustReturn.ASSIGNABLE),
         origin = origin
     )
 }
@@ -135,35 +133,35 @@ sealed class UnaryPrefix(
     class UnaryMinus(origin: Origin) : UnaryPrefix(
         symbol = "-",
         expressionType = EvaluatedExpressionType.FREE,
-        overriding = Overriding("unaryMinus", "a.unaryMinus()"),
+        overriding = Overriding("unaryMinus"),
         origin = origin
     )
 
     class UnaryPlus(origin: Origin) : UnaryPrefix(
         symbol = "+",
         expressionType = EvaluatedExpressionType.FREE,
-        overriding = Overriding("unaryPlus", "a.unaryPlus()"),
+        overriding = Overriding("unaryPlus"),
         origin = origin
     )
 
     class PlusPlusPrefix(origin: Origin) : UnaryPrefix(
         symbol = "++",
         expressionType = EvaluatedExpressionType.FREE,
-        overriding = Overriding("inc", "a.inc()", FunctionMustReturn.ASSIGNABLE),
+        overriding = Overriding("inc", FunctionMustReturn.ASSIGNABLE),
         origin = origin
     )
 
     class MinusMinusPrefix(origin: Origin) : UnaryPrefix(
         symbol = "--",
         expressionType = EvaluatedExpressionType.FREE,
-        overriding = Overriding("dec", "a.dec()", FunctionMustReturn.ASSIGNABLE),
+        overriding = Overriding("dec", FunctionMustReturn.ASSIGNABLE),
         origin = origin
     )
 
     class Not(origin: Origin) : UnaryPrefix(
         symbol = "!",
         expressionType = EvaluatedExpressionType.FREE,
-        overriding = Overriding("not", "a.not()"),
+        overriding = Overriding("not"),
         origin = origin
     )
 }
@@ -190,21 +188,21 @@ sealed class Multiplicative(
     class Multiply(origin: Origin) : Multiplicative(
         symbol = "*",
         expressionType = EvaluatedExpressionType.FREE,
-        overriding = Overriding("times", "a.times(b)"),
+        overriding = Overriding("times"),
         origin = origin
     )
 
     class Divide(origin: Origin) : Multiplicative(
         symbol = "/",
         expressionType = EvaluatedExpressionType.FREE,
-        overriding = Overriding("div", "a.div(b)"),
+        overriding = Overriding("div"),
         origin = origin
     )
 
     class Remainder(origin: Origin) : Multiplicative(
         symbol = "%",
         expressionType = EvaluatedExpressionType.FREE,
-        overriding = Overriding("rem", "a.rem(b)"),
+        overriding = Overriding("rem"),
         origin = origin
     )
 }
@@ -221,14 +219,14 @@ sealed class Additive(
     class BinaryPlus(origin: Origin) : Additive(
         symbol = "+",
         expressionType = EvaluatedExpressionType.FREE,
-        overriding = Overriding("plus", "a.plus(b)"),
+        overriding = Overriding("plus"),
         origin = origin
     )
 
     class BinaryMinus(origin: Origin) : Additive(
         symbol = "-",
         expressionType = EvaluatedExpressionType.FREE,
-        overriding = Overriding("minus", "a.minus(b)"),
+        overriding = Overriding("minus"),
         origin = origin
     )
 }
@@ -239,7 +237,7 @@ class RangeTo(origin: Origin) : BinaryOperator(
     symbol = "..",
     priority = 10,
     expressionType = EvaluatedExpressionType.FREE,
-    overriding = Overriding("rangeTo", "a.rangeTo(b)"),
+    overriding = Overriding("rangeTo"),
     origin = origin
 )
 
@@ -247,7 +245,7 @@ class RangeUntil(origin: Origin) : BinaryOperator(
     symbol = "..<",
     priority = 10,
     expressionType = EvaluatedExpressionType.FREE,
-    overriding = Overriding("rangeUntil", "a.rangeUntil(b)"),
+    overriding = Overriding("rangeUntil"),
     origin = origin
 )
 
@@ -260,7 +258,7 @@ class InfixFunction(
     symbol = symbol,
     priority = 9,
     expressionType = EvaluatedExpressionType.FREE,
-    overriding = Overriding(symbol, "a.$symbol(b)"),
+    overriding = Overriding(symbol),
     origin = origin
 )
 
@@ -282,7 +280,6 @@ sealed class InclusionCheck(
         expressionType = EvaluatedExpressionType.BOOLEAN,
         overriding = Overriding(
             function = "contains",
-            translation = "b.contains(a)",
             mustReturn = FunctionMustReturn.BOOLEAN
         ),
         origin = origin
@@ -295,7 +292,6 @@ sealed class InclusionCheck(
         expressionType = EvaluatedExpressionType.BOOLEAN,
         overriding = Overriding(
             function = "contains",
-            translation = "!b.contains(a)",
             mustReturn = FunctionMustReturn.BOOLEAN
         ),
         origin = origin
@@ -321,7 +317,6 @@ sealed class Comparison(
         expressionType = EvaluatedExpressionType.BOOLEAN,
         overriding = Overriding(
             function = "compareTo",
-            translation = "a.compareTo(b) < 0",
             mustReturn = FunctionMustReturn.INT,
         ),
         origin = origin
@@ -332,7 +327,6 @@ sealed class Comparison(
         expressionType = EvaluatedExpressionType.BOOLEAN,
         overriding = Overriding(
             function = "compareTo",
-            translation = "a.compareTo(b) > 0",
             mustReturn = FunctionMustReturn.INT,
         ),
         origin = origin
@@ -343,7 +337,6 @@ sealed class Comparison(
         expressionType = EvaluatedExpressionType.BOOLEAN,
         overriding = Overriding(
             function = "compareTo",
-            translation = "a.compareTo(b) <= 0",
             mustReturn = FunctionMustReturn.INT,
         ),
         origin = origin
@@ -354,7 +347,6 @@ sealed class Comparison(
         expressionType = EvaluatedExpressionType.BOOLEAN,
         overriding = Overriding(
             function = "compareTo",
-            translation = "a.compareTo(b) >= 0",
             mustReturn = FunctionMustReturn.INT,
         ),
         origin = origin
@@ -379,7 +371,6 @@ sealed class Equality(
         expressionType = EvaluatedExpressionType.BOOLEAN,
         overriding = Overriding(
             function = "equals",
-            translation = "a?.equals(b) ?: (b === null)",
             mustReturn = FunctionMustReturn.BOOLEAN,
         ),
         origin = origin
@@ -390,7 +381,6 @@ sealed class Equality(
         expressionType = EvaluatedExpressionType.BOOLEAN,
         overriding = Overriding(
             function = "equals",
-            translation = "!(a?.equals(b) ?: (b === null))",
             mustReturn = FunctionMustReturn.BOOLEAN,
         ),
         origin = origin
@@ -430,35 +420,35 @@ sealed class ModAssign(
     class PlusAssign(origin: Origin) : ModAssign(
         symbol = "+=",
         expressionType = EvaluatedExpressionType.NONE,
-        overriding = Overriding("plusAssign", "a.plusAssign(b)", FunctionMustReturn.UNIT),
+        overriding = Overriding("plusAssign", FunctionMustReturn.UNIT),
         origin = origin
     )
 
     class MinusAssign(origin: Origin) : ModAssign(
         symbol = "-=",
         expressionType = EvaluatedExpressionType.NONE,
-        overriding = Overriding("minusAssign", "a.minusAssign(b)", FunctionMustReturn.UNIT),
+        overriding = Overriding("minusAssign", FunctionMustReturn.UNIT),
         origin = origin
     )
 
     class MultiplyAssign(origin: Origin) : ModAssign(
         symbol = "*=",
         expressionType = EvaluatedExpressionType.NONE,
-        overriding = Overriding("timesAssign", "a.timesAssign(b)", FunctionMustReturn.UNIT),
+        overriding = Overriding("timesAssign", FunctionMustReturn.UNIT),
         origin = origin
     )
 
     class DivideAssign(origin: Origin) : ModAssign(
         symbol = "/=",
         expressionType = EvaluatedExpressionType.NONE,
-        overriding = Overriding("divAssign", "a.divAssign(b)", FunctionMustReturn.UNIT),
+        overriding = Overriding("divAssign", FunctionMustReturn.UNIT),
         origin = origin
     )
 
     class RemainderAssign(origin: Origin) : ModAssign(
         symbol = "%=",
         expressionType = EvaluatedExpressionType.NONE,
-        overriding = Overriding("remAssign", "a.remAssign(b)", FunctionMustReturn.UNIT),
+        overriding = Overriding("remAssign", FunctionMustReturn.UNIT),
         origin = origin
     )
 }
@@ -467,6 +457,6 @@ class Assign(origin: Origin) : BinaryOperator(
     symbol = "=",
     priority = 1,
     expressionType = EvaluatedExpressionType.NONE,
-    overriding = Overriding("set", "<???>", FunctionMustReturn.UNIT),
+    overriding = Overriding("set", FunctionMustReturn.UNIT),
     origin = origin
 )
