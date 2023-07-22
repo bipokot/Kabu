@@ -22,36 +22,24 @@ class TypeParametersTest : BaseKspFrontendProcessorTest() {
     }
 
     @Test
-    fun `unsupported contravariance`() = compileAndCheck(
+    fun `supported contravariance`() = compileAndCheck(
         """
-        class A<T>
-        
-        @Pattern("foo @Extend(context = bar(), parameter = par) {}")
-        fun f(par: A<in String>){
+        @Pattern("foo + par")
+        fun f(par: List<in String>){
         }
         """
     ) {
-        assertCompilationError()
-        assertExpectedMessage("Error while processing parameter 'par' of function 'f': " +
-                "Contravariant type arguments aren't supported yet")
-        assertExpectedLineNumber(17)
-        assertExpectedMessage("\"par\"")
+        assertOk()
     }
 
     @Test
-    fun `unsupported covariance`() = compileAndCheck(
+    fun `supported covariance`() = compileAndCheck(
         """
-        class A<T>
-        
-        @Pattern("foo @Extend(context = bar(), parameter = par) {}")
-        fun f(par: A<out String>){
+        @Pattern("foo + par")
+        fun f(par: List<out String>){
         }
         """
     ) {
-        assertCompilationError()
-        assertExpectedMessage("Error while processing parameter 'par' of function 'f': " +
-                "Covariant type arguments aren't supported yet")
-        assertExpectedLineNumber(17)
-        assertExpectedMessage("\"par\"")
+        assertOk()
     }
 }
