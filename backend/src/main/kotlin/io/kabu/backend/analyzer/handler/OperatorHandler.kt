@@ -3,6 +3,7 @@ package io.kabu.backend.analyzer.handler
 import com.squareup.kotlinpoet.UNIT
 import io.kabu.backend.analyzer.Analyzer
 import io.kabu.backend.analyzer.AnalyzerImpl
+import io.kabu.backend.analyzer.handler.lambda.watcher.LeftHandSideOfAssign
 import io.kabu.backend.diagnostic.diagnosticError
 import io.kabu.backend.node.factory.node.RegularFunctionNode
 import io.kabu.backend.node.factory.node.TerminalFunctionNode
@@ -62,7 +63,7 @@ class OperatorHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
                 }
 
                 if (!operatorCanReturnAnything) {
-                    return createWatchedParameter(rawParameters, expression.operator, assignableSuffixExpression = null)
+                    return createWatchedParameter(rawParameters, expression.operator, leftHandSideOfAssign = null)
                 }
 
                 if (expression.operator !is Access) {
@@ -231,6 +232,6 @@ class OperatorHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
         val rawProvidersOfAssign = RawProviders(rawProviders.providersList + assigningParameter, operatorInfoParameter = null)
         val assignOperator = (expression.parent as BinaryExpression).operator as Assign
 
-        return createWatchedParameter(rawProvidersOfAssign, assignOperator, expression)
+        return createWatchedParameter(rawProvidersOfAssign, assignOperator, LeftHandSideOfAssign.Indexing)
     }
 }

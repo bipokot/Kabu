@@ -7,6 +7,7 @@ import com.squareup.kotlinpoet.asClassName
 import io.kabu.backend.analyzer.Analyzer
 import io.kabu.backend.analyzer.AnalyzerImpl
 import io.kabu.backend.analyzer.handler.lambda.watcher.CaptureType
+import io.kabu.backend.analyzer.handler.lambda.watcher.LeftHandSideOfAssign
 import io.kabu.backend.diagnostic.builder.watcherLambdaMissingError
 import io.kabu.backend.node.FixedTypeNode
 import io.kabu.backend.node.HolderTypeNode
@@ -14,10 +15,12 @@ import io.kabu.backend.node.TypeNode
 import io.kabu.backend.node.factory.node.HolderTypeNodeImpl
 import io.kabu.backend.node.factory.node.TerminalAssignablePropertyNode
 import io.kabu.backend.node.factory.node.TerminalReadOnlyPropertyNode
+import io.kabu.backend.parser.Access
 import io.kabu.backend.parser.Assign
 import io.kabu.backend.parser.BinaryExpression
 import io.kabu.backend.parser.Comparison
 import io.kabu.backend.parser.EvaluatedExpressionType
+import io.kabu.backend.parser.IdentifierLeaf
 import io.kabu.backend.parser.InclusionCheck
 import io.kabu.backend.parser.KotlinExpression
 import io.kabu.backend.parser.ModAssign
@@ -56,13 +59,23 @@ open class Handler(
         val rawProvidersOfAssign =
             RawProviders(listOf(rawProviders.providersList[0], assigningProvider), operatorInfoParameter = null)
 
-        return createWatchedParameter(rawProvidersOfAssign, assignOperator, expression)
+        val leftHandSideOfAssign = when {
+            expression is IdentifierLeaf ->
+                LeftHandSideOfAssign.StandaloneProperty(expression.name)
+
+            expression is BinaryExpression && expression.operator is Access ->
+                LeftHandSideOfAssign.ObjectProperty((expression.right as IdentifierLeaf).name)
+
+            else -> error("Unknown type of ${LeftHandSideOfAssign::class.simpleName}")
+        }
+
+        return createWatchedParameter(rawProvidersOfAssign, assignOperator, leftHandSideOfAssign)
     }
 
     protected fun createWatchedParameter(
         rawProviders: RawProviders,
         operator: Operator,
-        assignableSuffixExpression: KotlinExpression?
+        leftHandSideOfAssign: LeftHandSideOfAssign?
     ): AbstractProvider {
         val funDeclarationProviders = FunDeclarationProvidersFactory
             .from(rawProviders, operator.overriding.invertedArgumentOrdering)
@@ -113,7 +126,7 @@ open class Handler(
             operator = operator,
             funDeclarationProviders = funDeclarationProviders,
             returnTypeNode = translationReturnedTypeNode,
-            assignableSuffixExpression = assignableSuffixExpression,
+            leftHandSideOfAssign = leftHandSideOfAssign,
             rawProviders = rawProviders,
         )
         val watcherLambda = analyzer.currentWatcherLambda ?: watcherLambdaMissingError(operator)

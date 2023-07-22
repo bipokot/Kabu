@@ -11,13 +11,8 @@ import io.kabu.backend.node.factory.node.AssignablePropertyNode
 import io.kabu.backend.node.factory.node.DispatcherCallsCounterPropertyNode
 import io.kabu.backend.node.factory.node.RegularFunctionNode
 import io.kabu.backend.node.factory.node.util.RegularFunctionNodeKind
-import io.kabu.backend.parser.Access
 import io.kabu.backend.parser.Assign
-import io.kabu.backend.parser.BinaryExpression
-import io.kabu.backend.parser.IdentifierLeaf
-import io.kabu.backend.parser.Indexing
 import io.kabu.backend.parser.LambdaExpression
-import io.kabu.backend.parser.NaryExpression
 import io.kabu.backend.provider.group.FunDeclarationProvidersFactory
 import io.kabu.backend.provider.provider.AbstractProvider
 import io.kabu.backend.provider.provider.ScopingLambdaProvider
@@ -72,27 +67,12 @@ class WatcherLambdaHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
         captureTypes: MutableList<CaptureType>,
     ) {
         val operator = group.operator
-        val assignableSuffixExpression = group.assignableSuffixExpression
+        val leftHandSideOfAssign = group.leftHandSideOfAssign
 
-        when {
-            operator is Assign && assignableSuffixExpression is IdentifierLeaf -> {
-                // x = z
-                handleBinaryAssign(captureTypes)
-            }
-
-            operator is Assign && (assignableSuffixExpression as? BinaryExpression)?.operator is Access -> {
-                // x.y = z
-                handleBinaryAssign(captureTypes)
-            }
-
-            operator is Assign && (assignableSuffixExpression as? NaryExpression)?.operator is Indexing -> {
-                // x[y] = z
-                handleRegularCapture(captureTypes, group)
-            }
-
-            else -> {
-                handleRegularCapture(captureTypes, group)
-            }
+        if (operator is Assign && leftHandSideOfAssign !is LeftHandSideOfAssign.Indexing) {
+            handleBinaryAssign(captureTypes)
+        } else {
+            handleRegularCapture(captureTypes, group)
         }
     }
 
@@ -157,10 +137,10 @@ class WatcherLambdaHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
 
     private fun handleBinaryAssign(captureTypes: List<CaptureType>) {
         val captureType = captureTypes.single()
-        val name = when (val suffix = captureType.assignableSuffixExpression) {
-            is IdentifierLeaf -> suffix.name  // x = z
-            is BinaryExpression -> (suffix.right as IdentifierLeaf).name // x.y = z
-            else -> error("Unknown type of assignableSuffixExpression: $suffix")
+        val name = when (val leftHandSide = captureType.leftHandSideOfAssign) {
+            is LeftHandSideOfAssign.StandaloneProperty -> leftHandSide.name
+            is LeftHandSideOfAssign.ObjectProperty -> leftHandSide.name
+            else -> error("Unknown type of ${LeftHandSideOfAssign::class.simpleName}: $leftHandSide")
         }
 
         val rawProviders = captureType.rawProviders!!

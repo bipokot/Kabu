@@ -2,7 +2,6 @@ package io.kabu.backend.analyzer.handler.lambda.watcher
 
 import io.kabu.backend.node.TypeNode
 import io.kabu.backend.node.WatcherContextTypeNode
-import io.kabu.backend.parser.KotlinExpression
 import io.kabu.backend.parser.Operator
 import io.kabu.backend.provider.group.FunDeclarationProviders
 import io.kabu.backend.util.Constants
@@ -25,7 +24,7 @@ class WatcherLambda(val watcherContextTypeNode: WatcherContextTypeNode) {
                 captureType.operator,
                 captureType.funDeclarationProviders,
                 captureType.returnTypeNode,
-                captureType.assignableSuffixExpression,
+                captureType.leftHandSideOfAssign,
             )
             captureTypeGroups[group] = mutableListOf()
         }
@@ -48,9 +47,7 @@ class CaptureTypeGroup(
     val operator: Operator,
     val funDeclarationProviders: FunDeclarationProviders,
     val returnTypeNode: TypeNode, //todo revise?
-//    // in case of operator==Assign, tells us about actual accessor expression: (Access|Index)
-    val assignableSuffixExpression: KotlinExpression?,
-//    val rawProviders: RawProviders? = null
+    val leftHandSideOfAssign: LeftHandSideOfAssign?,
 ) {
 
     fun getBaseNameForDeclarations(): String {
