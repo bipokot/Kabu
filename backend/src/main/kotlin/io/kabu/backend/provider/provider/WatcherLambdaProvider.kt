@@ -12,7 +12,6 @@ import io.kabu.backend.util.poet.asCodeBlock
 
 class WatcherLambdaProvider(
     typeNode: TypeNode,
-    val returnType: Provider, //todo unused?
     val watcherContextProvider: WatcherContextProvider,
     val analyzer: Analyzer,
     origin: Origin? = null,

@@ -19,7 +19,7 @@ interface TestProvider : Provider {
 
     @Suppress("UNUSED_PARAMETER")
     override var typeNode: TypeNode
-        get() = TODO("Not yet implemented")
+        get() = error("Not implemented")
         set(value) {}
 
     override fun getReplacementWay(context: FunctionBlockContext, forName: String): ReplacementProviderWithCode? {

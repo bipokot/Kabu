@@ -88,7 +88,8 @@ class FixedTypeNode(
     }
 
     override fun toString(): String {
-        return "${className()}: ${namespaceRecursiveName()}/$name"
+        val namespacePart = namespaceRecursiveName()?.let { "$it/" }.orEmpty()
+        return "${className()}: $namespacePart$name"
     }
 
     init {

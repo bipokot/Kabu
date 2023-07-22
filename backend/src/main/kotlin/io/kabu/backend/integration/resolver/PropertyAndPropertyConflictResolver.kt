@@ -11,7 +11,7 @@ import io.kabu.backend.node.PropertyNode
  * Resolves PropertyNode-PropertyNode conflict (both ways)
  */
 @Suppress("UNUSED_PARAMETER")
-class PropertyAndPropertyUniversalConflictResolver(private val integrator: Integrator): ConflictResolver {
+class PropertyAndPropertyConflictResolver(private val integrator: Integrator): ConflictResolver {
 
     override fun resolve(node1: Node, node2: Node) {
         node1 as PropertyNode; node2 as PropertyNode

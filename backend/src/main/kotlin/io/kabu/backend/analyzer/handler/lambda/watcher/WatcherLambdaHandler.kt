@@ -49,13 +49,12 @@ class WatcherLambdaHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
             ScopingLambdaProvider(
                 typeNode = typeNode,
                 returningProvider = returningProvider,
-                watcherContextTypeNode = watcherContextTypeNode,
+                contextTypeNode = watcherContextTypeNode,
                 analyzer = analyzer
             )
         } else {
             WatcherLambdaProvider(
                 typeNode = typeNode,
-                returnType = returningProvider,
                 watcherContextProvider = WatcherContextProvider(watcherContextTypeNode, returningProvider, analyzer),
                 analyzer = analyzer
             )

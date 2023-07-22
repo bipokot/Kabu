@@ -11,7 +11,7 @@ import io.kabu.backend.node.TypeNode
 /**
  * Resolves TypeNode-PropertyNode conflict (both ways)
  */
-class TypeAndPropertyUniversalConflictResolver(private val integrator: Integrator) : ConflictResolver {
+class TypeAndPropertyConflictResolver(private val integrator: Integrator) : ConflictResolver {
 
     override fun resolve(node1: Node, node2: Node) {
         val typeNode = node1 as TypeNode

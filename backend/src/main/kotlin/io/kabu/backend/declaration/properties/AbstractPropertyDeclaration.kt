@@ -81,8 +81,7 @@ abstract class AbstractPropertyDeclaration : AbstractCallableDeclaration() {
         val errorMessage = "The property can be used in an assign operation only"
         getter(
             FunSpec.getterBuilder()
-                //todo '\n' is here because of broken KotlinPoet generation
-                .addCode(CodeBlock.of("throw %T(%S)\n", NotImplementedError::class, errorMessage))
+                .addCode(CodeBlock.of("throw %T(%S)", NotImplementedError::class, errorMessage))
                 .addAnnotation(
                     AnnotationSpec.builder(Deprecated::class)
                         .addMember("\"$errorMessage\", level = DeprecationLevel.ERROR")

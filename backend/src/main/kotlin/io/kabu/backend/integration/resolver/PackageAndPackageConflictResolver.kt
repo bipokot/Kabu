@@ -8,7 +8,7 @@ import io.kabu.backend.node.PackageNode
  * Resolves conflict when integrating a PackageNode
  */
 @Suppress("MaxLineLength")
-class PackageNodeAndPackageNodeUniversalConflictResolver(private val integrator: Integrator) : ConflictResolver {
+class PackageAndPackageConflictResolver(private val integrator: Integrator) : ConflictResolver {
 
     override fun resolve(node1: Node, node2: Node) {
         node1 as PackageNode; node2 as PackageNode

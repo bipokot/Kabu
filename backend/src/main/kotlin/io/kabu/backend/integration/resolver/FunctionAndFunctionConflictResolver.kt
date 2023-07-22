@@ -15,7 +15,7 @@ import io.kabu.backend.util.decaps
  * Resolves FunctionNode-FunctionNode conflict (both ways)
  */
 @Suppress("UNUSED_PARAMETER")
-class FunctionAndFunctionUniversalConflictResolver(private val integrator: Integrator): ConflictResolver {
+class FunctionAndFunctionConflictResolver(private val integrator: Integrator): ConflictResolver {
 
     override fun resolve(node1: Node, node2: Node) {
         node1 as FunctionNode

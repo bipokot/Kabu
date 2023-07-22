@@ -9,7 +9,7 @@ import io.kabu.backend.node.Node
  * Resolves GeneratedTypeNode-GeneratedTypeNode conflicts for classes
  */
 //todo introduce GeneratedClassTypeNode and remove children
-open class GeneratedClassTypeNodeConflictResolver(
+open class GeneratedTypeAndGeneratedTypeConflictResolver(
     private val integrator: Integrator,
 ) : ConflictResolver {
 

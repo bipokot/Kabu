@@ -22,22 +22,23 @@ class UniversalConflictResolver(private val integrator: Integrator): ConflictRes
 
     @Suppress("MaxLineLength")
     private val resolvers: Map<ResolvableNodeTypes, ConflictResolverCreator> = mapOf(
-        Pair(PackageNode::class, PackageNode::class) to ::PackageNodeAndPackageNodeUniversalConflictResolver,
-        Pair(TypeNode::class, PropertyNode::class) to ::TypeAndPropertyUniversalConflictResolver,
-        Pair(FunctionNode::class, FunctionNode::class) to ::FunctionAndFunctionUniversalConflictResolver,
+        Pair(PackageNode::class, PackageNode::class) to ::PackageAndPackageConflictResolver,
+        Pair(TypeNode::class, PropertyNode::class) to ::TypeAndPropertyConflictResolver,
+        Pair(FunctionNode::class, FunctionNode::class) to ::FunctionAndFunctionConflictResolver,
 
         // generated classes
-        Pair(ContextMediatorTypeNode::class, ContextMediatorTypeNode::class) to ::GeneratedClassTypeNodeConflictResolver,
-        Pair(ContextMediatorTypeNode::class, HolderTypeNode::class) to ::GeneratedClassTypeNodeConflictResolver,
-        Pair(ContextMediatorTypeNode::class, WatcherContextTypeNode::class) to ::GeneratedClassTypeNodeConflictResolver,
-        Pair(HolderTypeNode::class, HolderTypeNode::class) to ::GeneratedClassTypeNodeConflictResolver,
-        Pair(HolderTypeNode::class, WatcherContextTypeNode::class) to ::GeneratedClassTypeNodeConflictResolver,
-        Pair(WatcherContextTypeNode::class, WatcherContextTypeNode::class) to ::GeneratedClassTypeNodeConflictResolver,
+        Pair(ContextMediatorTypeNode::class, ContextMediatorTypeNode::class) to ::GeneratedTypeAndGeneratedTypeConflictResolver,
+        Pair(ContextMediatorTypeNode::class, HolderTypeNode::class) to ::GeneratedTypeAndGeneratedTypeConflictResolver,
+        Pair(ContextMediatorTypeNode::class, WatcherContextTypeNode::class) to ::GeneratedTypeAndGeneratedTypeConflictResolver,
+        Pair(HolderTypeNode::class, HolderTypeNode::class) to ::GeneratedTypeAndGeneratedTypeConflictResolver,
+        Pair(HolderTypeNode::class, WatcherContextTypeNode::class) to ::GeneratedTypeAndGeneratedTypeConflictResolver,
+        Pair(WatcherContextTypeNode::class, WatcherContextTypeNode::class) to ::GeneratedTypeAndGeneratedTypeConflictResolver,
 
-        Pair(PropertyNode::class, PropertyNode::class) to ::PropertyAndPropertyUniversalConflictResolver,
+        // other
+        Pair(PropertyNode::class, PropertyNode::class) to ::PropertyAndPropertyConflictResolver,
         Pair(AccessorObjectTypeNode::class, AccessorObjectTypeNode::class) to ::AccessorObjectAndAccessorObjectConflictResolver,
-        Pair(FixedTypeNode::class, FixedTypeNode::class) to ::FixedTypeAndFixedTypeUniversalConflictResolver,
-        Pair(DerivativeTypeNode::class, DerivativeTypeNode::class) to ::DerivativeTypeAndDerivativeTypeNodeConflictResolver,
+        Pair(FixedTypeNode::class, FixedTypeNode::class) to ::FixedTypeAndFixedTypeConflictResolver,
+        Pair(DerivativeTypeNode::class, DerivativeTypeNode::class) to ::DerivativeTypeAndDerivativeTypeConflictResolver,
     )
 
     override fun resolve(node1: Node, node2: Node) {

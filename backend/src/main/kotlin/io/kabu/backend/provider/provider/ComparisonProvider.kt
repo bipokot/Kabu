@@ -20,15 +20,15 @@ class ComparisonProvider(
 
         val code = buildString {
             append("$auxName.let{aux->")
-            val providerInfoProvider = providers.single { it is OperatorInfoProvider }
-            val providerInfoProviderIndex = providers.indexOf(providerInfoProvider)
+            val operatorInfoProvider = providers.single { it is OperatorInfoProvider }
+            val operatorInfoProviderIndex = providers.indexOf(operatorInfoProvider)
             for (i in providers.size - 1 downTo 0) {
-                if (i == providerInfoProviderIndex) continue
+                if (i == operatorInfoProviderIndex) continue
                 append("val v$i=$STACK_PROPERTY_NAME.pop() as ${providers[i].type};")
             }
 
-            append("val v$providerInfoProviderIndex=")
-            when (providerInfoProvider.type) {
+            append("val v$operatorInfoProviderIndex=")
+            when (val type = operatorInfoProvider.type) {
                 RANKING_COMPARISON_INFO_TYPE -> {
                     append("if(aux)RankingComparisonInfo.GREATER else RankingComparisonInfo.LESS;")
                 }
@@ -37,7 +37,7 @@ class ComparisonProvider(
                     append("if(aux)StrictnessComparisonInfo.RELAXED else StrictnessComparisonInfo.STRICT;")
                 }
 
-                else -> TODO()
+                else -> error("Unknown operator info type: $type")
             }
             append("$holderClassCanonicalName(")
             val holderArguments = List(providers.size) { index -> "v$index" }.joinToString(",")

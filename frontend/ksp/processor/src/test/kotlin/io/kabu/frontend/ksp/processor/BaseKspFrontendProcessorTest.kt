@@ -166,8 +166,6 @@ open class BaseKspFrontendProcessorTest {
         logger.debug { "Running script for '$sampleScript'" }
         val projectRoot = "../../../"
         val mainKtsLib = "${projectRoot}frontend/ksp/testing/lib/kotlin-main-kts-1.9.0.jar"
-//        val runtimeClassFiles = "${projectRoot}runtime/build/libs/runtime-1.0-SNAPSHOT.jar"
-//        val annotationClassFiles = "${projectRoot}annotation/build/libs/annotation-1.0-SNAPSHOT.jar"
         val runtimeClassFiles = "${projectRoot}runtime/build/classes/kotlin/main"
         val annotationClassFiles = "${projectRoot}annotation/build/classes/kotlin/main"
         val classFiles = "${projectRoot}frontend/ksp/processor/build/ksptesting/classes"
@@ -175,18 +173,15 @@ open class BaseKspFrontendProcessorTest {
         val file = File.createTempFile("sample", ".main.kts").apply {
             writeText(KOTLIN_TEST_FILE_PREFIX + sampleScript + KOTLIN_TEST_FILE_SUFFIX)
         }
-        val process = ProcessBuilder("kotlin", "-cp", classpath, file.absolutePath).apply {
-//            redirectOutput(Redirect.INHERIT)
-//            redirectError(Redirect.INHERIT)
-        }.start()
-        if (process.waitFor() != 0) {
+        val process = ProcessBuilder("kotlin", "-cp", classpath, file.absolutePath).start()
+        return if (process.waitFor() != 0) {
             val errOutput = process.errorStream.bufferedReader().readText()
             System.err.println(errOutput)
-            return ""
+            ""
         } else {
             val processOutput = process.inputStream.bufferedReader().readText()
             System.out.println(processOutput)
-            return processOutput
+            processOutput
         }
     }
 
