@@ -19,7 +19,7 @@ import io.kabu.backend.util.poet.gatherTypeVariableNames
 interface Node {
     var namespaceNode: NamespaceNode?
     val name: String
-    val dependencies: Iterable<Node>
+    val dependencies: Iterable<Node> //todo make dependencies a set
     val derivativeNodes: MutableSet<Node>
     fun createDeclarations(): List<Declaration>
     fun replaceDependency(replaced: Node, replaceBy: Node)

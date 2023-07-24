@@ -8,6 +8,7 @@ import io.kabu.backend.parser.InfixFunction
 import io.kabu.backend.parser.Operator
 import io.kabu.backend.provider.group.FunDeclarationProviders
 import io.kabu.backend.util.poet.asCodeBlock
+import io.kabu.runtime.exception.PatternEvaluationException
 
 
 class FunctionDeclaration(
@@ -54,9 +55,9 @@ class FunctionDeclaration(
                 appendLine("    $index -> $callCode")
             }
 
-            appendLine("    else -> TODO()") //todo todo throw proper exception
+            appendLine("    else -> throw %T(%S)")
             appendLine("}")
-        }.asCodeBlock()
+        }.asCodeBlock(PatternEvaluationException::class, "Wrong counter index ($$counterName)")
     }
 
     override fun toString(): String {

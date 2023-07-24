@@ -110,7 +110,7 @@ class GraphVisualizer {
             appendLine("")
         }
         nodes.forEach { node ->
-            node.dependencies.distinct().forEach { dependency -> //todo make dependencies a set
+            node.dependencies.distinct().forEach { dependency ->
                 val link = if (dependency == node.namespaceNode) "-.->" else "-->"
                 appendLine("${names[node]?.id} $link ${names[dependency]?.id}")
             }

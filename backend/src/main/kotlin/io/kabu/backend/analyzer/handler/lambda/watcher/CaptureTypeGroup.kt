@@ -8,7 +8,7 @@ import io.kabu.backend.util.Constants
 class CaptureTypeGroup(
     val operator: Operator,
     val funDeclarationProviders: FunDeclarationProviders,
-    val returnTypeNode: TypeNode, //todo revise?
+    val returnTypeNode: TypeNode,
     val leftHandSideOfAssign: LeftHandSideOfAssign?,
 ) {
 
