@@ -1,29 +1,22 @@
 package io.kabu.backend.analyzer.handler.lambda.watcher
 
-import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.TypeName
-import io.kabu.backend.util.Constants.RUNTIME_PACKAGE
+import com.squareup.kotlinpoet.asTypeName
+import io.kabu.runtime.EqualityInfo
+import io.kabu.runtime.InclusionInfo
+import io.kabu.runtime.RankingComparisonInfo
+import io.kabu.runtime.StrictnessComparisonInfo
 
-object OperatorInfoTypes { //todo can we get them from KClass directly?
+object OperatorInfoTypes {
 
-    /** see [io.kabu.runtime.EqualityInfo] */
-    val EQUALITY_INFO_TYPE = ClassName(RUNTIME_PACKAGE, "EqualityInfo")
-    
-    /** see [io.kabu.runtime.InclusionInfo] */
-    val INCLUSION_INFO_TYPE = ClassName(RUNTIME_PACKAGE, "InclusionInfo")
+    val TypeName.isOperatorInfoType get() = this in OPERATOR_INFO_TYPES
 
-    /** see [io.kabu.runtime.RankingComparisonInfo] */
-    val RANKING_COMPARISON_INFO_TYPE = ClassName(RUNTIME_PACKAGE, "RankingComparisonInfo")
-
-    /** see [io.kabu.runtime.StrictnessComparisonInfo] */
-    val STRICTNESS_COMPARISON_INFO_TYPE = ClassName(RUNTIME_PACKAGE, "StrictnessComparisonInfo")
-
-    val TypeName.isOperatorInfoType get() = this in operatorInfoTypes
-
-    private val operatorInfoTypes = listOf(
-        EQUALITY_INFO_TYPE,
-        INCLUSION_INFO_TYPE,
-        RANKING_COMPARISON_INFO_TYPE,
-        STRICTNESS_COMPARISON_INFO_TYPE,
-    )
+    private val OPERATOR_INFO_TYPES = listOf(
+        EqualityInfo::class,
+        InclusionInfo::class,
+        RankingComparisonInfo::class,
+        StrictnessComparisonInfo::class,
+    ).map {
+        it.asTypeName()
+    }
 }

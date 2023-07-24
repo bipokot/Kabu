@@ -1,10 +1,11 @@
 package io.kabu.backend.provider.provider
 
-import io.kabu.backend.analyzer.handler.lambda.watcher.OperatorInfoTypes.RANKING_COMPARISON_INFO_TYPE
-import io.kabu.backend.analyzer.handler.lambda.watcher.OperatorInfoTypes.STRICTNESS_COMPARISON_INFO_TYPE
+import com.squareup.kotlinpoet.asTypeName
 import io.kabu.backend.node.HolderTypeNode
 import io.kabu.backend.node.TypeNode
 import io.kabu.backend.provider.provider.WatcherLambdaProvider.Companion.STACK_PROPERTY_NAME
+import io.kabu.runtime.RankingComparisonInfo
+import io.kabu.runtime.StrictnessComparisonInfo
 
 
 class ComparisonProvider(
@@ -29,11 +30,11 @@ class ComparisonProvider(
 
             append("val v$operatorInfoProviderIndex=")
             when (val type = operatorInfoProvider.type) {
-                RANKING_COMPARISON_INFO_TYPE -> {
+                RankingComparisonInfo::class.asTypeName() -> {
                     append("if(aux)RankingComparisonInfo.GREATER else RankingComparisonInfo.LESS;")
                 }
 
-                STRICTNESS_COMPARISON_INFO_TYPE -> {
+                StrictnessComparisonInfo::class.asTypeName() -> {
                     append("if(aux)StrictnessComparisonInfo.RELAXED else StrictnessComparisonInfo.STRICT;")
                 }
 

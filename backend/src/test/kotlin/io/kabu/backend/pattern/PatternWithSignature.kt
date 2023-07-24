@@ -7,10 +7,14 @@ import com.squareup.kotlinpoet.LambdaTypeName
 import com.squareup.kotlinpoet.STRING
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.UNIT
-import io.kabu.backend.analyzer.handler.lambda.watcher.OperatorInfoTypes
+import com.squareup.kotlinpoet.asTypeName
 import io.kabu.backend.diagnostic.Origin
 import io.kabu.backend.parameter.Parameter
 import io.kabu.backend.util.Constants.RECEIVER_PARAMETER_NAME
+import io.kabu.runtime.EqualityInfo
+import io.kabu.runtime.InclusionInfo
+import io.kabu.runtime.RankingComparisonInfo
+import io.kabu.runtime.StrictnessComparisonInfo
 
 class PatternWithSignature(input: String) {
 
@@ -91,10 +95,10 @@ class PatternWithSignature(input: String) {
             "fi" to LambdaTypeName.get(returnType = INT),
             "fb" to LambdaTypeName.get(returnType = BOOLEAN),
             "fs" to LambdaTypeName.get(returnType = STRING),
-            "rank" to OperatorInfoTypes.RANKING_COMPARISON_INFO_TYPE,
-            "strict" to OperatorInfoTypes.STRICTNESS_COMPARISON_INFO_TYPE,
-            "incl" to OperatorInfoTypes.INCLUSION_INFO_TYPE,
-            "equal" to OperatorInfoTypes.EQUALITY_INFO_TYPE,
+            "rank" to RankingComparisonInfo::class.asTypeName(),
+            "strict" to StrictnessComparisonInfo::class.asTypeName(),
+            "incl" to InclusionInfo::class.asTypeName(),
+            "equal" to EqualityInfo::class.asTypeName(),
         )
     }
 }

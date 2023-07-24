@@ -3,7 +3,7 @@ package io.kabu.backend.declaration
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.TypeName
-import io.kabu.backend.analyzer.handler.lambda.watcher.OperatorInfoTypes
+import com.squareup.kotlinpoet.asTypeName
 import io.kabu.backend.node.TypeNode
 import io.kabu.backend.parser.FunctionMustReturn
 import io.kabu.backend.parser.Operator
@@ -11,6 +11,8 @@ import io.kabu.backend.provider.evaluation.FunctionBlockContext
 import io.kabu.backend.provider.group.FunDeclarationProviders
 import io.kabu.backend.provider.provider.WatcherLambdaProvider.Companion.STACK_PROPERTY_NAME
 import io.kabu.backend.util.poet.asCodeBlock
+import io.kabu.runtime.RankingComparisonInfo
+import io.kabu.runtime.StrictnessComparisonInfo
 
 abstract class AbstractCallableDeclaration : Declaration() {
 
@@ -94,8 +96,8 @@ abstract class AbstractCallableDeclaration : Declaration() {
 
     private fun getReturnStatementForComparison(operatorInfoType: TypeName?): String {
         return when (operatorInfoType) {
-            OperatorInfoTypes.RANKING_COMPARISON_INFO_TYPE -> "return 42"
-            OperatorInfoTypes.STRICTNESS_COMPARISON_INFO_TYPE -> "return 0"
+            RankingComparisonInfo::class.asTypeName() -> "return 42"
+            StrictnessComparisonInfo::class.asTypeName() -> "return 0"
             else -> "return 42"
         }
     }
