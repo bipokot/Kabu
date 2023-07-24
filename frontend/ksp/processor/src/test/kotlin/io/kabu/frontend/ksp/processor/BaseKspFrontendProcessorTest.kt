@@ -48,15 +48,6 @@ open class BaseKspFrontendProcessorTest {
         if (!file.deleteRecursively()) error("ERROR: temp dir deletion failed: ${path.toAbsolutePath()}")
     }
 
-    protected fun compileAndCheckWithoutSyntaxHighlight(
-        code: String,
-        block: KotlinCompilation.Result.() -> Unit,
-    ) {
-        val kotlinSource = createKotlinFile(code)
-        val compilationResult = compile(kspWithCompilation = false, kotlinSource, emptyJavaSourceFile())
-        compilationResult.block()
-    }
-
     protected fun compileAndCheck(
         @Language("kotlin", prefix = KOTLIN_TEST_FILE_PREFIX, suffix = KOTLIN_TEST_FILE_SUFFIX) code: String,
         block: KotlinCompilation.Result.() -> Unit,
@@ -90,18 +81,6 @@ open class BaseKspFrontendProcessorTest {
         kspIncrementalLog = false
         this.kspWithCompilation = kspWithCompilation
     }.compile()
-
-    private fun KotlinCompilation.Result.kspGeneratedSources(): List<File> {
-        val kspWorkingDir = workingDir.resolve("ksp")
-        val kspGeneratedDir = kspWorkingDir.resolve("sources")
-        val kotlinGeneratedDir = kspGeneratedDir.resolve("kotlin")
-        val javaGeneratedDir = kspGeneratedDir.resolve("java")
-        return kotlinGeneratedDir.walk().toList() +
-            javaGeneratedDir.walk().toList()
-    }
-
-    private val KotlinCompilation.Result.workingDir: File
-        get() = checkNotNull(outputDirectory.parentFile)
 
     private fun createKotlinFile(
         @Language("kotlin", prefix = KOTLIN_TEST_FILE_PREFIX, suffix = KOTLIN_TEST_FILE_SUFFIX) code: String,
@@ -216,11 +195,6 @@ fun sample(
     @Language("kotlin", prefix = KOTLIN_TEST_SCRIPT_FILE_PREFIX, suffix = KOTLIN_TEST_SCRIPT_FILE_SUFFIX)
     sample: String
 ) = sample
-
-infix fun TestCase.ScriptResult.xxx(
-    @Language("kotlin", prefix = KOTLIN_TEST_FILE_PREFIX, suffix = KOTLIN_TEST_FILE_SUFFIX)
-    sample: String
-) = TestCase(sample.trimIndent(), this)
 
 @Language("kotlin", prefix = KOTLIN_TEST_FILE_PREFIX, suffix = KOTLIN_TEST_FILE_SUFFIX)
 operator fun String.minus(result: TestCase.ScriptResult) = TestCase(this.trimIndent(), result)
