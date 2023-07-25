@@ -35,24 +35,37 @@ object TypeNameUtils {
     private val packageNamesRegex = Regex("\\w+\\.")
 }
 
-fun TypeName.gatherTypeVariableNames(): Collection<TypeVariableName> {
+fun TypeName.gatherTypeVariableNames(): MutableSet<TypeVariableName> {
+    val set = mutableSetOf<TypeVariableName>()
+    gatherTypeVariableNames(set)
+    return set
+}
 
-    fun Iterable<TypeName>.gatherTypeVariableNames(): Collection<TypeVariableName> {
-        return flatMap { it.gatherTypeVariableNames() }
+fun TypeName.gatherTypeVariableNames(collector: MutableSet<TypeVariableName>) {
+
+    fun Iterable<TypeName>.gatherTypeVariableNames(bag: MutableSet<TypeVariableName>) {
+        forEach { it.gatherTypeVariableNames(bag) }
     }
 
-    //todo RECURSIVE BOUNDS NOT HANDLED!!!
-    return when (this) {
-        is TypeVariableName -> bounds.gatherTypeVariableNames() + this
-        is ParameterizedTypeName -> typeArguments.gatherTypeVariableNames()
-        is WildcardTypeName -> inTypes.gatherTypeVariableNames() + outTypes.gatherTypeVariableNames()
-        is LambdaTypeName -> {
-            parameters.map { it.type }.gatherTypeVariableNames() +
-                    returnType.gatherTypeVariableNames() +
-                    receiver?.gatherTypeVariableNames().orEmpty()
+    when (this) {
+        is TypeVariableName -> {
+            if (collector.none { it.name == this.name }) collector += this
+            bounds.gatherTypeVariableNames(collector)
         }
 
-        is ClassName -> emptyList()
-        Dynamic -> emptyList()
+        is ParameterizedTypeName -> typeArguments.gatherTypeVariableNames(collector)
+        is WildcardTypeName -> {
+            inTypes.gatherTypeVariableNames(collector)
+            outTypes.gatherTypeVariableNames(collector)
+        }
+
+        is LambdaTypeName -> {
+            parameters.map { it.type }.gatherTypeVariableNames(collector)
+            returnType.gatherTypeVariableNames(collector)
+            receiver?.gatherTypeVariableNames(collector)
+        }
+
+        is ClassName -> Unit
+        Dynamic -> Unit
     }
 }

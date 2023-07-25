@@ -1,21 +1,19 @@
-@file:Suppress("MaxLineLength")
-
-package io.kabu.frontend.ksp.processor.generic
+package io.kabu.frontend.ksp.processor.generic.test2
 
 import io.kabu.frontend.ksp.processor.BaseKspFrontendProcessorTest
-import io.kabu.frontend.ksp.processor.TestCase.ScriptResult.Termination
+import io.kabu.frontend.ksp.processor.TestCase
 import io.kabu.frontend.ksp.processor.minus
 import io.kabu.frontend.ksp.processor.sample
 import org.junit.Test
 
 
-class GenericTest : BaseKspFrontendProcessorTest() {
+class GenericRecursiveBoundsTest : BaseKspFrontendProcessorTest() {
 
     @Test
     fun test() = compileAndCheckAndRun(
         """
             @Pattern("a * b + c")
-            fun <T, R : T> foo(a: T, b: Array<out R>, c: (T) -> R): T {
+            fun <T : Comparable<T>, R : T> foo(a: T, b: Array<out R>, c: (T) -> R): T {
                 return if (false) {
                     c(a)
                 } else {
@@ -23,8 +21,10 @@ class GenericTest : BaseKspFrontendProcessorTest() {
                 }
             }
         """,
-        sample("""
-            "abc" * arrayOf("def") + { it + it }
-        """) - Termination("defdef"),
+        sample(
+            """
+                print("abc" * arrayOf("def") + { it + it })
+            """
+        ) - TestCase.ScriptResult.Termination("defdef"),
     )
 }
