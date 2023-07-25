@@ -1,5 +1,6 @@
-package io.kabu.frontend.ksp.processor
+package io.kabu.frontend.ksp.processor.misc
 
+import io.kabu.frontend.ksp.processor.BaseKspFrontendProcessorTest
 import org.junit.Test
 
 class TypeParametersTest : BaseKspFrontendProcessorTest() {
