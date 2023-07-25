@@ -77,7 +77,7 @@ class BackendProcessor(private val options: Options = Options.DEFAULT) {
         extensionContextTypeName: TypeName,
         methodsRegistry: MethodsRegistry,
     ): List<Node> {
-        logger.info { "Handling extension context type: $extensionContextTypeName" }
+        logger.debug { "Handling extension context type: $extensionContextTypeName" }
 
         val packageName = when (extensionContextTypeName) {
             is ClassName -> extensionContextTypeName.packageName
@@ -113,7 +113,7 @@ class BackendProcessor(private val options: Options = Options.DEFAULT) {
         contextMediatorTypeNode: NamespaceNode,
         methodsRegistry: MethodsRegistry,
     ) : Nodes {
-        logger.info { "Analyzing ${LocalPattern::class.simpleName} method: $method" }
+        logger.debug { "Analyzing ${LocalPattern::class.simpleName} method: $method" }
         return AnalyzerImpl(
             method = method,
             methodsRegistry = methodsRegistry,
@@ -126,7 +126,7 @@ class BackendProcessor(private val options: Options = Options.DEFAULT) {
         method: GlobalPatternMethod,
         methodsRegistry: MethodsRegistry
     ): Nodes {
-        logger.info { "Analyzing ${Pattern::class.simpleName} method: $method" }
+        logger.debug { "Analyzing ${Pattern::class.simpleName} method: $method" }
         return AnalyzerImpl(
             method = method,
             methodsRegistry = methodsRegistry,
