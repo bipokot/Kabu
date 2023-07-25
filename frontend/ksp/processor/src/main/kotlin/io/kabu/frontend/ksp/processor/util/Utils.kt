@@ -2,10 +2,12 @@ package io.kabu.frontend.ksp.processor.util
 
 import com.google.devtools.ksp.symbol.FileLocation
 import com.google.devtools.ksp.symbol.KSAnnotated
+import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSDeclaration
 import com.google.devtools.ksp.symbol.KSNode
 import com.google.devtools.ksp.symbol.KSTypeArgument
 import com.google.devtools.ksp.symbol.KSValueParameter
+import com.google.devtools.ksp.symbol.Modifier
 import io.kabu.backend.diagnostic.FileSourceLocation
 import io.kabu.backend.diagnostic.Origin
 import io.kabu.backend.diagnostic.diagnosticError
@@ -49,3 +51,6 @@ internal inline fun <reified T> KSAnnotated.getAnnotationOrNull() =
         val annotationQualifiedName = it.annotationType.resolve().declaration.qualifiedName?.asString()
         annotationQualifiedName == T::class.qualifiedName
     }
+
+internal val KSClassDeclaration.isInner get() =
+    Modifier.INNER in modifiers

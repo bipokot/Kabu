@@ -1,15 +1,16 @@
 package io.kabu.frontend.ksp.processor.util
 
 import com.google.devtools.ksp.symbol.KSCallableReference
+import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.KSTypeReference
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.LambdaTypeName
 import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.ksp.TypeParameterResolver
-import com.squareup.kotlinpoet.ksp.toTypeName as toTypeNameByKotlinPoet
+import com.squareup.kotlinpoet.ksp.toTypeName
 
-fun KSTypeReference.toTypeName(
+internal fun KSTypeReference.asTypeName(
     typeParamResolver: TypeParameterResolver = TypeParameterResolver.EMPTY,
 ): TypeName {
     val type = resolve()
@@ -18,7 +19,7 @@ fun KSTypeReference.toTypeName(
         validateCallableReference(callableReference)
 
         val typeName = LambdaTypeName.get(
-            receiver = callableReference.receiverType?.toTypeName(typeParamResolver),
+            receiver = callableReference.receiverType?.asTypeName(typeParamResolver),
             parameters = callableReference.functionParameters.map {
                 validateValueParameter(it)
 
@@ -26,13 +27,17 @@ fun KSTypeReference.toTypeName(
                     if (it.isVararg) add(KModifier.VARARG)
                 }
 
-                ParameterSpec(name = it.name?.asString() ?: "", type = it.type.toTypeName(typeParamResolver), modifiers)
+                ParameterSpec(name = it.name?.asString() ?: "", type = it.type.asTypeName(typeParamResolver), modifiers)
             },
-            returnType = callableReference.returnType.toTypeName(typeParamResolver)
+            returnType = callableReference.returnType.asTypeName(typeParamResolver)
         )
 
         return typeName.copy(nullable = type.isMarkedNullable)
     }
 
-    return toTypeNameByKotlinPoet(typeParamResolver)
+    return toTypeName(typeParamResolver)
 }
+
+internal fun KSType.asTypeName(
+    typeParamResolver: TypeParameterResolver = TypeParameterResolver.EMPTY,
+): TypeName = toTypeName(typeParamResolver)
