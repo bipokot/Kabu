@@ -38,7 +38,7 @@ fun groupByPackageNames(code: String): MutableMap<String, String> {
 
 fun createKotlinFile(
     @Language("kotlin", prefix = KOTLIN_TEST_FILE_PREFIX, suffix = KOTLIN_TEST_FILE_SUFFIX) code: String,
-    packageName: String = DEFAULT_TEST_PACKAGE, //todo remove default?
+    packageName: String,
 ): SourceFile {
     val packagePath = packageName.replace('.', '/')
     return SourceFile.kotlin(
@@ -49,5 +49,4 @@ fun createKotlinFile(
 
 fun emptyJavaSourceFile() = SourceFile.java("Empty.java", "public class Empty {}")
 
-private val DEFAULT_TEST_PACKAGE = "tests" //todo remove?
 private val PACKAGE_REGEX = Regex("^\\s*//\\s*PACKAGE\\s*(\\S+)\\s*")

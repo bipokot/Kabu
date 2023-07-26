@@ -56,6 +56,19 @@ open class BaseKspFrontendProcessorTest : KotlinCompilationResultAssert() {
         compilationResult.block()
     }
 
+    protected fun compileAndCheckAndRun(
+        @Language("kotlin", prefix = KOTLIN_TEST_FILE_PREFIX, suffix = KOTLIN_TEST_FILE_SUFFIX) code: String,
+        vararg cases: TestCase,
+        onCompilationResult: KotlinCompilation.Result.() -> Unit = { assertOk() },
+    ) {
+        val kotlinSources = createKotlinFiles(code)
+        val compilationResult = compile(kspWithCompilation = true, kotlinSources + emptyJavaSourceFile())
+        compilationResult.onCompilationResult()
+        cases.forEach {
+            validateCase(compilationResult, it)
+        }
+    }
+
     private fun compile(
         kspWithCompilation: Boolean,
         sourceFiles: List<SourceFile>,
@@ -71,19 +84,6 @@ open class BaseKspFrontendProcessorTest : KotlinCompilationResultAssert() {
             kspIncrementalLog = false
             this.kspWithCompilation = kspWithCompilation
         }.compile()
-    }
-
-    protected fun compileAndCheckAndRun(
-        @Language("kotlin", prefix = KOTLIN_TEST_FILE_PREFIX, suffix = KOTLIN_TEST_FILE_SUFFIX) code: String,
-        vararg cases: TestCase,
-        onCompilationResult: KotlinCompilation.Result.() -> Unit = { assertOk() },
-    ) {
-        val kotlinSources = createKotlinFiles(code)
-        val compilationResult = compile(kspWithCompilation = true, kotlinSources + emptyJavaSourceFile())
-        compilationResult.onCompilationResult()
-        cases.forEach {
-            validateCase(compilationResult, it)
-        }
     }
 
     private fun validateCase(compilationResult: KotlinCompilation.Result, testCase: TestCase) {
