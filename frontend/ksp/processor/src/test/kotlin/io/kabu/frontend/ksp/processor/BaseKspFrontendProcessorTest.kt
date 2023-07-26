@@ -51,18 +51,18 @@ open class BaseKspFrontendProcessorTest : KotlinCompilationResultAssert() {
         @Language("kotlin", prefix = KOTLIN_TEST_FILE_PREFIX, suffix = KOTLIN_TEST_FILE_SUFFIX) code: String,
         block: KotlinCompilation.Result.() -> Unit,
     ) {
-        val kotlinSource = createKotlinFile(code)
-        val compilationResult = compile(kspWithCompilation = false, kotlinSource, emptyJavaSourceFile())
+        val kotlinSources = createKotlinFiles(code)
+        val compilationResult = compile(kspWithCompilation = false, kotlinSources + emptyJavaSourceFile())
         compilationResult.block()
     }
 
     private fun compile(
         kspWithCompilation: Boolean,
-        vararg source: SourceFile,
+        sourceFiles: List<SourceFile>,
     ): KotlinCompilation.Result {
         return KotlinCompilation().apply {
             verbose = false
-            sources = source.toList()
+            sources = sourceFiles
             symbolProcessorProviders = listOf(KspFrontendProcessorProvider())
             workingDir = tempDirPath.toFile().also { logger.debug(it.absolutePath) }
             inheritClassPath = true
@@ -78,8 +78,8 @@ open class BaseKspFrontendProcessorTest : KotlinCompilationResultAssert() {
         vararg cases: TestCase,
         onCompilationResult: KotlinCompilation.Result.() -> Unit = { assertOk() },
     ) {
-        val kotlinSource = createKotlinFile(code)
-        val compilationResult = compile(kspWithCompilation = true, kotlinSource, emptyJavaSourceFile())
+        val kotlinSources = createKotlinFiles(code)
+        val compilationResult = compile(kspWithCompilation = true, kotlinSources + emptyJavaSourceFile())
         compilationResult.onCompilationResult()
         cases.forEach {
             validateCase(compilationResult, it)
@@ -97,8 +97,12 @@ open class BaseKspFrontendProcessorTest : KotlinCompilationResultAssert() {
 
     private fun getScriptOutput(sampleScript: String): String {
         logger.debug { "Running script for '$sampleScript'" }
+
+        val (packageName, contents) = groupByPackageNames(sampleScript).entries.single()
+        val fileContents = getKotlinTestFilePrefix(packageName) + contents + KOTLIN_TEST_FILE_SUFFIX
+
         val file = File.createTempFile("sample", ".main.kts").apply {
-            writeText(KOTLIN_TEST_FILE_PREFIX + sampleScript + KOTLIN_TEST_FILE_SUFFIX)
+            writeText(fileContents)
         }
         val process = ProcessBuilder("kotlin", "-cp", createClassPath(), file.absolutePath).start()
         return if (process.waitFor() != 0) {

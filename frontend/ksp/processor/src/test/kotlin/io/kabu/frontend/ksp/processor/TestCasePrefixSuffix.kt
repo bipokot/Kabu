@@ -1,5 +1,11 @@
 package io.kabu.frontend.ksp.processor
 
+internal fun getKotlinTestFilePrefix(packageName: String) =
+    KOTLIN_TEST_FILE_PREFIX.replace("package tests", "package $packageName")
+
+internal fun getKotlinTestScriptFilePrefix(packageName: String) =
+    KOTLIN_TEST_SCRIPT_FILE_PREFIX.replace("package tests", "package $packageName")
+
 internal const val KOTLIN_TEST_FILE_PREFIX =
     """
             package tests
