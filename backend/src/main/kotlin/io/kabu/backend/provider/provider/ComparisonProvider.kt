@@ -16,7 +16,6 @@ class ComparisonProvider(
     override fun provideCodeForConstructionFromAux(auxName: String): String {
         val holderClassCanonicalName = (typeNode as HolderTypeNode).rawClassName.canonicalName
 
-        //todo do safeCast method to bring right exceptions to the user
         //todo make holder creation through CodeBlock(%T, className)
 
         val code = buildString {
@@ -25,7 +24,7 @@ class ComparisonProvider(
             val operatorInfoProviderIndex = providers.indexOf(operatorInfoProvider)
             for (i in providers.size - 1 downTo 0) {
                 if (i == operatorInfoProviderIndex) continue
-                append("val v$i=$STACK_PROPERTY_NAME.pop() as ${providers[i].type};")
+                append("val v$i=safeCast<${providers[i].type}>($STACK_PROPERTY_NAME.pop());")
             }
 
             append("val v$operatorInfoProviderIndex=")

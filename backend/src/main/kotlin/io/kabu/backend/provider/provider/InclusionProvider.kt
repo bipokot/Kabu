@@ -20,7 +20,7 @@ class InclusionProvider(
             val providerInfoProviderIndex = providers.indexOfFirst { it is OperatorInfoProvider }
             for (i in providers.size - 1 downTo 0) {
                 if (i == providerInfoProviderIndex) continue
-                append("val v$i=$STACK_PROPERTY_NAME.pop() as ${providers[i].type};")
+                append("val v$i=safeCast<${providers[i].type}>($STACK_PROPERTY_NAME.pop());")
             }
             append("val v$providerInfoProviderIndex=if(aux)InclusionInfo.IN else InclusionInfo.NOT_IN;")
             append("$holderClassCanonicalName(")

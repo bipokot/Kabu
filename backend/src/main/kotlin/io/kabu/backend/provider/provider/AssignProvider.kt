@@ -21,7 +21,7 @@ class AssignProvider(
             // extracting values from stack
             for (i in providers.size - 1 downTo 0) {
                 val provider = providers[i]
-                append("val v$i=$STACK_PROPERTY_NAME.pop() as ${provider.type};")
+                append("val v$i=safeCast<${provider.type}>($STACK_PROPERTY_NAME.pop());")
             }
 
             // constructor invocation
