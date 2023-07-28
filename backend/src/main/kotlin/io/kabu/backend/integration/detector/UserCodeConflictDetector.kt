@@ -22,6 +22,8 @@ class UserCodeConflictDetector {
         return false
     }
 
+    //todo implement via KSP
+    //todo search for conflicting element (class, interface, object or property) in designated namespace
     fun isTypeNameOccupied(namespaceNode: NamespaceNode, typeName: String): Boolean {
         return false
     }

@@ -15,6 +15,7 @@ class FunctionConflictDetector {
     private fun areFunctionNodesConflicting(node: FunctionNode, other: FunctionNode): Boolean {
         if (node.name != other.name) return false
 
+        // don't take into account returning type intentionally
         return areParametersPlatformClashing(node.parameters, other.parameters)
     }
 }

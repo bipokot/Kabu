@@ -17,6 +17,7 @@ class PropertyConflictDetector {
     private fun isConflictingWithPropertyNode(node: PropertyNode, other: PropertyNode): Boolean {
         if (node.name != other.name) return false
 
+        // don't take into account returning type intentionally
         return areParametersPlatformClashing(
             listOfNotNull(node.receiverTypeNode),
             listOfNotNull(other.receiverTypeNode),
@@ -26,6 +27,7 @@ class PropertyConflictDetector {
     private fun isConflictingWithTypeNode(node: PropertyNode, other: TypeNode): Boolean {
         if (node.name != other.name) return false
 
+        // a property can conflict with type/object only if the property has not a receiver
         return node.receiverTypeNode == null
     }
 }

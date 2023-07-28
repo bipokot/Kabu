@@ -32,6 +32,7 @@ class TypeConflictDetector {
     private fun isConflictingWithPropertyNode(node: TypeNode, other: PropertyNode): Boolean {
         if (node.name != other.name) return false
 
+        // a property can conflict with type/object only if the property has not a receiver
         return other.receiverTypeNode == null
     }
 }

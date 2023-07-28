@@ -28,6 +28,7 @@ class TypeAndPropertyConflictResolver(private val integrator: Integrator) : Conf
         propertyNode: PropertyNode,
     ) {
         if (generatedTypeNode.desiredName != null) {
+            //todo there could be properties with changeable names (it could be possible to change property name)
             integrator.unresolvedConflictError(generatedTypeNode, propertyNode)
         }
 

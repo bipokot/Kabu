@@ -11,6 +11,9 @@ interface NamespaceNode : Node {
     val typeNameGenerator: SequentialTypeNameGenerator
     var accessorObjectNode : ObjectTypeNode?
 
+    /**
+     * Compose a ClassName for a [name]-named class inside this NamespaceNode
+     */
     fun composeClassName(name: String): ClassName
 
     fun getRoot(): NamespaceNode {

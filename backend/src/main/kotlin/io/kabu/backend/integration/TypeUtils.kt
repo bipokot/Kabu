@@ -44,10 +44,11 @@ private fun areTypesPlatformClashing(first: TypeNode, second: TypeNode): Boolean
             val rawClassName1 = rawClassName(typeName1)
             val rawClassName2 = rawClassName(typeName2)
 
+            // raw classes is enough for "platform clashing" check
             rawClassName1 == rawClassName2
         }
         typeName1 is LambdaTypeName && typeName2 is LambdaTypeName -> {
-            true
+            true //todo treating all functional types as conflicting for now
         }
 
         else -> false
