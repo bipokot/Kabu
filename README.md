@@ -31,6 +31,7 @@ Patterns can be almost as complex as you can do it with Kotlin.
 - **[Rich support for Kotlin operations](doc/patternSyntax.md)**: Kabu supports almost all operations usable for DSL creation (and some previously considered useless).
 - **Any pattern complexity**: if it's syntactically correct, Kabu will generate it.
 - **[Pattern extensibility](doc/patternExtension.md)**: use lambdas with receiver in a more convenient and safe way by  [extending](doc/patternExtension.md) your pattern.
+- **Support for generics**: target functions and extension context classes may be generic.
 - **Retrieving actual used operator**: know whether `<` or `>` was used in runtime expression (`in`/`!in` for inclusion).
 - **Propagation of user given names**: generated code takes into account user given names for elements.
 - **Conflict resolution**: possible conflicts between declarations for different patterns are resolved automatically.

@@ -5,7 +5,6 @@ Target functions are functions which have been annotated with `@Pattern`/`@Local
 ## Restrictions
 These types of functions can not be used as target functions:
 - anonymous or local functions
-- generic functions
 - functions with following modifiers:
     - inline
     - operator
@@ -91,7 +90,7 @@ You can use nullable types in your function signature.
 See `Example-011`.
 
 #### Generic types
-Generic parameter types are not fully supported yet. You can use parameters with generic types with type parameters in `invariant` position only.
+You can use generic parameter types.
 
 #### Functional types
 You can use functional types (with optional parameters/receivers) to receive an object of functional type in a target function and use it appropriately (e.g. call its `invoke` under some condition).

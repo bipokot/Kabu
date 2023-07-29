@@ -40,7 +40,7 @@ An error occurs if there are no applicable context creators or there are more th
 `result=<PARAMETER_NAME>` - where `<PARAMETER_NAME>` defines a parameter of the [target function](targetFunctions.md), which will receive a returned value of the lambda invocation.
 
 ## Context class
-Context class defines a scope for local [target functions](targetFunctions.md) (`@LocalPattern` functions). Context class must be a non-abstract top level class. A context class may be used for different extension points.
+Context class defines a scope for local [target functions](targetFunctions.md) (`@LocalPattern` functions). Context class must be a non-abstract top level class. One context class may be used for different extension points.
 
 Member functions of a context class which are annotated with `@LocalPattern` annotation constitute a set of allowed operations inside a lambda. Statements corresponding to patterns of those local [target functions](targetFunctions.md) will be the only accessible way to interact with an instance of the context class.
 
