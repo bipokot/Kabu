@@ -2,6 +2,7 @@ package io.kabu.frontend.ksp.processor.util
 
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.google.devtools.ksp.symbol.KSTypeReference
+import com.squareup.kotlinpoet.ksp.TypeParameterResolver
 import com.squareup.kotlinpoet.ksp.toTypeParameterResolver
 import io.kabu.backend.diagnostic.Origin
 import io.kabu.backend.exception.PatternProcessingException
@@ -11,8 +12,9 @@ import io.kabu.backend.util.Constants.RECEIVER_PARAMETER_NAME
 import io.kabu.frontend.ksp.diagnostic.builder.parameterProcessingError
 
 
-internal fun KSFunctionDeclaration.toMethod(): Method {
-    val typeParameterResolver = typeParameters.toTypeParameterResolver()
+internal fun KSFunctionDeclaration.toMethod(parentTypeParametersResolver: TypeParameterResolver? = null): Method {
+    val typeParameterResolver = typeParameters
+        .toTypeParameterResolver(parentTypeParametersResolver, "'$this, ${this.location}'")
     val methodOrigin = originOf(this)
     val methodName = simpleName.asString()
 

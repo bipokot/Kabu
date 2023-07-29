@@ -28,6 +28,7 @@ class TerminalFunctionNode(
         operator = operator,
         funDeclarationProviders = funDeclarationProviders,
         analyzer = analyzer,
+        namespaceNode = namespaceNode,
     )
 
     override fun createDeclarations() = listOf(getTerminalFunctionDeclaration())

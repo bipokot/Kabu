@@ -24,6 +24,7 @@ import io.kabu.backend.node.factory.node.ContextMediatorTypeNodeImpl
 import io.kabu.backend.node.namespace.NamespaceNode
 import io.kabu.backend.parameter.Parameter
 import io.kabu.backend.util.Constants
+import io.kabu.backend.util.poet.gatherTypeVariableNames
 
 class BackendProcessor(private val options: Options = Options.DEFAULT) {
 
@@ -89,8 +90,10 @@ class BackendProcessor(private val options: Options = Options.DEFAULT) {
         val contextMediatorClassSimpleName = packageNode.typeNameGenerator.generateNextTypeName()
         val contextMediatorTypeNode = ContextMediatorTypeNodeImpl(
             name = contextMediatorClassSimpleName,
-            namespaceNode = packageNode,
+            //todo consider (extensionContextTypeName as ParameterizedTypeName).typeArguments
+            typeVariableNames = extensionContextTypeName.gatherTypeVariableNames().toList(),
             //todo Origin() && Parameter ?
+            namespaceNode = packageNode,
             contextProperty = Parameter(Constants.EXTENSION_CONTEXT_PROPERTY_NAME, extensionContextTypeName, Origin()),
         )
 

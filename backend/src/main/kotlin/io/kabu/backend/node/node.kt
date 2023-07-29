@@ -246,6 +246,7 @@ open class WatcherContextTypeNode(
 
 open class ContextMediatorTypeNode(
     name: String,
+    val typeVariableNames: List<TypeVariableName>,
     override val desiredName: String? = null,
     override var namespaceNode: NamespaceNode?,
 ) : GeneratedTypeNode(name), ClassNamespaceNode {
@@ -265,12 +266,21 @@ open class ContextMediatorTypeNode(
         get() = mutableListOf<Node>()
             .apply { namespaceNode?.let { add(it) } }
 
-    val className: ClassName
+    val rawClassName: ClassName
         get() = namespaceNode!!.composeClassName(name)
 
-    //todo className vs typeName
     override val typeName: TypeName
-        get() = className
+        get() = composeTypeName()
+
+    private fun composeTypeName(): TypeName {
+        return if (typeVariableNames.isEmpty()) rawClassName else {
+            rawClassName.parameterizedBy(typeVariableNames)
+        }
+    }
+
+    fun gatherTypeVariableNames(): List<TypeVariableName> {
+        return typeVariableNames
+    }
 
     init {
         updateLinks()

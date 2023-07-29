@@ -32,4 +32,15 @@ class ContextCreatorsFunctionsSupportedTest : BaseKspFrontendProcessorTest() {
     ) {
         assertOk()
     }
+
+    @Test
+    fun `parameterized function supported`() = compileAndCheck(
+        """
+        @ContextCreator("ctx")
+        fun <T> func(bar: T) { 
+        }
+        """
+    ) {
+        assertOk()
+    }
 }

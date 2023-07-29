@@ -5,6 +5,7 @@ import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.UNIT
 import io.kabu.backend.analyzer.Analyzer
 import io.kabu.backend.declaration.util.TerminalCallableBuilder
+import io.kabu.backend.node.namespace.NamespaceNode
 import io.kabu.backend.parser.Assign
 import io.kabu.backend.parser.FunctionMustReturn
 import io.kabu.backend.parser.InfixFunction
@@ -18,7 +19,8 @@ open class TerminalFunctionDeclaration(
     val operator: Operator,
     val funDeclarationProviders: FunDeclarationProviders,
     val analyzer: Analyzer,
-) : AbstractFunctionDeclaration() {
+    namespaceNode: NamespaceNode?,
+) : AbstractFunctionDeclaration(namespaceNode) {
 
     private val callableBuilder = TerminalCallableBuilder()
 

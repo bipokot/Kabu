@@ -4,6 +4,7 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import io.kabu.backend.node.TypeNode
 import io.kabu.backend.node.factory.node.util.RegularFunctionNodeKind
+import io.kabu.backend.node.namespace.NamespaceNode
 import io.kabu.backend.parser.InfixFunction
 import io.kabu.backend.parser.Operator
 import io.kabu.backend.provider.group.FunDeclarationProviders
@@ -16,7 +17,8 @@ class FunctionDeclaration(
     val funDeclarationProviders: FunDeclarationProviders,
     val returnTypeNode: TypeNode,
     val kind: RegularFunctionNodeKind,
-) : AbstractFunctionDeclaration() {
+    namespaceNode: NamespaceNode?,
+) : AbstractFunctionDeclaration(namespaceNode) {
 
     val functionName: String
         get() = when (kind) {

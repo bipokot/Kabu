@@ -5,7 +5,6 @@ import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.KSTypeArgument
 import com.google.devtools.ksp.symbol.KSTypeReference
 import com.google.devtools.ksp.symbol.KSValueParameter
-import com.google.devtools.ksp.symbol.Variance
 
 internal fun KSTypeReference.validate() {
     val type = resolve()
@@ -34,11 +33,11 @@ internal fun KSType.validate() {
 }
 
 internal fun validateTypeArgument(typeArgument: KSTypeArgument) {
-//    areNotSupported(typeArgument.variance == Variance.CONTRAVARIANT, typeArgument) { // supported
+//    areNotSupported(typeArgument.variance == Variance.CONTRAVARIANT, typeArgument) { // tested // supported
 //        "Contravariant type arguments"
-//    } // tested
-//    areNotSupported(typeArgument.variance == Variance.COVARIANT, typeArgument) { "Covariant type arguments" } // supported
-    areNotSupported(typeArgument.variance == Variance.STAR, typeArgument) { "Star projections" } // tested
+//    }
+//    areNotSupported(typeArgument.variance == Variance.COVARIANT, typeArgument) { "Covariant type arguments" } // tested // supported
+//    areNotSupported(typeArgument.variance == Variance.STAR, typeArgument) { "Star projections" } // tested // supported
 }
 
 /**

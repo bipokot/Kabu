@@ -6,20 +6,14 @@ import org.junit.Test
 class TypeParametersTest : BaseKspFrontendProcessorTest() {
 
     @Test
-    fun `unsupported star projections`() = compileAndCheck(
+    fun `supported star projections`() = compileAndCheck(
         """
-        class A<T>
-        
-        @Pattern("foo @Extend(context = bar(), parameter = par) {}")
-        fun f(par: A<*>){
+        @Pattern("list {}")
+        fun f(list: List<*>){
         }
         """
     ) {
-        assertCompilationError()
-        assertExpectedMessage("Error while processing parameter 'par' of function 'f': " +
-                "Star projections aren't supported yet")
-        assertExpectedLineNumber(17)
-        assertExpectedMessage("\"par\"")
+        assertOk()
     }
 
     @Test

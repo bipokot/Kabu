@@ -8,6 +8,7 @@ import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeVariableName
 import com.squareup.kotlinpoet.WildcardTypeName
 import io.kabu.backend.node.FixedTypeNode
+import io.kabu.backend.util.poet.TypeNameUtils.requireClassName
 
 
 object TypeNameUtils {
@@ -68,4 +69,20 @@ fun TypeName.gatherTypeVariableNames(collector: MutableSet<TypeVariableName>) {
         is ClassName -> Unit
         Dynamic -> Unit
     }
+}
+
+fun TypeName.fullNameWithTypeArguments(): String {
+    val rawClassCanonicalName = requireClassName.canonicalName
+
+    val typeArguments = when(this) {
+        is ParameterizedTypeName -> typeArguments.map { (it as TypeVariableName).name }
+        is ClassName -> emptyList()
+        else -> error("Unknown context mediator type: $this")
+    }
+
+    val typeArgumentsPart = if (typeArguments.isNotEmpty()) {
+        typeArguments.joinToString(prefix = "<", postfix = ">", separator = ",")
+    } else ""
+
+    return rawClassCanonicalName + typeArgumentsPart
 }

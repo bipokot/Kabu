@@ -4,6 +4,7 @@ import com.google.devtools.ksp.isConstructor
 import com.google.devtools.ksp.symbol.FunctionKind
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
+import com.squareup.kotlinpoet.ksp.toTypeParameterResolver
 import io.kabu.annotation.Context
 import io.kabu.annotation.ContextCreator
 import io.kabu.backend.diagnostic.diagnosticError
@@ -11,13 +12,11 @@ import io.kabu.backend.inout.input.method.ContextConstructorMethod.Companion.toC
 import io.kabu.backend.inout.input.method.ContextCreatorMethod
 import io.kabu.backend.inout.input.method.ContextCreatorMethod.Companion.toContextCreatorMethod
 import io.kabu.frontend.ksp.processor.util.areNotSupported
-import io.kabu.frontend.ksp.processor.util.asTypeName
 import io.kabu.frontend.ksp.processor.util.builder.validator.ContextClassFoundByAnnotatedConstructorValidator
 import io.kabu.frontend.ksp.processor.util.getAnnotation
 import io.kabu.frontend.ksp.processor.util.getAnnotationOrNull
 import io.kabu.frontend.ksp.processor.util.originOf
 import io.kabu.frontend.ksp.processor.util.toMethod
-import io.kabu.frontend.ksp.processor.util.validate
 
 class ContextCreatorFunctionBuilder : AbstractFunctionBuilder<ContextCreatorMethod>() {
 
@@ -63,12 +62,11 @@ class ContextCreatorFunctionBuilder : AbstractFunctionBuilder<ContextCreatorMeth
             // b/c Context class validation must be done after context class resolution by context name anyway
             validateContextClassFoundByAnnotatedConstructor(classDeclaration)
 
-            val enclosingTypeName = classDeclaration
-                .asStarProjectedType()  //todo generics
-                .also { it.validate() }
-                .asTypeName() //todo val typeParameterResolver = typeParameters.toTypeParameterResolver()
+            //todo set parent resolver from enclosing class?
+            val typeParameterResolver = classDeclaration.typeParameters.toTypeParameterResolver()
+            val declaringType = getTypeNameOfEnclosingType(classDeclaration, typeParameterResolver)
 
-            function.toMethod().toContextConstructorMethod(contextName, enclosingTypeName)
+            function.toMethod(typeParameterResolver).toContextConstructorMethod(contextName, declaringType)
 
         } else {
             function.toMethod().toContextCreatorMethod(contextName)

@@ -4,12 +4,17 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.TypeName
+import com.squareup.kotlinpoet.TypeVariableName
 import io.kabu.backend.declaration.AbstractCallableDeclaration
+import io.kabu.backend.node.ContextMediatorTypeNode
+import io.kabu.backend.node.namespace.NamespaceNode
 import io.kabu.backend.provider.group.OrderedNamedProviders
 import io.kabu.backend.util.poet.gatherTypeVariableNames
 
 
-abstract class AbstractFunctionDeclaration : AbstractCallableDeclaration() {
+abstract class AbstractFunctionDeclaration(
+    protected val namespaceNode: NamespaceNode?,
+) : AbstractCallableDeclaration() {
 
     abstract fun generateFunSpec(): FunSpec
 
@@ -24,10 +29,7 @@ abstract class AbstractFunctionDeclaration : AbstractCallableDeclaration() {
         isHelper: Boolean = false,
     ): FunSpec {
         return FunSpec.builder(name).apply {
-            val typeVariableNames = returnType.gatherTypeVariableNames() +
-                    receiverType?.gatherTypeVariableNames().orEmpty() +
-                    providers.providers.flatMap { it.type.gatherTypeVariableNames() }
-            addTypeVariables(typeVariableNames.toSet())
+            addTypeVariables(gatherRequiredTypeVariableNames(providers, returnType, receiverType))
 
             if (isHelper) addModifiers(KModifier.PRIVATE)
             when {
@@ -45,5 +47,22 @@ abstract class AbstractFunctionDeclaration : AbstractCallableDeclaration() {
             addCode(codeBlock)
 
         }.build()
+    }
+
+    private fun gatherRequiredTypeVariableNames(
+        providers: OrderedNamedProviders,
+        returnType: TypeName,
+        receiverType: TypeName?,
+    ): Set<TypeVariableName> {
+        val outerTypeVariableNames = if (namespaceNode is ContextMediatorTypeNode) {
+            namespaceNode.gatherTypeVariableNames()
+        } else emptyList()
+
+        val typeVariableNames = returnType.gatherTypeVariableNames() +
+                receiverType?.gatherTypeVariableNames().orEmpty() +
+                providers.providers.flatMap { it.type.gatherTypeVariableNames() }
+
+        @Suppress("ConvertArgumentToSet")
+        return typeVariableNames.toSet() - outerTypeVariableNames
     }
 }

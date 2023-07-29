@@ -159,14 +159,4 @@ class ContextClassFoundByAnnotatedConstructorNotSupportedTest : BaseKspFrontendP
     ) {
         assertCompilationError(16, "Object as $role isn't supported yet", "\"Foo\"")
     }
-
-    @Test
-    fun `parameterized class not supported`() = compileAndCheck(
-        """
-        class Foo<T> @ContextCreator("ctx") constructor() {
-        }
-        """
-    ) {
-        assertCompilationError(14, "Parameterized classes as $role aren't supported yet", "\"Foo\"")
-    }
 }

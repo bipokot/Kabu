@@ -41,14 +41,14 @@ class ExtensionLambdaHandler(
         }
 
         val returningTypeNode = DerivativeTypeNode(namespaceNode, mutableListOf(contextMediatorTypeNode)) { deps ->
-            LambdaTypeName.get(returnType = UNIT, receiver = (deps.first() as ContextMediatorTypeNode).className)
+            LambdaTypeName.get(returnType = UNIT, receiver = (deps.first() as ContextMediatorTypeNode).typeName)
         }
         registerNode(returningTypeNode)
 
         return ExtensionLambdaProvider(
             typeNode = returningTypeNode,
             returningProvider = ArgumentProvider(extensionContextTypeNode, parameterName),
-            contextMediatorTypeNode = contextMediatorTypeNode,
+            contextMediatorTypeNode = contextMediatorTypeNode as ContextMediatorTypeNode, //todo fix in MethodsRegistry
             contextCreatorDefinition = extensionContextCreatorDefinition,
             destinationParameterTypeNode = destinationParameterType,
             analyzer = analyzer,
