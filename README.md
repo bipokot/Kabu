@@ -47,11 +47,11 @@ Patterns can be almost as complex as you can do it with Kotlin.
 
 **Complex pattern (Example-014)**
 
-<img src="doc/img/animation_example_printbook.gif" alt="'Print book' example" width="600"/>
+<img src="doc/img/animation_example_printbook.gif" alt="'Print book' example" width="650"/>
 
 **Extending a pattern (Example-020)**
 
-<img src="doc/img/animation_example_chooser.gif" alt="'Chooser' example" width="600"/>
+<img src="doc/img/animation_example_chooser.gif" alt="'Chooser' example" width="700"/>
 
 ### More examples
 Explore [a project with a set of examples](https://github.com/bipokot/KabuExamples). Each documentation example with `Example-XXX` code can be found in that project. Feel free to experiment with patterns and have fun!
