@@ -24,7 +24,7 @@ idea {
 }
 
 group 'io.kabu'
-version '0.23.0'
+version '0.24.0'
 
 allprojects {
     apply from: "$rootDir/detekt/detekt.gradle"
