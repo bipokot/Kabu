@@ -125,7 +125,7 @@ class PatternParser(
                 getLeftAssociativeTreeOfOperationList(tree, { comparison(it) }, { equalityOperator(it) })
             }
             is AssignmentContext -> {
-                require(tree.childCount == 3) //todo can be many of them
+                require(tree.childCount == 3)
                 val operator = visitBinaryOperator(tree.getChild(1))
                 val left = visit(tree.assignableExpression() ?: tree.directlyAssignableExpression())
                 val right = visit(tree.expression())
@@ -138,11 +138,12 @@ class PatternParser(
                 val annotations = gatherAnnotations(tree.annotation())
                 val lambdaLiteral = tree.lambdaLiteral()
                 val expressions = visitStatements(lambdaLiteral.statements())
-                LambdaExpression(expressions, annotations, originOf(tree))
+                val label = tree.label()?.simpleIdentifier()?.Identifier()?.symbol?.text
+                LambdaExpression(expressions, annotations, label, originOf(tree))
             }
             is LambdaLiteralContext -> {
                 val expressions = visitStatements(tree.statements())
-                LambdaExpression(expressions, emptyList(), originOf(tree))
+                LambdaExpression(expressions, emptyList(), null, originOf(tree))
             }
             is ParenthesizedExpressionContext -> {
                 visit(tree.expression())
@@ -166,9 +167,9 @@ class PatternParser(
                 it.singleAnnotation()?.unescapedAnnotation()?.let { add(it) }
                 it.multiAnnotation()?.unescapedAnnotation()?.let { addAll(it) }
             }
-        }.map {
-            val userType = it.userType()
-            val constructorInvocation = it.constructorInvocation()
+        }.map { annotationContext ->
+            val userType = annotationContext.userType()
+            val constructorInvocation = annotationContext.constructorInvocation()
             when {
                 userType != null -> {
                     val name = identifierTextOf(userType)
@@ -186,7 +187,7 @@ class PatternParser(
                     }
                     Annotation(name, arguments)
                 }
-                else -> error("Annotation has invalid format: ${it.text}")
+                else -> error("Annotation has invalid format: ${annotationContext.text}")
             }
         }
     }

@@ -11,7 +11,7 @@ import io.kabu.backend.node.PropertyNode
  * Resolves PropertyNode-PropertyNode conflict (both ways)
  */
 @Suppress("UNUSED_PARAMETER")
-class PropertyAndPropertyUniversalConflictResolver(private val integrator: Integrator): ConflictResolver {
+class PropertyAndPropertyConflictResolver(private val integrator: Integrator): ConflictResolver {
 
     override fun resolve(node1: Node, node2: Node) {
         node1 as PropertyNode; node2 as PropertyNode
@@ -23,16 +23,15 @@ class PropertyAndPropertyUniversalConflictResolver(private val integrator: Integ
         val current = integrator.notIntegratedOf(node1, node2)
         if (!isResolvable(current, conflicting)) integrator.unresolvedConflictError(current, conflicting)
 
-        visualize(integrator.integrated, "Before rewire")
-        integrator.validateLinks()
+        visualize(integrator.integrated, "Before conflict resolving")
 
         integrator.rewireNodes(current, conflicting)
-        visualize(integrator.integrated, "After functions rewire")
         integrator.validateLinks()
 
         integrator.rewireNodes(current.returnTypeNode, conflicting.returnTypeNode)
-        visualize(integrator.integrated, "After return types rewire")
         integrator.validateLinks()
+
+        visualize(integrator.integrated, "After conflict resolving")
     }
 
     private fun isResolvable(current: PropertyNode, conflicting: PropertyNode): Boolean {

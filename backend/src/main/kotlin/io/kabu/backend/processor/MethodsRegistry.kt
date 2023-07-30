@@ -6,11 +6,27 @@ import io.kabu.backend.diagnostic.diagnosticError
 import io.kabu.backend.inout.input.ProcessingInput
 import io.kabu.backend.inout.input.method.ContextCreatorMethod
 import io.kabu.backend.inout.input.method.LocalPatternMethod
+import io.kabu.backend.node.TypeNode
+import io.kabu.backend.util.poet.TypeNameUtils.isAssignableTo
 
 class MethodsRegistry(processingInput: ProcessingInput? = null) {
 
     private val localPatterns: Map<TypeName, List<LocalPatternMethod>> // registry of LocalPattern methods
     private val contextCreators: List<ContextCreatorMethod> // registry of ContextCreator
+
+    //todo not registry responsibility
+    private val map: MutableMap<TypeName, TypeNode> = mutableMapOf()
+
+    fun registerContextMediatorTypeNode(extensionContextTypeName: TypeName, contextMediatorTypeNode: TypeNode) {
+        if (extensionContextTypeName in map) {
+            error("Duplicate context mediator registration for: $extensionContextTypeName")
+        }
+        map[extensionContextTypeName] = contextMediatorTypeNode
+    }
+
+    fun getContextMediatorTypeNode(extensionContextTypeName: TypeName): TypeNode {
+        return map[extensionContextTypeName]!!
+    }
 
     init {
         if (processingInput != null) {
@@ -28,7 +44,7 @@ class MethodsRegistry(processingInput: ProcessingInput? = null) {
 
         return when {
             groupedByExtensionContextType.isEmpty() ->
-                diagnosticError("No context creator for context name $contextName.")
+                diagnosticError("Context creator for context name '$contextName' not found.")
 
             groupedByExtensionContextType.size > 1 -> diagnosticError(
                 "Context creators for one context name '$contextName' must have the same return type\n " +
@@ -81,10 +97,4 @@ class MethodsRegistry(processingInput: ProcessingInput? = null) {
     ): Map<TypeName, List<LocalPatternMethod>> {
         return localPatternMethods.groupBy { it.declaringType }
     }
-
-}
-
-//todo move to TypeName utils?
-internal infix fun TypeName.isAssignableTo(other: TypeName): Boolean {
-    return this == other // todo consider inheritance
 }

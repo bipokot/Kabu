@@ -4,9 +4,9 @@ import io.kabu.backend.common.log.InterceptingLogging
 import io.kabu.backend.diagnostic.FileSourceLocation
 import io.kabu.backend.diagnostic.Origin
 import io.kabu.backend.diagnostic.builder.patternParsingError
+import io.kabu.backend.exception.PatternParsingException
 import io.kabu.backend.parser.KotlinExpression
 import io.kabu.backend.parser.PatternParser
-import io.kabu.backend.exception.PatternParsingException
 import io.kabu.backend.parser.PatternString
 import org.junit.Assert
 import org.junit.Test
@@ -211,6 +211,12 @@ class PatternParserTestParameterized(val raw: String, val parsed: String) : Asse
                 "foo * @Ann() {}" to "(foo * (@[Ann()] lambda []))",
                 "! @Ann() {}" to "(! (@[Ann()] lambda []))",
                 "xxx yyy @A {}" to "(xxx `yyy` (@[A()] lambda []))",
+
+                // lambda label
+                "xxx yyy label@ {}" to "(xxx `yyy` (label@ lambda []))",
+                "b @Abc lll@ { }" to "(b call [(@[Abc()] lll@ lambda [])])",
+                "b @[Abc Def] label1@ { }" to "(b call [(@[Abc(), Def()] label1@ lambda [])])",
+                "b @Abc @Def label2@ { }" to "(b call [(@[Abc(), Def()] label2@ lambda [])])",
 
                 "c" to "c"
         ).map { arrayOf(it.first, it.second) }

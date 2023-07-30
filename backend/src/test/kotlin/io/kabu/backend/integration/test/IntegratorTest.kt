@@ -1,5 +1,6 @@
 package io.kabu.backend.integration.test
 
+import io.kabu.backend.common.log.InterceptingLogging
 import io.kabu.backend.integration.Integrator
 import io.kabu.backend.integration.render.GraphVisualizer
 import io.kabu.backend.node.Node
@@ -16,8 +17,8 @@ open class IntegratorTest {
         val visualizer = GraphVisualizer()
         val styledDiagram = visualizer.generateMermaidDiagramAsFlowchart(integrator.integrated, styling = true)
         val unStyledDiagram = visualizer.generateMermaidDiagramAsFlowchart(integrator.integrated, styling = false)
-        println(visualizer.getMermaidRenderLink(styledDiagram))
-        println(unStyledDiagram)
+        logger.debug { visualizer.getMermaidRenderLink(styledDiagram) }
+        logger.debug { unStyledDiagram }
         return unStyledDiagram
     }
 
@@ -31,12 +32,16 @@ open class IntegratorTest {
     private fun showDiagram(nodes: Set<Node>, styling: Boolean = true) {
         val visualizer = GraphVisualizer()
         val diagram = visualizer.generateMermaidDiagramAsFlowchart(nodes, styling)
-        println(visualizer.getMermaidRenderLink(diagram))
-        println(diagram)
+        logger.debug { visualizer.getMermaidRenderLink(diagram) }
+        logger.debug { diagram }
     }
 
     protected infix fun String.assertEq(actual: String) {
         assertEquals(this.trimIndent() + "\n", actual)
+    }
+
+    private companion object {
+        val logger = InterceptingLogging.logger {}
     }
 }
 

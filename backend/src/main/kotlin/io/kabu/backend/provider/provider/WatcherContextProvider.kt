@@ -13,7 +13,7 @@ class WatcherContextProvider(
     private val childProvider: Provider,
     private val analyzer: Analyzer,
     origin: Origin? = null,
-) : BaseProvider(typeNode, origin), Provider {
+) : AbstractProvider(typeNode, origin), Provider {
 
     override fun generateName(): String {
         return typeNode.name.decaps()
@@ -28,9 +28,6 @@ class WatcherContextProvider(
         providerContainer: ProviderContainer?,
     ): RetrievalWay? {
         if (provider !== childProvider) return null
-
-//        val privateFieldName = fields[provider]
-//        val code = FieldAccessCodeGenerator(analyzer).generateFieldAccessorCode(selfName!!, privateFieldName)
 
         val code = "(${selfName!!}.stack.pop() as ${provider.type})"
         return RetrievalWay(CodeBlock.of(code), isReentrant = false)

@@ -1,8 +1,8 @@
 package io.kabu.backend.provider.group
 
+import com.squareup.kotlinpoet.TypeName
 import io.kabu.backend.diagnostic.builder.unexpectedInvertedOrderingError
 import io.kabu.backend.integration.NameAndType
-import io.kabu.backend.node.TypeNode
 import io.kabu.backend.provider.provider.NoReceiverProvider
 import io.kabu.backend.provider.provider.Provider
 
@@ -15,7 +15,7 @@ import io.kabu.backend.provider.provider.Provider
 class FunDeclarationProviders(
     val providers: OrderedNamedProviders,
     val invertedOrdering: Boolean,
-    val operatorInfoType: TypeNode? = null, //todo revise
+    val operatorInfoType: TypeName? = null, //todo revise
 ) {
 
     init {

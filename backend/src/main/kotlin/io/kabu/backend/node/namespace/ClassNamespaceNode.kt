@@ -2,6 +2,9 @@ package io.kabu.backend.node.namespace
 
 import com.squareup.kotlinpoet.ClassName
 
+/**
+ * Defines a namespace associated with some class.
+ */
 interface ClassNamespaceNode : NamespaceNode {
 
     override val recursiveName: String

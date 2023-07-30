@@ -4,10 +4,12 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import io.kabu.backend.node.TypeNode
 import io.kabu.backend.node.factory.node.util.RegularFunctionNodeKind
+import io.kabu.backend.node.namespace.NamespaceNode
 import io.kabu.backend.parser.InfixFunction
 import io.kabu.backend.parser.Operator
 import io.kabu.backend.provider.group.FunDeclarationProviders
 import io.kabu.backend.util.poet.asCodeBlock
+import io.kabu.runtime.exception.PatternEvaluationException
 
 
 class FunctionDeclaration(
@@ -15,12 +17,13 @@ class FunctionDeclaration(
     val funDeclarationProviders: FunDeclarationProviders,
     val returnTypeNode: TypeNode,
     val kind: RegularFunctionNodeKind,
-) : AbstractFunctionDeclaration() {
+    namespaceNode: NamespaceNode?,
+) : AbstractFunctionDeclaration(namespaceNode) {
 
     val functionName: String
         get() = when (kind) {
             is RegularFunctionNodeKind.HelperFunction -> kind.name
-            else -> operator.getFunctionNameOrThrow()
+            else -> operator.overriding.function!!
         }
 
     override fun generateFunSpec(): FunSpec {
@@ -54,9 +57,9 @@ class FunctionDeclaration(
                 appendLine("    $index -> $callCode")
             }
 
-            appendLine("    else -> TODO()") //todo todo throw proper exception
+            appendLine("    else -> throw %T(%S)")
             appendLine("}")
-        }.asCodeBlock()
+        }.asCodeBlock(PatternEvaluationException::class, "Wrong counter index ($$counterName)")
     }
 
     override fun toString(): String {

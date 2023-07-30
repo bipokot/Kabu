@@ -29,16 +29,13 @@ import io.kabu.backend.parser.PatternString
 import io.kabu.backend.processor.MethodsRegistry
 import io.kabu.backend.processor.Options
 import io.kabu.backend.provider.group.RawProviders
-import io.kabu.backend.provider.provider.BaseProvider
 import io.kabu.backend.provider.provider.Provider
 import io.kabu.backend.util.Constants
-import io.kabu.backend.util.poet.TypeNameUtils.toFixedTypeNode
 
 
 class AnalyzerImpl(
     override val method: PatternMethod,
     override val methodsRegistry: MethodsRegistry,
-    override val contextPropertyName: String?,
     val options: Options,
     private val contextMediatorNamespaceNode: NamespaceNode? = null,
 ) : Analyzer {
@@ -58,6 +55,8 @@ class AnalyzerImpl(
     } catch (e: PatternParsingException) {
         patternParsingError(e)
     }
+    override val isLocalPattern: Boolean
+        get() = contextMediatorNamespaceNode != null
 
     val parametersRegistry = ParametersRegistry(method, expression)
 
@@ -136,7 +135,6 @@ class AnalyzerImpl(
         //todo check: creating different objects for same method parameter
         val operatorInfoProvider = method.parameters.getOrNull(nextExpectedParameterIndex)
             ?.takeIf { it.type.isOperatorInfoType }
-            ?.let { BaseProvider(it.type.toFixedTypeNode(), it.origin) }
 
         val right: List<Provider> = expressions.drop(1)
             .map { providerOf(it) }

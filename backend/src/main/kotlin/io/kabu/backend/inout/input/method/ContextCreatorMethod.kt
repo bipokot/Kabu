@@ -2,7 +2,7 @@ package io.kabu.backend.inout.input.method
 
 import com.squareup.kotlinpoet.TypeName
 import io.kabu.backend.diagnostic.Origin
-import io.kabu.backend.parameter.EntryParameter
+import io.kabu.backend.parameter.Parameter
 import io.kabu.backend.provider.provider.Provider
 import io.kabu.backend.provider.provider.ProviderContainer
 
@@ -10,17 +10,17 @@ open class ContextCreatorMethod(
     packageName: String,
     name: String,
     returnedType: TypeName,
-    receiverType: TypeName?,
-    parameters: List<EntryParameter>,
+    receiver: Parameter?,
+    parameters: List<Parameter>,
     val contextName: String,
     origin: Origin
 ) : Method(
     packageName,
     name,
     returnedType,
-    receiverType,
+    receiver,
     parameters,
-    origin
+    origin,
 ) {
 
     open fun getInvocationCode(providers: List<Provider>, providerContainer: ProviderContainer): String {
@@ -36,7 +36,7 @@ open class ContextCreatorMethod(
             packageName = packageName,
             name = name,
             returnedType = returnedType,
-            receiverType = receiverType,
+            receiver = receiver,
             parameters = parameters,
             contextName = contextName,
             origin = origin

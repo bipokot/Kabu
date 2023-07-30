@@ -37,14 +37,14 @@ open class XTest {
                     packageName = "io.kabu.backend.plannerx",
                     name = "completion",
                     returnedType = returned,
-                    receiverType = receiver,
+                    receiver = receiver,
                     parameters = parameters,
                     pattern = patternWithSignature.pattern,
                     origin = Origin()
                 )
                 val options = Options.DEFAULT.copy(hideInternalProperties = false, accessorObjectIsInSamePackage = true)
 
-                return AnalyzerImpl(method, MethodsRegistry(), null, options).analyze()
+                return AnalyzerImpl(method, MethodsRegistry(), options).analyze()
 
             } catch (e: PatternProcessingException) {
                 logger.error(e) { "${e.localizedMessage}\n${e.diagnostic}" }
@@ -56,8 +56,8 @@ open class XTest {
             val visualizer = GraphVisualizer()
             val styledDiagram = visualizer.generateMermaidDiagramAsFlowchart(nodes, styling = true)
             val unStyledDiagram = visualizer.generateMermaidDiagramAsFlowchart(nodes, styling = false)
-            println(visualizer.getMermaidRenderLink(styledDiagram))
-            println(unStyledDiagram)
+            logger.debug { visualizer.getMermaidRenderLink(styledDiagram) }
+            logger.debug { unStyledDiagram }
             return unStyledDiagram
         }
     }

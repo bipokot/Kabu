@@ -190,15 +190,4 @@ class GlobalPatternFunctionsNotSupportedTest : BaseKspFrontendProcessorTest() {
     ) {
         assertCompilationError(17, "Tailrec functions as $role aren't supported yet", "\"findFixPoint\"")
     }
-
-    @Test
-    fun `parameterized function not supported`() = compileAndCheck(
-        """
-        @Pattern("!bar") 
-        fun <T> func(bar: T) { 
-        }
-        """
-    ) {
-        assertCompilationError(15, "Functions with type parameters as $role aren't supported yet", "\"func\"")
-    }
 }

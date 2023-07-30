@@ -17,4 +17,15 @@ class GlobalPatternFunctionsSupportedTest : BaseKspFrontendProcessorTest() {
     ) {
         assertOk()
     }
+
+    @Test
+    fun `parameterized function`() = compileAndCheck(
+        """
+        @Pattern("!bar") 
+        fun <T> func(bar: T) { 
+        }
+        """
+    ) {
+        assertOk()
+    }
 }

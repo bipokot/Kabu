@@ -51,7 +51,7 @@ private fun Provider.toNode(): Node = object : Node {
         is ArgumentProvider -> "Identifier (${provider.originalName})"
         is EmptyProvider -> "Empty"
         is AuxProvider -> "Aux"
-        else -> TODO()
+        else -> error("Unknown provider type: $provider")
     }
 
     override fun getChildren(): List<Node> = this@toNode.childrenProviders.map(Provider::toNode)

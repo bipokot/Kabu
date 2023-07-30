@@ -2,7 +2,10 @@
 package io.kabu.backend.node
 
 import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeName
+import com.squareup.kotlinpoet.TypeVariableName
+import io.kabu.backend.common.log.InterceptingLogging
 import io.kabu.backend.declaration.Declaration
 import io.kabu.backend.integration.NameAndType
 import io.kabu.backend.legacy.TypeNameGeneratorFactory
@@ -10,12 +13,13 @@ import io.kabu.backend.node.namespace.ClassNamespaceNode
 import io.kabu.backend.node.namespace.NamespaceNode
 import io.kabu.backend.node.namespace.PackageNamespaceNode
 import io.kabu.backend.provider.group.FunDeclarationProviders
+import io.kabu.backend.util.poet.gatherTypeVariableNames
 
 
 interface Node {
     var namespaceNode: NamespaceNode?
     val name: String
-    val dependencies: Iterable<Node>
+    val dependencies: Iterable<Node> //todo make dependencies a set
     val derivativeNodes: MutableSet<Node>
     fun createDeclarations(): List<Declaration>
     fun replaceDependency(replaced: Node, replaceBy: Node)
@@ -29,8 +33,12 @@ interface AbstractNode : Node {
                 it.derivativeNodes.add(this)
             }
         } catch (e: Exception) {
-            println(e)
+            logger.error("Links inconsistency in node '$this'", e)
         }
+    }
+
+    private companion object {
+        val logger = InterceptingLogging.logger {}
     }
 }
 
@@ -80,7 +88,8 @@ class FixedTypeNode(
     }
 
     override fun toString(): String {
-        return "${className()}: ${namespaceRecursiveName()}/$name"
+        val namespacePart = namespaceRecursiveName()?.let { "$it/" }.orEmpty()
+        return "${className()}: $namespacePart$name"
     }
 
     init {
@@ -147,7 +156,6 @@ open class ObjectTypeNode(
     val className: ClassName
         get() = namespaceNode!!.composeClassName(name)
 
-    //todo className vs typeName
     override val typeName: TypeName
         get() = className
 
@@ -179,12 +187,24 @@ open class HolderTypeNode(
             .mapTo(mutableListOf<Node>()) { it }
             .apply { namespaceNode?.let { add(it) } }
 
-    val className: ClassName
+    val rawClassName: ClassName
         get() = namespaceNode!!.composeClassName(name)
 
-    //todo className vs typeName
     override val typeName: TypeName
-        get() = className
+        get() = composeTypeName()
+
+    private fun composeTypeName(): TypeName {
+        val typeVariableNames = gatherTypeVariableNames()
+        return if (typeVariableNames.isEmpty()) rawClassName else {
+            rawClassName.parameterizedBy(typeVariableNames)
+        }
+    }
+
+    fun gatherTypeVariableNames(): List<TypeVariableName> {
+        return fieldTypes.flatMap {
+            it.typeName.gatherTypeVariableNames()
+        }.toSet().toList()
+    }
 
     init {
         updateLinks()
@@ -226,6 +246,7 @@ open class WatcherContextTypeNode(
 
 open class ContextMediatorTypeNode(
     name: String,
+    val typeVariableNames: List<TypeVariableName>,
     override val desiredName: String? = null,
     override var namespaceNode: NamespaceNode?,
 ) : GeneratedTypeNode(name), ClassNamespaceNode {
@@ -245,12 +266,21 @@ open class ContextMediatorTypeNode(
         get() = mutableListOf<Node>()
             .apply { namespaceNode?.let { add(it) } }
 
-    val className: ClassName
+    val rawClassName: ClassName
         get() = namespaceNode!!.composeClassName(name)
 
-    //todo className vs typeName
     override val typeName: TypeName
-        get() = className
+        get() = composeTypeName()
+
+    private fun composeTypeName(): TypeName {
+        return if (typeVariableNames.isEmpty()) rawClassName else {
+            rawClassName.parameterizedBy(typeVariableNames)
+        }
+    }
+
+    fun gatherTypeVariableNames(): List<TypeVariableName> {
+        return typeVariableNames
+    }
 
     init {
         updateLinks()

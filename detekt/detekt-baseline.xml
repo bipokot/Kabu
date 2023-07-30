@@ -3,7 +3,7 @@
   <ManuallySuppressedIssues></ManuallySuppressedIssues>
   <CurrentIssues>
     <ID>CyclomaticComplexMethod:GraphVisualizer.kt$GraphVisualizer$fun generateMermaidDiagramAsFlowchart( nodes: Set&lt;Node&gt;, styling: Boolean = true, title: String? = null, ): String</ID>
-    <ID>CyclomaticComplexMethod:Handler.kt$Handler$protected fun createWatchedParameter( rawProviders: RawProviders, operator: Operator, assignableSuffixExpression: KotlinExpression? ): BaseProvider</ID>
+    <ID>CyclomaticComplexMethod:Handler.kt$Handler$protected fun createWatchedParameter( rawProviders: RawProviders, operator: Operator, assignableSuffixExpression: KotlinExpression? ): AbstractProvider</ID>
     <ID>CyclomaticComplexMethod:OperatorHandler.kt$OperatorHandler$fun handle(expression: OperatorExpression): Provider</ID>
     <ID>CyclomaticComplexMethod:PatternParser.kt$PatternParser$private fun visit(tree: ParseTree): KotlinExpression</ID>
     <ID>CyclomaticComplexMethod:PatternParser.kt$PatternParser$private fun visitBinaryOperator(context: ParseTree): BinaryOperator</ID>
@@ -21,21 +21,21 @@
     <ID>LongMethod:JsonObjectBuilderTest.kt$JsonObjectBuilderTest$@Test fun test()</ID>
     <ID>LongMethod:ParserSuccessTest.kt$PatternParserTestParameterized.Companion$@JvmStatic @Parameterized.Parameters fun data()</ID>
     <ID>LongMethod:PatternParser.kt$PatternParser$private fun visit(tree: ParseTree): KotlinExpression</ID>
-    <ID>LongParameterList:ContextConstructorMethod.kt$ContextConstructorMethod$( packageName: String, name: String, returnedType: TypeName, receiverType: TypeName?, parameters: List&lt;EntryParameter&gt;, contextName: String, val declaringType: TypeName, origin: Origin )</ID>
-    <ID>LongParameterList:ContextCreatorMethod.kt$ContextCreatorMethod$( packageName: String, name: String, returnedType: TypeName, receiverType: TypeName?, parameters: List&lt;EntryParameter&gt;, val contextName: String, origin: Origin )</ID>
-    <ID>LongParameterList:ExtensionLambdaProvider.kt$ExtensionLambdaProvider$( typeNode: TypeNode, returningProvider: BaseProvider, //todo don't need? //todo rename val contextMediatorTypeNode: TypeNode, val contextCreatorDefinition: ContextCreatorDefinition, val destinationParameterTypeNode: TypeNode, analyzer: Analyzer, origin: Origin? = null, )</ID>
-    <ID>LongParameterList:GlobalPatternMethod.kt$GlobalPatternMethod$( packageName: String, name: String, returnedType: TypeName, receiverType: TypeName?, parameters: List&lt;EntryParameter&gt;, pattern: String, origin: Origin )</ID>
-    <ID>LongParameterList:LocalPatternMethod.kt$LocalPatternMethod$( packageName: String, name: String, returnedType: TypeName, receiverType: TypeName?, parameters: List&lt;EntryParameter&gt;, pattern: String, val declaringType: TypeName, origin: Origin )</ID>
-    <ID>LongParameterList:PatternMethod.kt$PatternMethod$( packageName: String, name: String, returnedType: TypeName, receiverType: TypeName?, parameters: List&lt;EntryParameter&gt;, val pattern: String, //todo get origin of pattern annotation as well origin: Origin )</ID>
+    <ID>LongParameterList:ContextConstructorMethod.kt$ContextConstructorMethod$( packageName: String, name: String, returnedType: TypeName, receiver: Parameter?, parameters: List&lt;Parameter&gt;, contextName: String, val declaringType: TypeName, origin: Origin )</ID>
+    <ID>LongParameterList:ContextCreatorMethod.kt$ContextCreatorMethod$( packageName: String, name: String, returnedType: TypeName, receiver: Parameter?, parameters: List&lt;Parameter&gt;, val contextName: String, origin: Origin )</ID>
+    <ID>LongParameterList:ExtensionLambdaProvider.kt$ExtensionLambdaProvider$( typeNode: TypeNode, returningProvider: AbstractProvider, //todo don't need? //todo rename val contextMediatorTypeNode: TypeNode, val contextCreatorDefinition: ContextCreatorDefinition, val destinationParameterTypeNode: TypeNode, analyzer: Analyzer, origin: Origin? = null, )</ID>
+    <ID>LongParameterList:GlobalPatternMethod.kt$GlobalPatternMethod$( packageName: String, name: String, returnedType: TypeName, receiver: Parameter?, parameters: List&lt;Parameter&gt;, pattern: String, origin: Origin )</ID>
+    <ID>LongParameterList:LocalPatternMethod.kt$LocalPatternMethod$( packageName: String, name: String, returnedType: TypeName, receiver: Parameter?, parameters: List&lt;Parameter&gt;, pattern: String, val declaringType: TypeName, origin: Origin )</ID>
+    <ID>LongParameterList:PatternMethod.kt$PatternMethod$( packageName: String, name: String, returnedType: TypeName, receiver: Parameter?, parameters: List&lt;Parameter&gt;, val pattern: String, //todo get origin of pattern annotation as well origin: Origin )</ID>
     <ID>MagicNumber:PatternParser.kt$PatternParser$3</ID>
-    <ID>MagicNumber:ProcessingInputRenderer.kt$3</ID>
-    <ID>MagicNumber:ProcessingInputRenderer.kt$4</ID>
+    <ID>MagicNumber:nodesUtils.kt$100_000</ID>
     <ID>MatchingDeclarationName:ContextConstructorAloneTest.kt$ContextConstructorTest : BaseKspFrontendProcessorTest</ID>
+    <ID>MaxLineLength:ExtensionLambdaHandler.kt$ExtensionLambdaHandler$val</ID>
     <ID>MaxLineLength:OperatorHandler.kt$OperatorHandler$val rawProvidersOfAssign = RawProviders(rawProviders.providersList + assigningParameter, operatorInfoParameter = null)</ID>
     <ID>MemberNameEqualsClassName:OperatorInfoTypes.kt$OperatorInfoTypes$private val operatorInfoTypes = listOf( EQUALITY_INFO_TYPE, INCLUSION_INFO_TYPE, RANKING_COMPARISON_INFO_TYPE, STRICTNESS_COMPARISON_INFO_TYPE, )</ID>
     <ID>PrintStackTrace:KspFrontendProcessor.kt$KspFrontendProcessor$e</ID>
     <ID>ReturnCount:FunctionAndFunctionUniversalConflictResolver.kt$FunctionAndFunctionUniversalConflictResolver$private fun returnTypesAreMergeable(current: FunctionNode, conflicting: FunctionNode): Boolean</ID>
-    <ID>ReturnCount:IdentifierHandler.kt$IdentifierHandler$private fun createProperty(expression: IdentifierLeaf): BaseProvider</ID>
+    <ID>ReturnCount:IdentifierHandler.kt$IdentifierHandler$private fun createProperty(expression: IdentifierLeaf): AbstractProvider</ID>
     <ID>ReturnCount:KspFrontendProcessor.kt$KspFrontendProcessor$override fun process(resolver: Resolver): List&lt;KSAnnotated&gt;</ID>
     <ID>ReturnCount:LambdaHandler.kt$LambdaHandler$fun handle(expression: LambdaExpression): Provider</ID>
     <ID>ReturnCount:OperatorHandler.kt$OperatorHandler$fun handle(expression: OperatorExpression): Provider</ID>
@@ -52,6 +52,7 @@
     <ID>TooManyFunctions:TypeConflictChecker.kt$TypeConflictChecker : ConflictChecker</ID>
     <ID>UnnecessaryAbstractClass:SimpleScript.kt$SimpleScript$SimpleScript</ID>
     <ID>UnusedPrivateMember:BaseKspFrontendProcessorTest.kt$BaseKspFrontendProcessorTest$private fun KotlinCompilation.Result.kspGeneratedSources(): List&lt;File&gt;</ID>
+    <ID>UnusedPrivateMember:ExtensionLambdaHandler.kt$ExtensionLambdaHandler$private fun analyzeMethod( method: PatternMethod, contextMediatorNamespaceNode: NamespaceNode, methodsRegistry: MethodsRegistry, contextPropertyName: String? )</ID>
     <ID>UnusedPrivateMember:FunctionStaticUserCodeConflictDetector.kt$FunctionStaticUserCodeConflictDetector$node: FunctionNode</ID>
     <ID>UnusedPrivateMember:PropertyStaticUserCodeConflictDetector.kt$PropertyStaticUserCodeConflictDetector$node: PropertyNode</ID>
     <ID>UnusedPrivateMember:TypeStaticUserCodeConflictDetector.kt$TypeStaticUserCodeConflictDetector$node: TypeNode</ID>

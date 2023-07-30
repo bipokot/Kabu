@@ -131,7 +131,7 @@ class PropertyVsTypeConflictTest : IntegratorTest() {
     fun `property with receiver VS fixed type`() {
         val graph1 = buildAndShowGraph {
             val pkgNode1 = +pkgNode1()
-            +fixed("UserType", pkgNode1) //todo fix test
+            +fixed("UserType", pkgNode1)
         }
         val graph2 = buildAndShowGraph {
             val pkgNode1 = +pkgNode1()

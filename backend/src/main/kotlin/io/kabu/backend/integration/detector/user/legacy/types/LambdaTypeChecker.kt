@@ -17,7 +17,7 @@ class LambdaTypeChecker : TypeConflictChecker(Function::class) {
 
         // forbid  '{ ... }()' patterns
         if (request.operator is Call && request.rawProviders.right.isEmpty()) {
-            ownTypeConflict(request, request.operator.overriding!!.function)
+            ownTypeConflict(request, request.operator.overriding.function!!)
         }
     }
 }

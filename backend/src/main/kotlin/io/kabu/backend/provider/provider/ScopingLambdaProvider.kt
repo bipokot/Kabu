@@ -11,7 +11,7 @@ import io.kabu.backend.util.poet.asCodeBlock
 class ScopingLambdaProvider(
     typeNode: TypeNode,
     returningProvider: Provider,
-    val watcherContextTypeNode: TypeNode, //todo watcher VS scoping
+    val contextTypeNode: TypeNode,
     analyzer: Analyzer,
     origin: Origin? = null,
 ) : LambdaProvider(typeNode, returningProvider, analyzer, origin) {
@@ -23,7 +23,7 @@ class ScopingLambdaProvider(
     ): RetrievalWay? {
         if (provider !== returningProvider) return null
 
-        val contextClassName = (watcherContextTypeNode.typeName as ClassName).canonicalName
+        val contextClassName = (contextTypeNode.typeName as ClassName).canonicalName
         return RetrievalWay("with($contextClassName()){${selfName!!}()}".asCodeBlock(), isReentrant = false)
     }
 }

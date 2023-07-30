@@ -8,13 +8,17 @@ import com.squareup.kotlinpoet.TypeSpec
 import io.kabu.backend.declaration.AbstractTypeDeclaration
 import io.kabu.backend.declaration.Declaration
 import io.kabu.backend.generator.addDeclarations
-import io.kabu.backend.parameter.EntryParameter
+import io.kabu.backend.node.ContextMediatorTypeNode
+import io.kabu.backend.parameter.Parameter
 
 
 class ContextMediatorClassDeclaration(
-    override val className: ClassName,
-    val contextProperty: EntryParameter,
+    val typeNode: ContextMediatorTypeNode,
+    val contextProperty: Parameter,
 ) : AbstractTypeDeclaration() {
+
+    override val className: ClassName
+        get() = typeNode.rawClassName
 
     // for adding declarations on generation code phase
     val innerDeclarations: MutableList<Declaration> = mutableListOf()
@@ -26,7 +30,8 @@ class ContextMediatorClassDeclaration(
             }
         }.build()
 
-        return TypeSpec.classBuilder(className).apply {
+        return TypeSpec.classBuilder(typeNode.rawClassName).apply {
+            addTypeVariables(typeNode.gatherTypeVariableNames())
             addModifiers(KModifier.PUBLIC)
             primaryConstructor(constructor).apply {
                 contextProperty.let {

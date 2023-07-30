@@ -19,7 +19,8 @@ dependencies {
 
     implementation deps.kotlin.stdlib
     implementation deps.ksp
-    implementation deps.kotlinPoet
+    implementation deps.kotlinPoet.kotlinPoet
+    implementation deps.kotlinPoet.kotlinPoetKsp
 
     testImplementation deps.kct.kct
     testImplementation deps.kct.kctKsp

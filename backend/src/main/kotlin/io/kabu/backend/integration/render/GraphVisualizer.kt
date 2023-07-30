@@ -1,5 +1,6 @@
 package io.kabu.backend.integration.render
 
+import io.kabu.backend.common.log.InterceptingLogging
 import io.kabu.backend.node.FunctionNode
 import io.kabu.backend.node.HolderTypeNode
 import io.kabu.backend.node.Node
@@ -35,7 +36,6 @@ class GraphVisualizer {
         if (styling) {
             appendLine("direction BT")
         }
-//        appendLine("%%{init: {\"flowchart\": {\"defaultRenderer\": \"elk\"}} }%%")
 
         if (title != null) {
             appendLine("___TITLE___[[${fixPaddings(title)}]]")
@@ -110,7 +110,7 @@ class GraphVisualizer {
             appendLine("")
         }
         nodes.forEach { node ->
-            node.dependencies.distinct().forEach { dependency -> //todo make dependencies a set
+            node.dependencies.distinct().forEach { dependency ->
                 val link = if (dependency == node.namespaceNode) "-.->" else "-->"
                 appendLine("${names[node]?.id} $link ${names[dependency]?.id}")
             }
@@ -221,14 +221,15 @@ class GraphVisualizer {
     )
 
     companion object {
+        private val logger = InterceptingLogging.logger {}
         private const val ONLINE_MERMAID_RENDERER_BASE_URL = "http://localhost"
 
         fun visualize(nodes: Set<Node>, title: String? = null) {
             val titleText = title?.let { "$title :" }.orEmpty()
             GraphVisualizer().run {
                 val mermaidDiagram = generateMermaidDiagramAsFlowchart(nodes, title = title)
-                println(titleText + getMermaidRenderLink(mermaidDiagram))
-                println(mermaidDiagram)
+                logger.debug { titleText + getMermaidRenderLink(mermaidDiagram) }
+                logger.debug(mermaidDiagram)
             }
         }
     }

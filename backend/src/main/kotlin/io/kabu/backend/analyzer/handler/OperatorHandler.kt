@@ -3,6 +3,7 @@ package io.kabu.backend.analyzer.handler
 import com.squareup.kotlinpoet.UNIT
 import io.kabu.backend.analyzer.Analyzer
 import io.kabu.backend.analyzer.AnalyzerImpl
+import io.kabu.backend.analyzer.handler.lambda.watcher.LeftHandSideOfAssign
 import io.kabu.backend.diagnostic.diagnosticError
 import io.kabu.backend.node.factory.node.RegularFunctionNode
 import io.kabu.backend.node.factory.node.TerminalFunctionNode
@@ -21,7 +22,7 @@ import io.kabu.backend.parser.UnaryExpression
 import io.kabu.backend.provider.evaluation.FunctionBlockContext
 import io.kabu.backend.provider.group.FunDeclarationProvidersFactory
 import io.kabu.backend.provider.group.RawProviders
-import io.kabu.backend.provider.provider.BaseProvider
+import io.kabu.backend.provider.provider.AbstractProvider
 import io.kabu.backend.provider.provider.EmptyProvider
 import io.kabu.backend.provider.provider.HolderProvider
 import io.kabu.backend.provider.provider.Provider
@@ -62,7 +63,7 @@ class OperatorHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
                 }
 
                 if (!operatorCanReturnAnything) {
-                    return createWatchedParameter(rawParameters, expression.operator, assignableSuffixExpression = null)
+                    return createWatchedParameter(rawParameters, expression.operator, leftHandSideOfAssign = null)
                 }
 
                 if (expression.operator !is Access) {
@@ -117,7 +118,7 @@ class OperatorHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
         validateApplicability(expression.operator, analyzer, rawProviders)
 
         val funDeclarationProviders = FunDeclarationProvidersFactory
-            .from(rawProviders, expression.operator.invertedArgumentOrdering)
+            .from(rawProviders, expression.operator.overriding.invertedArgumentOrdering)
 
         val terminalFunction = TerminalFunctionNode(
             funDeclarationProviders = funDeclarationProviders,
@@ -133,7 +134,7 @@ class OperatorHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
     private fun createTerminalIndexedAssignOperator(
         rawProviders: RawProviders,
         expression: NaryExpression
-    ): BaseProvider {
+    ): AbstractProvider {
         val assigningParameter = providerOf((expression.parent as BinaryExpression).children[1])
 
         // combining providers for "set" operator
@@ -145,7 +146,7 @@ class OperatorHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
 
         val funDeclarationProviders = FunDeclarationProvidersFactory.from(
             rawProvidersOfAssign,
-            assignOperator.invertedArgumentOrdering
+            assignOperator.overriding.invertedArgumentOrdering
         )
 
         val functionNode = TerminalFunctionNode(
@@ -162,7 +163,7 @@ class OperatorHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
     private fun createTerminalAssignableProperty(
         rawProviders: RawProviders,
         expression: BinaryExpression,
-    ): BaseProvider {
+    ): AbstractProvider {
         val propertyName = (expression.right as IdentifierLeaf).name
         val receiverProvider = rawProviders.providersList[0]
         val assigningProvider = providerOf((expression.parent as BinaryExpression).children[1])
@@ -176,7 +177,7 @@ class OperatorHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
     ): HolderProvider {
         val funDeclarationProviders = FunDeclarationProvidersFactory.from(
             rawProviders,
-            expression.operator.invertedArgumentOrdering
+            expression.operator.overriding.invertedArgumentOrdering
         )
 
         val functionBlockContext = FunctionBlockContext(funDeclarationProviders)
@@ -193,7 +194,7 @@ class OperatorHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
         )
         registerNode(functionNode)
 
-        return HolderProvider(holderTypeNode, evaluatedParameters, analyzer)
+        return HolderProvider(holderTypeNode, evaluatedParameters)
     }
 
     private fun createHolderTypeAndProperty(
@@ -218,19 +219,19 @@ class OperatorHandler(analyzer: AnalyzerImpl) : Handler(analyzer) {
         )
         registerNode(propertyNode)
 
-        return HolderProvider(holderTypeNode, evaluatedParameters, analyzer)
+        return HolderProvider(holderTypeNode, evaluatedParameters)
     }
 
     private fun createHolderTypeAndIndexedAssignOperator(
         rawProviders: RawProviders,
         expression: NaryExpression
-    ): BaseProvider {
+    ): AbstractProvider {
         val assigningParameter = providerOf((expression.parent as BinaryExpression).children[1])
 
         // combining providers for "set" operator
         val rawProvidersOfAssign = RawProviders(rawProviders.providersList + assigningParameter, operatorInfoParameter = null)
         val assignOperator = (expression.parent as BinaryExpression).operator as Assign
 
-        return createWatchedParameter(rawProvidersOfAssign, assignOperator, expression)
+        return createWatchedParameter(rawProvidersOfAssign, assignOperator, LeftHandSideOfAssign.Indexing)
     }
 }

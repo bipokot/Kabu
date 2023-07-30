@@ -1,12 +1,12 @@
 package io.kabu.backend.integration
 
+import io.kabu.backend.common.log.InterceptingLogging
 import io.kabu.backend.exception.UnresolvedConflictException
 import io.kabu.backend.integration.detector.FunctionConflictDetector
 import io.kabu.backend.integration.detector.PackageConflictDetector
 import io.kabu.backend.integration.detector.PropertyConflictDetector
 import io.kabu.backend.integration.detector.TypeConflictDetector
 import io.kabu.backend.integration.detector.UserCodeConflictDetector
-import io.kabu.backend.integration.render.GraphVisualizer.Companion.visualize
 import io.kabu.backend.integration.resolver.UniversalConflictResolver
 import io.kabu.backend.node.FunctionNode
 import io.kabu.backend.node.HolderTypeNode
@@ -31,19 +31,19 @@ class Integrator {
     fun integrate(graph: Set<Node>, removeIrrelevant: Boolean = true) {
         val sortedNodes = sortTopologically(graph)
         sortedNodes.forEach { node ->
-            println("Integrating: '$node'")
+            if (node in integrated) return@forEach // skipping already integrated nodes
+
+            logger.debug { "Integrating: '$node'" }
 
             val conflictingNode = findConflictingNode(node)
             if (conflictingNode != null) {
-                println("Resolving conflict with '$conflictingNode'")
+                logger.debug { "Resolving conflict with '$conflictingNode'" }
                 resolveConflict(node, conflictingNode)
             } else {
-                println("No conflicts with generated code")
                 resolvePossibleConflictWithUserCode(node)
                 integrateNode(node)
             }
 
-            visualize(integrated)
             validateLinks()
         }
 
@@ -135,7 +135,7 @@ class Integrator {
 
     private fun removeIrrelevantNodes() {
         val irrelevantNodes = integrated.filter { isIrrelevantNode(it) }.toSet()
-        println("Irrelevant nodes: $irrelevantNodes")
+        logger.debug { "Irrelevant nodes: $irrelevantNodes" }
         integrated.removeAll(irrelevantNodes)
     }
 
@@ -201,5 +201,9 @@ class Integrator {
     enum class NamespaceSubspace {
         CLASS_INTERFACE_OBJECT_PROPERTY,
         FUNCTION,
+    }
+
+    private companion object {
+        val logger = InterceptingLogging.logger {}
     }
 }

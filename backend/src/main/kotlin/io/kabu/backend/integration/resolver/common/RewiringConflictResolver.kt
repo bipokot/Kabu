@@ -7,7 +7,7 @@ import io.kabu.backend.node.Node
 /**
  * Resolves conflict by rewiring nodes (swap current node with already integrated).
  */
-open class RewiringConflictResolver(private val integrator: Integrator): ConflictResolver { //todo find duplicates
+open class RewiringConflictResolver(private val integrator: Integrator): ConflictResolver {
 
     override fun resolve(node1: Node, node2: Node) {
         val current = integrator.notIntegratedOf(node1, node2)

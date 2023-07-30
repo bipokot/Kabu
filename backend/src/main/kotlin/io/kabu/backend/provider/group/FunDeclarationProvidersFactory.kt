@@ -3,6 +3,7 @@ package io.kabu.backend.provider.group
 import io.kabu.backend.diagnostic.builder.binaryOperatorRequiredForSetterError
 import io.kabu.backend.diagnostic.builder.unexpectedInvertedOrderingError
 import io.kabu.backend.provider.provider.Provider
+import io.kabu.backend.util.poet.TypeNameUtils.toFixedTypeNode
 
 object FunDeclarationProvidersFactory {
 
@@ -40,7 +41,7 @@ object FunDeclarationProvidersFactory {
         return FunDeclarationProviders(
             orderedNamesProviders,
             invertedOrdering,
-            rawProviders.operatorInfoParameter?.typeNode
+            rawProviders.operatorInfoParameter?.type
         )
     }
 

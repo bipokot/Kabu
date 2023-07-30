@@ -65,7 +65,7 @@ object EvaluationHelper {
         provider: Provider,
     ): ProviderInfo? {
         var evaluationStatements: String? = null
-        var providerName = functionBlockContext.getCodeForActualProvider(provider)
+        var providerName = functionBlockContext.getCodeForProvider(provider)
         var replacementProvider = provider
 
         val replacementWay = provider.getReplacementWay(context = functionBlockContext, providerName)

@@ -1,8 +1,8 @@
 package io.kabu.backend.parser
 
 import io.kabu.backend.diagnostic.HasOrigin
-import io.kabu.backend.diagnostic.diagnosticError
 import io.kabu.backend.diagnostic.Origin
+import io.kabu.backend.diagnostic.diagnosticError
 
 
 sealed class KotlinExpression : HasOrigin {
@@ -41,11 +41,16 @@ class IdentifierLeaf(
 class LambdaExpression(
     val expressions: List<KotlinExpression>,
     val annotations: List<Annotation>,
+    val label: String?,
     override val origin: Origin
 ) : KotlinExpression() {
     override var parent: KotlinExpression? = null
     override val children = expressions
-    override fun toString() = "(${annotations.let { if (it.isNotEmpty()) "@$it " else "" }}lambda $expressions)"
+    override fun toString(): String {
+        val annotationsPart = annotations.let { if (it.isNotEmpty()) "@$it " else "" }
+        val labelPart = label?.let { "$it@ " }.orEmpty()
+        return "(${annotationsPart}${labelPart}lambda $expressions)"
+    }
     override fun toExcerptsString(): String {
         val annotationsPart = annotations.let { if (it.isNotEmpty()) "@$it " else "" } //todo annotations excerpts
         val expressionsPart = expressions.map { it.toExcerptsString() }

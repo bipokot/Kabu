@@ -8,4 +8,4 @@ import io.kabu.backend.util.poet.TypeNameUtils.toFixedTypeNode
  *  - may be used as first provider of FunDeclarationParameters to indicate absence of function/property receiver
  *  - does not turn into 'this' by transformation to FunDeclarationParameters
  */
-class NoReceiverProvider : BaseProvider(ANY.toFixedTypeNode())
+class NoReceiverProvider : AbstractProvider(ANY.toFixedTypeNode())

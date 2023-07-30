@@ -1,14 +1,16 @@
 package io.kabu.frontend.ksp.processor.util
 
 import com.google.devtools.ksp.symbol.FileLocation
+import com.google.devtools.ksp.symbol.KSAnnotated
+import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSDeclaration
-import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.google.devtools.ksp.symbol.KSNode
 import com.google.devtools.ksp.symbol.KSTypeArgument
 import com.google.devtools.ksp.symbol.KSValueParameter
-import io.kabu.backend.diagnostic.diagnosticError
+import com.google.devtools.ksp.symbol.Modifier
 import io.kabu.backend.diagnostic.FileSourceLocation
 import io.kabu.backend.diagnostic.Origin
+import io.kabu.backend.diagnostic.diagnosticError
 import io.kabu.frontend.ksp.diagnostic.builder.notSupportedError
 
 internal fun areNotSupported(clause: Boolean = true, ksNode: KSNode? = null, message: () -> String) {
@@ -41,8 +43,14 @@ internal fun originOf(ksNode: KSNode, parent: Origin? = null): Origin {
     return Origin(excerpt = excerpt, sourceLocation = sourceLocation, parent = parent)
 }
 
-internal inline fun <reified T> KSFunctionDeclaration.getAnnotation() =
-    annotations.single {
+internal inline fun <reified T> KSAnnotated.getAnnotation() =
+    getAnnotationOrNull<T>()!!
+
+internal inline fun <reified T> KSAnnotated.getAnnotationOrNull() =
+    annotations.singleOrNull {
         val annotationQualifiedName = it.annotationType.resolve().declaration.qualifiedName?.asString()
         annotationQualifiedName == T::class.qualifiedName
     }
+
+internal val KSClassDeclaration.isInner get() =
+    Modifier.INNER in modifiers

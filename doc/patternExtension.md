@@ -40,7 +40,7 @@ An error occurs if there are no applicable context creators or there are more th
 `result=<PARAMETER_NAME>` - where `<PARAMETER_NAME>` defines a parameter of the [target function](targetFunctions.md), which will receive a returned value of the lambda invocation.
 
 ## Context class
-Context class defines a scope for local [target functions](targetFunctions.md) (`@LocalPattern` functions). Context class must be a non-abstract top level class. A context class may be used for different extension points.
+Context class defines a scope for local [target functions](targetFunctions.md) (`@LocalPattern` functions). Context class must be a non-abstract top level class. One context class may be used for different extension points.
 
 Member functions of a context class which are annotated with `@LocalPattern` annotation constitute a set of allowed operations inside a lambda. Statements corresponding to patterns of those local [target functions](targetFunctions.md) will be the only accessible way to interact with an instance of the context class.
 
@@ -56,6 +56,9 @@ Context creator:
 - must have `public` or `internal` visibility
 - must be annotated with `@ContextCreator` annotation
 - may have parameters
+
+### `@Context` annotation
+`@Context` annotation placed on a class means that primary constructor of this class acts as *context creator*. This is a shortcut to marking primary constructor with `@ContextCreator` annotation.
 
 ## Unbounded and recursive extensions nesting
 Local patterns can have their own extension points, so building complex DSLs with arbitrary depth of extensions nesting is possible.
@@ -85,7 +88,7 @@ jsonObject {
 ## Steps to define an extension point
 1. Choose a *context name* (following the rules for identifier name). It may relate to a context class name.
 2. Create a *context class* containing functions marked with `@LocalPattern`, which constitute a set of allowed operations inside a lambda.
-3. Define at least one way to create the *context class*. Mark it with a `@ContextCreator` annotation and specify chosen *context name*.
+3. Define at least one way to create the *context class*. Mark it with a `@ContextCreator` annotation and specify chosen *context name*. Or mark the context class with `@Context` annotation if primary constructor will act as context creator.
 4. Mark an empty lambda with `@Extend` annotation inside a pattern. Specify required parameters of the annotation.
 
 ### Example
@@ -147,7 +150,8 @@ data class FootballTeam(
     val trophies: List<Trophy>
 )
 
-class PlayersBuilder @ContextCreator("playersBuilder") constructor() {
+@Context("playersBuilder")
+class PlayersBuilder {
     val players = mutableListOf<Player>()
 
     @LocalPattern("name - number")
@@ -156,7 +160,8 @@ class PlayersBuilder @ContextCreator("playersBuilder") constructor() {
     }
 }
 
-class FootballTeamBuilder @ContextCreator("footballTeamBuilder") constructor() {
+@Context("footballTeamBuilder")
+class FootballTeamBuilder {
 
     val trophies = mutableListOf<Trophy>()
     var isChampion = false

@@ -1,46 +1,43 @@
 package io.kabu.backend.provider.provider
 
-import io.kabu.backend.analyzer.Analyzer
-import io.kabu.backend.analyzer.handler.lambda.watcher.OperatorInfoTypes.RANKING_COMPARISON_INFO_TYPE
-import io.kabu.backend.analyzer.handler.lambda.watcher.OperatorInfoTypes.STRICTNESS_COMPARISON_INFO_TYPE
+import com.squareup.kotlinpoet.asTypeName
 import io.kabu.backend.node.HolderTypeNode
 import io.kabu.backend.node.TypeNode
-import io.kabu.backend.provider.evaluation.ReplacementProviderWithCode
 import io.kabu.backend.provider.provider.WatcherLambdaProvider.Companion.STACK_PROPERTY_NAME
+import io.kabu.runtime.RankingComparisonInfo
+import io.kabu.runtime.StrictnessComparisonInfo
 
 
 class ComparisonProvider(
     typeNode: TypeNode,
     providers: List<Provider>,
-    analyzer: Analyzer,
-) : AbstractWatchedProvider(typeNode, providers, analyzer) {
+) : AbstractWatchedProvider(typeNode, providers) {
 
     override fun provideCodeForConstructionFromAux(auxName: String): String {
-        val holderClassCanonicalName = (typeNode as HolderTypeNode).className.canonicalName
+        val holderClassCanonicalName = (typeNode as HolderTypeNode).rawClassName.canonicalName
 
-        //todo do safeCast method to bring right exceptions to the user
         //todo make holder creation through CodeBlock(%T, className)
 
         val code = buildString {
             append("$auxName.let{aux->")
-            val providerInfoProvider = providers.single { it is OperatorInfoProvider }
-            val providerInfoProviderIndex = providers.indexOf(providerInfoProvider)
+            val operatorInfoProvider = providers.single { it is OperatorInfoProvider }
+            val operatorInfoProviderIndex = providers.indexOf(operatorInfoProvider)
             for (i in providers.size - 1 downTo 0) {
-                if (i == providerInfoProviderIndex) continue
-                append("val v$i=$STACK_PROPERTY_NAME.pop() as ${providers[i].type};")
+                if (i == operatorInfoProviderIndex) continue
+                append("val v$i=safeCast<${providers[i].type}>($STACK_PROPERTY_NAME.pop());")
             }
 
-            append("val v$providerInfoProviderIndex=")
-            when (providerInfoProvider.type) {
-                RANKING_COMPARISON_INFO_TYPE -> {
+            append("val v$operatorInfoProviderIndex=")
+            when (val type = operatorInfoProvider.type) {
+                RankingComparisonInfo::class.asTypeName() -> {
                     append("if(aux)RankingComparisonInfo.GREATER else RankingComparisonInfo.LESS;")
                 }
 
-                STRICTNESS_COMPARISON_INFO_TYPE -> {
+                StrictnessComparisonInfo::class.asTypeName() -> {
                     append("if(aux)StrictnessComparisonInfo.RELAXED else StrictnessComparisonInfo.STRICT;")
                 }
 
-                else -> TODO()
+                else -> error("Unknown operator info type: $type")
             }
             append("$holderClassCanonicalName(")
             val holderArguments = List(providers.size) { index -> "v$index" }.joinToString(",")

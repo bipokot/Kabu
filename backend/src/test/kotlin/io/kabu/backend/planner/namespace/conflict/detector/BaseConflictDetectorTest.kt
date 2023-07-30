@@ -1,12 +1,12 @@
 package io.kabu.backend.planner.namespace.conflict.detector
 
-import io.kabu.backend.pattern.PatternWithSignature
 import io.kabu.backend.analyzer.AnalyzerImpl
 import io.kabu.backend.common.log.InterceptingLogging
 import io.kabu.backend.diagnostic.Origin
 import io.kabu.backend.exception.PatternProcessingException
 import io.kabu.backend.inout.input.method.GlobalPatternMethod
 import io.kabu.backend.integration.detector.user.legacy.detector.KotlinLangConflictDetector
+import io.kabu.backend.pattern.PatternWithSignature
 import io.kabu.backend.processor.MethodsRegistry
 import io.kabu.backend.processor.Options
 import io.kabu.backend.util.Constants.BACKEND_PACKAGE
@@ -92,14 +92,14 @@ private fun getOutcomeAndOriginString(raw: String): Pair<String, String> {
         packageName = TARGET_PACKAGE,
         name = CLIENT_METHOD,
         returnedType = returned,
-        receiverType = receiver,
+        receiver = receiver,
         parameters = parameters,
         pattern = patternWithSignature.pattern,
         origin = Origin()
     )
 
     return try {
-        AnalyzerImpl(method, MethodsRegistry(), null, Options.DEFAULT).analyze()
+        AnalyzerImpl(method, MethodsRegistry(), Options.DEFAULT).analyze()
         "ok" to ""
     } catch (e: PatternProcessingException) {
         "fail" to (e.diagnostic.sourceCodeDetails?.trim() ?: "")

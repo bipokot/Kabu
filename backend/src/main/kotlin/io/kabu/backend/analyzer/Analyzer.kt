@@ -20,7 +20,7 @@ interface Analyzer {
 
     val methodsRegistry: MethodsRegistry
 
-    val contextPropertyName: String?
+    val isLocalPattern: Boolean
 
     val namespaceNode: NamespaceNode
 

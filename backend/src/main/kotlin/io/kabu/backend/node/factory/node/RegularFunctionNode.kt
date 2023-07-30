@@ -29,6 +29,7 @@ class RegularFunctionNode(
             funDeclarationProviders = funDeclarationProviders,
             returnTypeNode = typeNode,
             kind = kind,
+            namespaceNode = namespaceNode,
         )
     }
 

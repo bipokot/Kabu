@@ -9,7 +9,7 @@ import org.junit.Test
 
 class GenerationTest : XTest() {
 
-    private val generator = Generator()
+    private val generator = Generator(testMode = true)
 
     @Test
     fun test() {
@@ -19,7 +19,6 @@ class GenerationTest : XTest() {
     private fun testPattern(patternWithSignature: String) {
         // analyze method + pattern
         val nodes = analyzePatternWithSignature(patternWithSignature)
-        getDiagramOfNodes(nodes)
 
         // integrate nodes
         val integrator = Integrator()

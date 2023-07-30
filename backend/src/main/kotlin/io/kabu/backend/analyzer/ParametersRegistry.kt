@@ -4,7 +4,7 @@ import io.kabu.backend.analyzer.handler.lambda.watcher.OperatorInfoTypes.isOpera
 import io.kabu.backend.diagnostic.builder.sameNamedParametersError
 import io.kabu.backend.inout.input.method.PatternMethod
 import io.kabu.backend.node.FixedTypeNode
-import io.kabu.backend.parameter.EntryParameter
+import io.kabu.backend.parameter.Parameter
 import io.kabu.backend.parser.IdentifierLeaf
 import io.kabu.backend.parser.KotlinExpression
 import io.kabu.backend.util.Constants.RECEIVER_PARAMETER_NAME
@@ -15,9 +15,9 @@ class ParametersRegistry(
     val expression: KotlinExpression
 ) {
 
-    val entryParameters: List<EntryParameter> = composeEntryParameters()
-        .also { validateEntryParameters(it) }
-    val parametersTypes: Map<String, FixedTypeNode> = entryParameters
+    val parameters: List<Parameter> = composeParameters()
+        .also { validateParameters(it) }
+    val parametersTypes: Map<String, FixedTypeNode> = parameters
         .groupBy({ it.name }, { it.type.toFixedTypeNode() })
         .mapValues { it.value.single() }
 
@@ -25,23 +25,17 @@ class ParametersRegistry(
     private var operatorInfoParametersUsed = false
     val strictMethodParametersOrdering get() = operatorInfoParametersUsed
 
-    private fun composeEntryParameters(): List<EntryParameter> {
-        val receiverParameter = method.receiverType?.let {
-            EntryParameter(RECEIVER_PARAMETER_NAME, it, method.origin) //todo origin for receiver
-        }
-        val parameterList = method.parameters.map {
-            EntryParameter(it.name, it.type, it.origin)
-        }
-        return listOfNotNull(receiverParameter) + parameterList
+    private fun composeParameters(): List<Parameter> {
+        return listOfNotNull(method.receiver) + method.parameters
     }
 
-    private fun validateEntryParameters(entryParameters: List<EntryParameter>) {
-        checkStrictParametersOrdering(entryParameters)
+    private fun validateParameters(parameters: List<Parameter>) {
+        checkStrictParametersOrdering(parameters)
         checkReceiverParameterPresence()
-        checkForSameNamedParameters(entryParameters)
+        checkForSameNamedParameters(parameters)
     }
 
-    private fun checkForSameNamedParameters(methodParameters: List<EntryParameter>) {
+    private fun checkForSameNamedParameters(methodParameters: List<Parameter>) {
         val sameNamedParameters = methodParameters
             .groupBy { it.name }
             .filter { it.value.size > 1 }
@@ -49,7 +43,7 @@ class ParametersRegistry(
             ?.let { (name, parameters) -> sameNamedParametersError(name, parameters) }
     }
 
-    private fun checkStrictParametersOrdering(methodParameters: List<EntryParameter>) {
+    private fun checkStrictParametersOrdering(methodParameters: List<Parameter>) {
         operatorInfoParametersUsed = methodParameters.any { it.type.isOperatorInfoType }
     }
 

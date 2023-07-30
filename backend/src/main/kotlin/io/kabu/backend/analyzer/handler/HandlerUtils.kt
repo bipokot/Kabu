@@ -14,7 +14,7 @@ internal val KotlinExpression.isTerminal: Boolean
 internal val LambdaExpression.canBeLambdaWithReceiver: Boolean
     get() {
         val parentExpressionHasInvertedArgumentOrdering = (parent as? OperatorExpression)
-            ?.operator?.invertedArgumentOrdering
+            ?.operator?.overriding?.invertedArgumentOrdering
             ?: false
         val lambdaIsTheFirstChild = indexInParent == 0
 

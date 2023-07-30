@@ -4,11 +4,10 @@ import com.squareup.kotlinpoet.BOOLEAN
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.UNIT
 import com.squareup.kotlinpoet.asClassName
-import io.kabu.runtime.InclusionInfo
-import io.kabu.runtime.RankingComparisonInfo
 import io.kabu.backend.analyzer.Analyzer
 import io.kabu.backend.analyzer.AnalyzerImpl
 import io.kabu.backend.analyzer.handler.lambda.watcher.CaptureType
+import io.kabu.backend.analyzer.handler.lambda.watcher.LeftHandSideOfAssign
 import io.kabu.backend.diagnostic.builder.watcherLambdaMissingError
 import io.kabu.backend.node.FixedTypeNode
 import io.kabu.backend.node.HolderTypeNode
@@ -16,10 +15,12 @@ import io.kabu.backend.node.TypeNode
 import io.kabu.backend.node.factory.node.HolderTypeNodeImpl
 import io.kabu.backend.node.factory.node.TerminalAssignablePropertyNode
 import io.kabu.backend.node.factory.node.TerminalReadOnlyPropertyNode
+import io.kabu.backend.parser.Access
 import io.kabu.backend.parser.Assign
 import io.kabu.backend.parser.BinaryExpression
 import io.kabu.backend.parser.Comparison
 import io.kabu.backend.parser.EvaluatedExpressionType
+import io.kabu.backend.parser.IdentifierLeaf
 import io.kabu.backend.parser.InclusionCheck
 import io.kabu.backend.parser.KotlinExpression
 import io.kabu.backend.parser.ModAssign
@@ -27,9 +28,9 @@ import io.kabu.backend.parser.Operator
 import io.kabu.backend.provider.evaluation.FunctionBlockContext
 import io.kabu.backend.provider.group.FunDeclarationProvidersFactory
 import io.kabu.backend.provider.group.RawProviders
+import io.kabu.backend.provider.provider.AbstractProvider
 import io.kabu.backend.provider.provider.AssignProvider
 import io.kabu.backend.provider.provider.AuxProvider
-import io.kabu.backend.provider.provider.BaseProvider
 import io.kabu.backend.provider.provider.ComparisonProvider
 import io.kabu.backend.provider.provider.EmptyProvider
 import io.kabu.backend.provider.provider.InclusionProvider
@@ -37,6 +38,8 @@ import io.kabu.backend.provider.provider.OperatorInfoProvider
 import io.kabu.backend.provider.provider.Provider
 import io.kabu.backend.util.poet.TypeNameUtils.toFixedTypeNode
 import io.kabu.backend.util.poet.asFixedTypeName
+import io.kabu.runtime.InclusionInfo
+import io.kabu.runtime.RankingComparisonInfo
 
 
 open class Handler(
@@ -46,7 +49,7 @@ open class Handler(
     protected fun createHolderTypeAndAssignablePropertyViaWatchedParameter(
         rawProviders: RawProviders,
         expression: KotlinExpression
-    ): BaseProvider {
+    ): AbstractProvider {
         val assignExpression = expression.parent as BinaryExpression
         val assignOperator = assignExpression.operator as Assign
 
@@ -56,16 +59,26 @@ open class Handler(
         val rawProvidersOfAssign =
             RawProviders(listOf(rawProviders.providersList[0], assigningProvider), operatorInfoParameter = null)
 
-        return createWatchedParameter(rawProvidersOfAssign, assignOperator, expression)
+        val leftHandSideOfAssign = when {
+            expression is IdentifierLeaf ->
+                LeftHandSideOfAssign.StandaloneProperty(expression.name)
+
+            expression is BinaryExpression && expression.operator is Access ->
+                LeftHandSideOfAssign.ObjectProperty((expression.right as IdentifierLeaf).name)
+
+            else -> error("Unknown type of ${LeftHandSideOfAssign::class.simpleName}")
+        }
+
+        return createWatchedParameter(rawProvidersOfAssign, assignOperator, leftHandSideOfAssign)
     }
 
     protected fun createWatchedParameter(
         rawProviders: RawProviders,
         operator: Operator,
-        assignableSuffixExpression: KotlinExpression?
-    ): BaseProvider {
+        leftHandSideOfAssign: LeftHandSideOfAssign?
+    ): AbstractProvider {
         val funDeclarationProviders = FunDeclarationProvidersFactory
-            .from(rawProviders, operator.invertedArgumentOrdering)
+            .from(rawProviders, operator.overriding.invertedArgumentOrdering)
 
         val functionBlockContext = FunctionBlockContext(funDeclarationProviders)
         //todo not adding operator info provider here!
@@ -108,12 +121,12 @@ open class Handler(
         // registering capture type for operation
         val returningTypeNode = expressionReturnedTypeOf(operator.expressionType)!!.toFixedTypeNode()
         val translationReturnedTypeNode =
-            (if (operator is Assign) UNIT else operator.overriding!!.mustReturn.asFixedTypeName()).toFixedTypeNode()
+            (if (operator is Assign) UNIT else operator.overriding.mustReturn.asFixedTypeName()).toFixedTypeNode()
         val captureType = CaptureType(
             operator = operator,
             funDeclarationProviders = funDeclarationProviders,
             returnTypeNode = translationReturnedTypeNode,
-            assignableSuffixExpression = assignableSuffixExpression,
+            leftHandSideOfAssign = leftHandSideOfAssign,
             rawProviders = rawProviders,
         )
         val watcherLambda = analyzer.currentWatcherLambda ?: watcherLambdaMissingError(operator)
@@ -121,10 +134,10 @@ open class Handler(
 
         // creating watched provider of appropriate type
         val watchedProvider = when(operator) {
-            is Comparison -> ComparisonProvider(holderTypeNode, evaluatedParameters, analyzer)
-            is InclusionCheck -> InclusionProvider(holderTypeNode, evaluatedParameters, analyzer)
-            is ModAssign -> AssignProvider(holderTypeNode, evaluatedParameters, analyzer)
-            else -> AssignProvider(holderTypeNode, evaluatedParameters, analyzer)
+            is Comparison -> ComparisonProvider(holderTypeNode, evaluatedParameters)
+            is InclusionCheck -> InclusionProvider(holderTypeNode, evaluatedParameters)
+            is ModAssign -> AssignProvider(holderTypeNode, evaluatedParameters)
+            else -> AssignProvider(holderTypeNode, evaluatedParameters)
         }
 
         return AuxProvider(returningTypeNode, watchedProvider)

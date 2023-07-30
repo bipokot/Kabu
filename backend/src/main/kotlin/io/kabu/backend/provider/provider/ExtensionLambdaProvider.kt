@@ -1,19 +1,20 @@
 package io.kabu.backend.provider.provider
 
-import com.squareup.kotlinpoet.ClassName
 import io.kabu.backend.analyzer.Analyzer
 import io.kabu.backend.analyzer.handler.lambda.extension.ContextCreatorDefinition
 import io.kabu.backend.diagnostic.Origin
 import io.kabu.backend.diagnostic.builder.parameterIsNotEvaluatedYetError
+import io.kabu.backend.node.ContextMediatorTypeNode
 import io.kabu.backend.node.TypeNode
 import io.kabu.backend.provider.evaluation.RetrievalWay
 import io.kabu.backend.util.poet.asCodeBlock
+import io.kabu.backend.util.poet.fullNameWithTypeArguments
 
 
 class ExtensionLambdaProvider(
     typeNode: TypeNode,
-    returningProvider: BaseProvider, //todo don't need? //todo rename
-    val contextMediatorTypeNode: TypeNode,
+    returningProvider: AbstractProvider, //todo don't need? //todo rename
+    val contextMediatorTypeNode: ContextMediatorTypeNode,
     val contextCreatorDefinition: ContextCreatorDefinition,
     val destinationParameterTypeNode: TypeNode,
     analyzer: Analyzer,
@@ -63,9 +64,9 @@ class ExtensionLambdaProvider(
 
         // constructing evaluation code
         val contextCreatorInvocation = creatorMethod.getInvocationCode(creatorParameterProviders, providerContainer)
-        val contextMediatorClassName = (contextMediatorTypeNode.typeName as ClassName).canonicalName
+        val mediatorFullNameWithTypeArguments = contextMediatorTypeNode.typeName.fullNameWithTypeArguments()
 
-        val code = "($contextCreatorInvocation).also{with($contextMediatorClassName(it)){${selfName!!}()}}"
+        val code = "($contextCreatorInvocation).also{with($mediatorFullNameWithTypeArguments(it)){${selfName!!}()}}"
         return RetrievalWay(code.asCodeBlock(), isReentrant = false)
     }
 

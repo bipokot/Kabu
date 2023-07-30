@@ -47,7 +47,7 @@ class ContextClassFoundByAnnotatedConstructorValidator : ContextClassValidator()
         areNotSupported(clazz.isCompanionObject, clazz) { "Companion objects as $role" } // tested
         areNotSupported(clazz.isActual, clazz) { "Classes with keyword 'actual' as $role" }
         areNotSupported(clazz.isExpect, clazz) { "Classes with keyword 'expect' as $role" }
-        areNotSupported(clazz.typeParameters.isNotEmpty(), clazz) { "Parameterized classes as $role" } // tested
+//        areNotSupported(clazz.typeParameters.isNotEmpty(), clazz) { "Parameterized classes as $role" } // supported
         areNotSupported(clazz.isAbstract(), clazz) { "Abstract classes as $role" } // tested
     }
 }

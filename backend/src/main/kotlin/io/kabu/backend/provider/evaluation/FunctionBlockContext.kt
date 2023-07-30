@@ -34,12 +34,10 @@ class FunctionBlockContext(
     fun registerActualProvider(provider: Provider, name: String, statements: List<String>) {
         _allStatements += statements
         actualProviders.register(provider, name)
-        //todo mb losing non-actual providers names in allProviders...
         allProviders.register(provider, name)
     }
 
-    //todo rn getCodeForProvider
-    fun getCodeForActualProvider(provider: Provider): String {
+    fun getCodeForProvider(provider: Provider): String {
         return actualProvidersProvider
             .getChildRetrievalWay(selfName = null, provider, actualProvidersProvider)!!.codeBlock.toString()
     }
@@ -76,7 +74,7 @@ class FunctionBlockContext(
 
     private fun getReplacement(provider: Provider): Replacement {
         val name = nextVarName()
-        val code = getCodeForActualProvider(provider)
+        val code = getCodeForProvider(provider)
         val statements = "val $name = $code"
         return Replacement(provider, name, statements)
     }

@@ -2,14 +2,14 @@ package io.kabu.backend.inout.input.method
 
 import com.squareup.kotlinpoet.TypeName
 import io.kabu.backend.diagnostic.Origin
-import io.kabu.backend.parameter.EntryParameter
+import io.kabu.backend.parameter.Parameter
 
 class LocalPatternMethod(
     packageName: String,
     name: String,
     returnedType: TypeName,
-    receiverType: TypeName?,
-    parameters: List<EntryParameter>,
+    receiver: Parameter?,
+    parameters: List<Parameter>,
     pattern: String,
     val declaringType: TypeName,
     origin: Origin
@@ -17,7 +17,7 @@ class LocalPatternMethod(
     packageName,
     name,
     returnedType,
-    receiverType,
+    receiver,
     parameters,
     pattern,
     origin
@@ -29,7 +29,7 @@ class LocalPatternMethod(
             packageName = packageName,
             name = name,
             returnedType = returnedType,
-            receiverType = receiverType,
+            receiver = receiver,
             parameters = parameters,
             pattern = pattern,
             declaringType = declaringType,

@@ -31,6 +31,7 @@ Patterns can be almost as complex as you can do it with Kotlin.
 - **[Rich support for Kotlin operations](doc/patternSyntax.md)**: Kabu supports almost all operations usable for DSL creation (and some previously considered useless).
 - **Any pattern complexity**: if it's syntactically correct, Kabu will generate it.
 - **[Pattern extensibility](doc/patternExtension.md)**: use lambdas with receiver in a more convenient and safe way by  [extending](doc/patternExtension.md) your pattern.
+- **Support for generics**: target functions and extension context classes may be generic.
 - **Retrieving actual used operator**: know whether `<` or `>` was used in runtime expression (`in`/`!in` for inclusion).
 - **Propagation of user given names**: generated code takes into account user given names for elements.
 - **Conflict resolution**: possible conflicts between declarations for different patterns are resolved automatically.
@@ -218,7 +219,8 @@ data class FootballTeam(
     val trophies: List<Trophy>
 )
 
-class PlayersBuilder @ContextCreator("playersBuilder") constructor() {
+@Context("playersBuilder")
+class PlayersBuilder {
     val players = mutableListOf<Player>()
 
     @LocalPattern("name - number")
@@ -227,7 +229,8 @@ class PlayersBuilder @ContextCreator("playersBuilder") constructor() {
     }
 }
 
-class FootballTeamBuilder @ContextCreator("footballTeamBuilder") constructor() {
+@Context("footballTeamBuilder")
+class FootballTeamBuilder {
 
     val trophies = mutableListOf<Trophy>()
     var isChampion = false
@@ -282,7 +285,8 @@ fun main() {
 ```kotlin
 // Example-009
 
-class Actions @ContextCreator("actions") constructor() {
+@Context("actions")
+class Actions {
     val trueActions = mutableListOf<() -> Unit>()
     val falseActions = mutableListOf<() -> Unit>()
 
@@ -474,7 +478,8 @@ An *extension point* defines a lambda based scope in which multiple operations f
 // Example-009
 
 // context class
-class Actions @ContextCreator("actions") constructor() {
+@Context("actions")
+class Actions {
     val trueActions = mutableListOf<() -> Unit>()
     val falseActions = mutableListOf<() -> Unit>()
 

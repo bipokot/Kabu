@@ -12,7 +12,7 @@ import io.kabu.backend.util.poet.TypeNameUtils.shorten
  *
  * @property type type of the runtime object
  */
-open class BaseProvider( //todo abstract?
+abstract class AbstractProvider(
     override var typeNode: TypeNode,
     override val origin: Origin? = null,
 ): Provider {

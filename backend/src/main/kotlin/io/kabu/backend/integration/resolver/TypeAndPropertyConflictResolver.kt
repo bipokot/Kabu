@@ -1,6 +1,7 @@
 package io.kabu.backend.integration.resolver
 
 import io.kabu.backend.integration.Integrator
+import io.kabu.backend.integration.render.GraphVisualizer.Companion.visualize
 import io.kabu.backend.node.FixedTypeNode
 import io.kabu.backend.node.GeneratedTypeNode
 import io.kabu.backend.node.Node
@@ -10,7 +11,7 @@ import io.kabu.backend.node.TypeNode
 /**
  * Resolves TypeNode-PropertyNode conflict (both ways)
  */
-class TypeAndPropertyUniversalConflictResolver(private val integrator: Integrator) : ConflictResolver {
+class TypeAndPropertyConflictResolver(private val integrator: Integrator) : ConflictResolver {
 
     override fun resolve(node1: Node, node2: Node) {
         val typeNode = node1 as TypeNode
@@ -27,10 +28,15 @@ class TypeAndPropertyUniversalConflictResolver(private val integrator: Integrato
         propertyNode: PropertyNode,
     ) {
         if (generatedTypeNode.desiredName != null) {
+            //todo there could be properties with changeable names (it could be possible to change property name)
             integrator.unresolvedConflictError(generatedTypeNode, propertyNode)
         }
 
+        visualize(integrator.integrated, "Before conflict resolving")
+
         generatedTypeNode.name = integrator.pickAvailableTypeName(generatedTypeNode.namespaceNode!!, propertyNode.name)
         integrator.integrated.add(integrator.notIntegratedOf(generatedTypeNode, propertyNode))
+
+        visualize(integrator.integrated, "After conflict resolving")
     }
 }

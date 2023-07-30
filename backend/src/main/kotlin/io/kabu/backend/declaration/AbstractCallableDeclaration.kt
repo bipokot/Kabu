@@ -2,7 +2,8 @@ package io.kabu.backend.declaration
 
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
-import io.kabu.backend.analyzer.handler.lambda.watcher.OperatorInfoTypes
+import com.squareup.kotlinpoet.TypeName
+import com.squareup.kotlinpoet.asTypeName
 import io.kabu.backend.node.TypeNode
 import io.kabu.backend.parser.FunctionMustReturn
 import io.kabu.backend.parser.Operator
@@ -10,28 +11,16 @@ import io.kabu.backend.provider.evaluation.FunctionBlockContext
 import io.kabu.backend.provider.group.FunDeclarationProviders
 import io.kabu.backend.provider.provider.WatcherLambdaProvider.Companion.STACK_PROPERTY_NAME
 import io.kabu.backend.util.poet.asCodeBlock
+import io.kabu.runtime.RankingComparisonInfo
+import io.kabu.runtime.StrictnessComparisonInfo
 
-//todo DRY
 abstract class AbstractCallableDeclaration : Declaration() {
 
     protected fun getCallableStatements(
         funDeclarationProviders: FunDeclarationProviders,
         returningClassName: ClassName,
     ): CodeBlock {
-        val functionBlockContext = FunctionBlockContext(funDeclarationProviders)
-        functionBlockContext.doEvaluation()
-
-        val statements1 = functionBlockContext.joinAllStatements()
-        val statements2 = run {
-            val allParameters = functionBlockContext.actualProvidersProvider.childrenProviders
-                .joinToString { functionBlockContext.getCodeForActualProvider(it) }
-            "return %T($allParameters)"
-        }
-
-        return listOf(statements1, statements2)
-            .filter { it.isNotBlank() }
-            .joinToString("\n")
-            .asCodeBlock(returningClassName)
+        return getCodeBlockForReturn(funDeclarationProviders, returningClassName)
     }
 
     protected fun getCallableStatements(
@@ -39,7 +28,7 @@ abstract class AbstractCallableDeclaration : Declaration() {
         funDeclarationProviders: FunDeclarationProviders,
         returnTypeNode: TypeNode,
     ): CodeBlock {
-        return if (operator.overriding?.mustReturn == FunctionMustReturn.FREE) {
+        return if (operator.overriding.mustReturn == FunctionMustReturn.FREE) {
             codeBlockForGeneratedTypeNode(funDeclarationProviders, returnTypeNode)
         } else {
             codeBlockForFixedTypeNode(funDeclarationProviders, operator)
@@ -50,20 +39,27 @@ abstract class AbstractCallableDeclaration : Declaration() {
         funDeclarationProviders: FunDeclarationProviders,
         returnTypeNode: TypeNode,
     ): CodeBlock {
+        return getCodeBlockForReturn(funDeclarationProviders, returnTypeNode.typeName)
+    }
+
+    private fun getCodeBlockForReturn(
+        funDeclarationProviders: FunDeclarationProviders,
+        returningTypeName: TypeName,
+    ): CodeBlock {
         val functionBlockContext = FunctionBlockContext(funDeclarationProviders)
         functionBlockContext.doEvaluation()
 
         val statements1 = functionBlockContext.joinAllStatements()
         val statements2 = run {
             val allParameters = functionBlockContext.actualProvidersProvider.childrenProviders
-                .joinToString { functionBlockContext.getCodeForActualProvider(it) }
+                .joinToString { functionBlockContext.getCodeForProvider(it) }
             "return %T($allParameters)"
         }
 
         return listOf(statements1, statements2)
             .filter { it.isNotBlank() }
             .joinToString("\n")
-            .asCodeBlock(returnTypeNode.typeName)
+            .asCodeBlock(returningTypeName)
     }
 
     private fun codeBlockForFixedTypeNode(
@@ -78,17 +74,18 @@ abstract class AbstractCallableDeclaration : Declaration() {
 
         // saving
         val actualValues = functionBlockContext.actualProvidersProvider.childrenProviders
-            .map { functionBlockContext.getCodeForActualProvider(it) }
+            .map { functionBlockContext.getCodeForProvider(it) }
         val statements2 = actualValues.joinToString(";") { "$STACK_PROPERTY_NAME.push($it)" }
 
         // returning necessary value
-        val statements3 = when (operator.overriding?.mustReturn) {
-            FunctionMustReturn.FREE -> TODO()
-            FunctionMustReturn.ASSIGNABLE -> TODO()
+        val statements3 = when (operator.overriding.mustReturn) {
+            FunctionMustReturn.FREE,
+            FunctionMustReturn.ASSIGNABLE,
+            -> error("Incompatible FunctionMustReturn(${operator.overriding.mustReturn}) for fixed returned type")
+
             FunctionMustReturn.BOOLEAN -> "return true"
             FunctionMustReturn.INT -> getReturnStatementForComparison(funDeclarationProviders.operatorInfoType)
             FunctionMustReturn.UNIT -> ""
-            null -> TODO()
         }
 
         return listOf(statements1, statements2, statements3)
@@ -97,10 +94,10 @@ abstract class AbstractCallableDeclaration : Declaration() {
             .asCodeBlock()
     }
 
-    private fun getReturnStatementForComparison(operatorInfoType: TypeNode?): String {
-        return when (operatorInfoType?.typeName) {
-            OperatorInfoTypes.RANKING_COMPARISON_INFO_TYPE -> "return 42"
-            OperatorInfoTypes.STRICTNESS_COMPARISON_INFO_TYPE -> "return 0"
+    private fun getReturnStatementForComparison(operatorInfoType: TypeName?): String {
+        return when (operatorInfoType) {
+            RankingComparisonInfo::class.asTypeName() -> "return 42"
+            StrictnessComparisonInfo::class.asTypeName() -> "return 0"
             else -> "return 42"
         }
     }

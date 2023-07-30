@@ -13,11 +13,11 @@ class SimpleContextTest : BaseKspFrontendProcessorTest() {
     fun `pattern extension does not fail`() = compileAndCheckAndRun(
         """
            @Pattern("i % @Extend(context = ctx(), parameter = context) {}")
-            fun foo(i: Int, context: Context) {
+            fun foo(i: Int, context: Ctx) {
                 print(i)
             }
 
-            class Context @ContextCreator("ctx") constructor() {
+            class Ctx @ContextCreator("ctx") constructor() {
 
                 @LocalPattern("s * count")
                 fun str(count: Int, s: String): String {
@@ -34,11 +34,11 @@ class SimpleContextTest : BaseKspFrontendProcessorTest() {
     fun `simple extension`() = compileAndCheckAndRun(
         """
             @Pattern("i % @Extend(context = ctx(), parameter = context) {}")
-            fun foo(i: Int, context: Context) {
+            fun foo(i: Int, context: Ctx) {
                 print("${'$'}i, ${'$'}{context.result}")
             }
             
-            class Context @ContextCreator("ctx") constructor() {
+            class Ctx @ContextCreator("ctx") constructor() {
                 var result: String? = null
             
                 @LocalPattern("s * count")
@@ -56,11 +56,11 @@ class SimpleContextTest : BaseKspFrontendProcessorTest() {
     fun `extension point inside watcher lambda`() = compileAndCheckAndRun(
         """
             @Pattern("i % { b - @Extend(context = ctx(), parameter = context) {} }")
-            fun foo(i: Int, b: Boolean, context: Context) {
+            fun foo(i: Int, b: Boolean, context: Ctx) {
                 print("${'$'}i, ${'$'}b, ${'$'}{context.result}")
             }
             
-            class Context @ContextCreator("ctx") constructor() {
+            class Ctx @ContextCreator("ctx") constructor() {
                 var result: String? = null
             
                 @LocalPattern("s * count")
@@ -78,11 +78,11 @@ class SimpleContextTest : BaseKspFrontendProcessorTest() {
     fun `conflicts inside context mediator, context mediator inside watcher lambda`() = compileAndCheckAndRun(
         """
             @Pattern("i % { @Extend(context = ctx(), parameter = context) {} }")
-            fun foo(i: Int, context: Context) {
+            fun foo(i: Int, context: Ctx) {
                 print("${'$'}i, ${'$'}{context.result}")
             }
             
-            class Context @ContextCreator("ctx") constructor() {
+            class Ctx @ContextCreator("ctx") constructor() {
                 var result: String = ""
 
                 @LocalPattern("a / b + c / d")

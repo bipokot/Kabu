@@ -18,7 +18,7 @@ class HolderTypeNodeImpl(
 
     @Suppress("UNCHECKED_CAST")
     private fun getHolderClassDeclaration() = HolderClassDeclaration(
-        className = className,
+        typeNode = this,
         fieldTypes = fieldTypes,
         parentTypeName = null,
         namespaceNode = namespaceNode!!,

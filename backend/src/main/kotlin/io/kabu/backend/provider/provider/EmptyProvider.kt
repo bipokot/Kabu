@@ -10,14 +10,11 @@ import io.kabu.backend.util.poet.TypeNameUtils.toFixedTypeNode
 class EmptyProvider(
     typeNode: TypeNode,
     origin: Origin? = null,
-) : BaseProvider(typeNode, origin) {
+) : AbstractProvider(typeNode, origin) {
 
     constructor() : this(ANY.toFixedTypeNode())
 
     override fun generateName(): String {
         return typeNode.name.decaps()
     }
-
-//    override fun getEvaluationRequirement(): Provider.EvaluationRequirement =
-//        Provider.EvaluationRequirement.MANDATORY //todo rethink to evaluate "empty lambdas" and not pass them
 }

@@ -5,6 +5,7 @@ import com.squareup.kotlinpoet.UNIT
 import io.kabu.backend.analyzer.Analyzer
 import io.kabu.backend.analyzer.AnalyzerImpl
 import io.kabu.backend.analyzer.handler.lambda.watcher.OperatorInfoTypes.isOperatorInfoType
+import io.kabu.backend.common.log.InterceptingLogging
 import io.kabu.backend.diagnostic.builder.couldNotRetrieveReceiverValueError
 import io.kabu.backend.diagnostic.builder.signatureParameterMissingError
 import io.kabu.backend.diagnostic.builder.signatureParameterMissingInPatternError
@@ -14,6 +15,7 @@ import io.kabu.backend.provider.provider.ArgumentProvider
 import io.kabu.backend.provider.provider.Provider
 import io.kabu.backend.provider.provider.ProviderContainer
 import io.kabu.backend.provider.render.renderProviderTree
+import io.kabu.backend.util.Constants.EXTENSION_CONTEXT_PROPERTY_NAME
 import io.kabu.backend.util.poet.asCodeBlock
 
 
@@ -24,7 +26,7 @@ class TerminalCallableBuilder {
         functionBlockContext: FunctionBlockContext,
         requiredReturnStatement: String?,
     ): CodeBlock {
-        println(renderProviderTree(functionBlockContext.actualProvidersProvider))
+        logger.debug { renderProviderTree(functionBlockContext.actualProvidersProvider) }
 
         val providers: List<Provider> =
             gatherRequiredProviders(analyzer, functionBlockContext.actualProvidersProvider)
@@ -46,7 +48,7 @@ class TerminalCallableBuilder {
             .findProviders { it is ArgumentProvider }
 
         var latestIdentifierParameterIndex = -1
-        val providers: List<Provider> = parametersRegistry.entryParameters.map { signatureParameter ->
+        val providers: List<Provider> = parametersRegistry.parameters.map { signatureParameter ->
             if (signatureParameter.type.isOperatorInfoType) {
                 patternOrderedEnumeration.elementAtOrNull(latestIdentifierParameterIndex + 1)
                     ?.takeIf { it.type.isOperatorInfoType }
@@ -74,14 +76,13 @@ class TerminalCallableBuilder {
             retrievalWay.codeBlock.toString() //todo ignoring reentrant!!!
         }
 
-        val contextPropertyName = analyzer.contextPropertyName
         val evaluationStatements = functionBlockContext.joinAllStatements()
 
         val method = analyzer.method
         val methodName = method.name
         val receiverExists = method.hasReceiver
         val returningUnit = method.returnedType == UNIT
-        val terminatingLocalPatternMethod = contextPropertyName != null
+        val terminatingLocalPatternMethod = analyzer.isLocalPattern
         if (receiverExists || terminatingLocalPatternMethod) {
             if (receiverExists == terminatingLocalPatternMethod) {
                 diagnosticError("Member functions with receiver aren't supported", method)
@@ -89,7 +90,7 @@ class TerminalCallableBuilder {
             val (receiver, callParameters) = if (receiverExists) {
                 codes.first() to codes.drop(1)
             } else {
-                contextPropertyName to codes
+                EXTENSION_CONTEXT_PROPERTY_NAME to codes
             }
             val names = callParameters.joinToString()
             return if (returningUnit) {
@@ -113,5 +114,9 @@ class TerminalCallableBuilder {
             .filterNot { it.isBlank() }
             .joinToString(separator = "\n")
             .asCodeBlock()
+    }
+
+    private companion object {
+        val logger = InterceptingLogging.logger {}
     }
 }

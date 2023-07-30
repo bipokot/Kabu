@@ -11,16 +11,20 @@ import io.kabu.backend.declaration.AbstractTypeDeclaration
 import io.kabu.backend.integration.NameAndType
 import io.kabu.backend.integration.NamedTypeNode
 import io.kabu.backend.legacy.planner.HolderFieldsNamesGenerator.rename
+import io.kabu.backend.node.HolderTypeNode
 import io.kabu.backend.node.ObjectTypeNode
 import io.kabu.backend.node.TypeNode
 import io.kabu.backend.node.namespace.NamespaceNode
 
 class HolderClassDeclaration(
-    override val className: ClassName,
+    val typeNode: HolderTypeNode,
     fieldTypes: List<TypeNode>,
     val parentTypeName: TypeName? = null,
     private val namespaceNode: NamespaceNode
 ) : AbstractTypeDeclaration() {
+
+    override val className: ClassName
+        get() = typeNode.rawClassName
 
     private val fields: List<NameAndType> = run {
         val nameAndTypes: List<NameAndType> = fieldTypes.map { NamedTypeNode("<unknown>", it) }
@@ -45,7 +49,8 @@ class HolderClassDeclaration(
             }
         }.build()
 
-        return TypeSpec.classBuilder(className).apply {
+        return TypeSpec.classBuilder(typeNode.rawClassName).apply {
+            addTypeVariables(typeNode.gatherTypeVariableNames())
             parentTypeName?.let { superclass(it) }
             addModifiers(KModifier.PUBLIC)
             primaryConstructor(constructor).apply {
@@ -64,7 +69,7 @@ class HolderClassDeclaration(
                 }
             }
 
-            if (accessorClassName != null) {
+            if (fieldsHidingEnabled) {
                 fields.forEach {
                     addProperty(
                         PropertySpec.builder(it.name, it.typeNode.typeName).apply {

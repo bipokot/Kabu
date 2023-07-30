@@ -11,11 +11,22 @@ import io.kabu.backend.declaration.objects.AccessorObjectDeclaration
 import io.kabu.backend.declaration.properties.AbstractPropertyDeclaration
 import io.kabu.backend.util.Constants.RUNTIME_PACKAGE
 
-class Writer {
+class Writer(private val testMode: Boolean = false) {
 
     fun composeFileForDeclarations(packageName: String, declarations: List<Declaration>): String {
         val fileSpec = buildFileSpec(packageName, declarations)
-        return fileSpec.toString()
+        return removePublicModifier(fileSpec.toString())
+    }
+
+    private fun removePublicModifier(source: String): String {
+        if (!testMode) return source
+
+        var result = source.replace(operatorFunRegex, "operator")
+        result = result.replace(infixFunRegex, "infix")
+        result = result.replace(classRegex, "class")
+        result = result.replace(objectRegex, "object")
+        result = result.replace(valRegex, "val")
+        return result
     }
 
     private fun buildFileSpec(packageName: String, declarations: List<Declaration>): FileSpec {
@@ -51,11 +62,20 @@ class Writer {
                     .addMember(CodeBlock.of("%S", "FunctionName"))
                     .addMember(CodeBlock.of("%S", "ObjectPropertyName"))
                     .addMember(CodeBlock.of("%S", "MemberVisibilityCanBePrivate"))
+                    .addMember(CodeBlock.of("%S", "UNCHECKED_CAST"))
                     .build()
 
             )
             addDeclarations(declarations)
         }.build()
+    }
+
+    private companion object {
+        val operatorFunRegex = Regex("public operator")
+        val infixFunRegex = Regex("public infix")
+        val classRegex = Regex("public class")
+        val objectRegex = Regex("public object")
+        val valRegex = Regex("public val")
     }
 }
 

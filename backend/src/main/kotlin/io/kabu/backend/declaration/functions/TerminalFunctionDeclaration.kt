@@ -5,6 +5,7 @@ import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.UNIT
 import io.kabu.backend.analyzer.Analyzer
 import io.kabu.backend.declaration.util.TerminalCallableBuilder
+import io.kabu.backend.node.namespace.NamespaceNode
 import io.kabu.backend.parser.Assign
 import io.kabu.backend.parser.FunctionMustReturn
 import io.kabu.backend.parser.InfixFunction
@@ -18,18 +19,19 @@ open class TerminalFunctionDeclaration(
     val operator: Operator,
     val funDeclarationProviders: FunDeclarationProviders,
     val analyzer: Analyzer,
-) : AbstractFunctionDeclaration() {
+    namespaceNode: NamespaceNode?,
+) : AbstractFunctionDeclaration(namespaceNode) {
 
     private val callableBuilder = TerminalCallableBuilder()
 
     //todo abstract in base?
     val functionName: String
-        get() = operator.getFunctionNameOrThrow()
+        get() = operator.overriding.function!!
 
     val returnedType: TypeName
         get() = when {
             operator is Assign -> UNIT
-            operator.overriding!!.mustReturn != FunctionMustReturn.FREE -> {
+            operator.overriding.mustReturn != FunctionMustReturn.FREE -> {
                 operator.overriding.mustReturn.asFixedTypeName()
             }
 
@@ -57,15 +59,13 @@ open class TerminalFunctionDeclaration(
         )
     }
 
-    private fun getRequiredByOperatorReturnStatement(operator: Operator) = when (operator.overriding?.mustReturn) {
+    private fun getRequiredByOperatorReturnStatement(operator: Operator) = when (operator.overriding.mustReturn) {
         FunctionMustReturn.BOOLEAN -> "return true"
         FunctionMustReturn.INT -> "return 42"
         FunctionMustReturn.FREE,
         FunctionMustReturn.ASSIGNABLE,
         FunctionMustReturn.UNIT,
         -> null
-
-        null -> null
     }
 
     override fun toString(): String {
