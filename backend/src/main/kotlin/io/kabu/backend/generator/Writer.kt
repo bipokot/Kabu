@@ -35,34 +35,7 @@ class Writer(private val testMode: Boolean = false) {
             addAnnotation(
                 AnnotationSpec.builder(Suppress::class)
                     .useSiteTarget(AnnotationSpec.UseSiteTarget.FILE)
-                    .addMember(CodeBlock.of("%S", "DEPRECATION"))
-                    .addMember(CodeBlock.of("%S", "UnusedImport"))
-                    .addMember(CodeBlock.of("%S", "unused"))
-                    .addMember(CodeBlock.of("%S", "UNUSED_PARAMETER"))
-                    .addMember(CodeBlock.of("%S", "UNUSED_VARIABLE"))
-                    .addMember(CodeBlock.of("%S", "NonAsciiCharacters"))
-                    .addMember(CodeBlock.of("%S", "MatchingDeclarationName"))
-                    .addMember(CodeBlock.of("%S", "UnnecessaryVariable"))
-                    .addMember(CodeBlock.of("%S", "RemoveRedundantQualifierName"))
-                    .addMember(CodeBlock.of("%S", "VariableNaming"))
-                    .addMember(CodeBlock.of("%S", "ConstructorParameterNaming"))
-                    .addMember(CodeBlock.of("%S", "TestFunctionName"))
-                    .addMember(CodeBlock.of("%S", "TopLevelPropertyNaming"))
-                    .addMember(CodeBlock.of("%S", "NAME_SHADOWING"))
-                    .addMember(CodeBlock.of("%S", "UNUSED_ANONYMOUS_PARAMETER"))
-                    .addMember(CodeBlock.of("%S", "TooManyFunctions"))
-                    .addMember(CodeBlock.of("%S", "UnusedReceiverParameter"))
-                    .addMember(CodeBlock.of("%S", "CyclomaticComplexMethod"))
-                    .addMember(CodeBlock.of("%S", "MaxLineLength"))
-                    .addMember(CodeBlock.of("%S", "PropertyName"))
-                    .addMember(CodeBlock.of("%S", "FunctionOnlyReturningConstant"))
-                    .addMember(CodeBlock.of("%S", "MagicNumber"))
-                    .addMember(CodeBlock.of("%S", "SpellCheckingInspection"))
-                    .addMember(CodeBlock.of("%S", "FunctionNaming"))
-                    .addMember(CodeBlock.of("%S", "FunctionName"))
-                    .addMember(CodeBlock.of("%S", "ObjectPropertyName"))
-                    .addMember(CodeBlock.of("%S", "MemberVisibilityCanBePrivate"))
-                    .addMember(CodeBlock.of("%S", "UNCHECKED_CAST"))
+                    .apply { suppressList.forEach { addMember(CodeBlock.of("%S", it)) } }
                     .build()
 
             )
@@ -76,6 +49,40 @@ class Writer(private val testMode: Boolean = false) {
         val classRegex = Regex("public class")
         val objectRegex = Regex("public object")
         val valRegex = Regex("public val")
+
+        val suppressList = listOf(
+            "ConstructorParameterNaming",
+            "CyclomaticComplexMethod",
+            "DEPRECATION",
+            "EmptyDefaultConstructor",
+            "FunctionName",
+            "FunctionNaming",
+            "FunctionOnlyReturningConstant",
+            "MagicNumber",
+            "MatchingDeclarationName",
+            "MaxLineLength",
+            "MemberVisibilityCanBePrivate",
+            "NAME_SHADOWING",
+            "NonAsciiCharacters",
+            "ObjectPropertyName",
+            "PropertyName",
+            "RedundantVisibilityModifier",
+            "RemoveRedundantQualifierName",
+            "SpellCheckingInspection",
+            "TestFunctionName",
+            "TooManyFunctions",
+            "TopLevelPropertyNaming",
+            "UNCHECKED_CAST",
+            "UnnecessaryVariable",
+            "unused",
+            "UNUSED_ANONYMOUS_PARAMETER",
+            "UNUSED_PARAMETER",
+            "UNUSED_VARIABLE",
+            "UnusedImport",
+            "UnusedReceiverParameter",
+            "VariableNaming",
+            "FunctionParameterNaming",
+        )
     }
 }
 
