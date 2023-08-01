@@ -66,6 +66,6 @@ class PropertyAndPropertyConflictResolver(private val integrator: Integrator): C
     }
 
     private fun modifiersAreEqual(current: PropertyNode, conflicting: PropertyNode): Boolean {
-        return true //todo
+        return true //todo need modifiers info?
     }
 }

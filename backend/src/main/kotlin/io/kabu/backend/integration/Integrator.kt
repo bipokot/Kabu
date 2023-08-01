@@ -71,6 +71,7 @@ class Integrator {
     private fun resolvePossibleConflictWithUserCode(node: Node) {
         if (!userCodeConflictDetector.hasConflicts(node)) return
 
+        //todo conflict with user declaration sometimes may be resolved by same means as conflict with nodes!
         error("Conflicting declaration in existing code for '$node'")
     }
 
@@ -113,6 +114,7 @@ class Integrator {
     }
 
     internal fun rewireNodes(replaced: Node, replaceBy: Node) {
+        // nodes depending on 'replaced' must depend on 'replaceBy' now
         val derivativeNodes = replaced.derivativeNodes.toList()
         derivativeNodes.forEach {
             it.replaceDependency(replaced, replaceBy)
@@ -127,6 +129,7 @@ class Integrator {
                 replaceBy.derivativeNodes.remove(it)
             }
         }
+        // fixing links for 'replaced' node's dependencies
         replaced.dependencies.forEach {
             it.derivativeNodes.remove(replaced)
         }
@@ -161,6 +164,8 @@ class Integrator {
         }
     }
 
+    //todo check all cases with renaming to ensure
+    // that newly generated name is not in conflict with any other declaraion (user or generated)
     internal fun pickAvailableTypeName(namespaceNode: NamespaceNode, vararg forbiddenNames: String): String {
         var typeName: String
         do {
@@ -180,6 +185,7 @@ class Integrator {
     }
 
     private fun isTypeNameOccupiedByGeneratedCode(namespaceNode: NamespaceNode, typeName: String): Boolean {
+        // checking names of properties as well (same name subspace)
         return integrated.asSequence()
             .filter { it.namespaceNode === namespaceNode }
             .any {

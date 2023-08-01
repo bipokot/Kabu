@@ -5,6 +5,9 @@ import io.kabu.backend.inout.input.method.GlobalPatternMethod
 import io.kabu.backend.inout.input.method.LocalPatternMethod
 import io.kabu.backend.inout.input.writer.FileWriter
 
+/**
+ * Interface between frontend and backend processors
+ */
 data class ProcessingInput(
     val fileWriter: FileWriter,
     val globalPatterns: List<GlobalPatternMethod>,

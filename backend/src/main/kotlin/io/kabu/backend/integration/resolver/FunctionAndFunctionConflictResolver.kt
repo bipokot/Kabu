@@ -31,12 +31,15 @@ class FunctionAndFunctionConflictResolver(private val integrator: Integrator): C
 
         visualize(integrator.integrated, "Before conflict resolving")
 
+        // generalizing parameters names
         conflicting.parameters.forEachIndexed { index, nameAndType ->
             val correspondingNameAndType = current.parameters[index]
+            // if names are equal then no need to generalize them
             if (nameAndType.name != correspondingNameAndType.name) {
                 nameAndType.name = generalizeName(nameAndType.typeNode)
             }
         }
+        // resolving possible names clashes
         val parameterNames = renameClashingParametersNames(conflicting.parameters.map { it.name })
         conflicting.parameters.forEachIndexed { index, nameAndType -> nameAndType.name = parameterNames[index] }
 
@@ -73,7 +76,7 @@ class FunctionAndFunctionConflictResolver(private val integrator: Integrator): C
     }
 
     private fun modifiersAreEqual(current: FunctionNode, conflicting: FunctionNode): Boolean {
-        return true
+        return true //todo need modifiers info
     }
 
     private fun parametersAreEqual(current: FunctionNode, conflicting: FunctionNode): Boolean {
