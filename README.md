@@ -453,6 +453,8 @@ Available parameters:
 
 ## Documentation
 
+See an introduction article on Medium - [Revolutionizing Kotlin DSLs](https://medium.com/@bipokot/revolutionizing-kotlin-dsls-955dc774eed5)
+
 #### Terminology
 - `pattern` - a string which defines how an expression must look like. [Pattern syntax](doc/patternSyntax.md) generally corresponds to a Kotlin *statement* syntax.
 - `target function` - function annotated with one of the pattern annotations (`@Pattern`/`@LocalPattern`), which is to be called when expression matching to the pattern is evaluated
