@@ -26,6 +26,8 @@ Patterns can be almost as complex as you can do it with Kotlin.
 
 [Extend your patterns](doc/patternExtension.md) to use convenient scoping capabilities provided by lambdas (like in regular DSLs).
 
+See an introduction article - [Revolutionizing Kotlin DSLs](https://medium.com/@bipokot/revolutionizing-kotlin-dsls-955dc774eed5)
+
 ### Features
 - **Instant DSL generation**: generate or change style of your DSL in less than 1 minute.
 - **[Rich support for Kotlin operations](doc/patternSyntax.md)**: Kabu supports almost all operations usable for DSL creation (and some previously considered useless).
@@ -452,8 +454,6 @@ Available parameters:
 	- "false" - *unsafe* features of patterns are disabled
 
 ## Documentation
-
-See an introduction article on Medium - [Revolutionizing Kotlin DSLs](https://medium.com/@bipokot/revolutionizing-kotlin-dsls-955dc774eed5)
 
 #### Terminology
 - `pattern` - a string which defines how an expression must look like. [Pattern syntax](doc/patternSyntax.md) generally corresponds to a Kotlin *statement* syntax.
