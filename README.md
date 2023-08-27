@@ -421,6 +421,8 @@ sourceSets.main {
 ```
 
 ### Install Kabu
+[![Release](https://jitpack.io/v/bipokot/Kabu.svg)](https://jitpack.io/#bipokot/Kabu)
+
 Add repository:
 
 ```gradle
