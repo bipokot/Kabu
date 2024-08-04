@@ -4,9 +4,11 @@ import io.kabu.frontend.ksp.processor.BaseKspFrontendProcessorTest
 import io.kabu.frontend.ksp.processor.TestCase
 import io.kabu.frontend.ksp.processor.minus
 import io.kabu.frontend.ksp.processor.sample
+import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.junit.Test
 
 
+@ExperimentalCompilerApi
 class GenericContextTest : BaseKspFrontendProcessorTest() {
 
     @Test

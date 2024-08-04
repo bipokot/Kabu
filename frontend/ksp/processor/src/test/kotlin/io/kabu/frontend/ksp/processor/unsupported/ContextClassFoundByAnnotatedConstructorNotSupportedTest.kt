@@ -1,12 +1,14 @@
 package io.kabu.frontend.ksp.processor.unsupported
 
 import io.kabu.frontend.ksp.processor.BaseKspFrontendProcessorTest
+import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.junit.Ignore
 import org.junit.Test
 
 /**
  * Validation of context class constructor of which is marked as [ContextCreator]
  */
+@ExperimentalCompilerApi
 class ContextClassFoundByAnnotatedConstructorNotSupportedTest : BaseKspFrontendProcessorTest() {
 
     private val role = "Context"

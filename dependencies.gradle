@@ -1,4 +1,4 @@
-def kctVersion = "1.5.0"
+def kctVersion = "1.6.0"
 def kotlinPoetVersion = "1.14.2"
 
 ext.deps = [
