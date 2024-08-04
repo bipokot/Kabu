@@ -50,7 +50,7 @@ Not supported operations:
 - spread operator: `foo(*bar)`
 
 ## Functional literals
-You can use lambdas as building blocks of patterns in all possible ways. Only first statement in a lambdas is taken into account (other statements are ignored).
+You can use lambdas as building blocks of patterns in all possible ways. Only first statement in a lambda inside a pattern is taken into account (other statements are ignored).
 - `foo { a * b }`
 - `a + {{{ b / c }}}`
 - `{ foo } / !{ bar }`

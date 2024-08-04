@@ -32,7 +32,7 @@ Patterns can be almost as complex as you can do it with Kotlin.
 - **Any pattern complexity**: if it's syntactically correct, Kabu will generate it.
 - **[Pattern extensibility](doc/patternExtension.md)**: use lambdas with receiver in a more convenient and safe way by  [extending](doc/patternExtension.md) your pattern.
 - **Support for generics**: target functions and extension context classes may be generic.
-- **Retrieving actual used operator**: know whether `<` or `>` was used in runtime expression (`in`/`!in` for inclusion).
+- **Retrieval of actual used operator**: know whether `<` or `>` was used in runtime expression (`in`/`!in` for inclusion).
 - **Propagation of user given names**: generated code takes into account user given names for elements.
 - **Conflict resolution**: possible conflicts between declarations for different patterns are resolved automatically.
 - **Minimum pollution principle**: generated code is placed to appropriate visibility scopes, maintaining your codebase as clean as possible.
@@ -516,7 +516,7 @@ fun main() {
 }
 ```
 
-### Retrieving actual used operator (comparison/inclusion)
+### Retrieving of actual used operator (comparison/inclusion)
 >This feature is *unsafe*. See [unsafe features](doc/unsafe.md).
 
 Required conditions:
@@ -524,7 +524,7 @@ Required conditions:
 - order of [target function](doc/targetFunctions.md) parameters must match the order in which these parameters appear in a pattern
 - parameter of type `OperatorInfo` must be included *between* corresponding parameters
 
-You can use comparison/inclusion operators in any combination and get as many `OperatorInfo` parameters as you wish.
+You can use comparison/inclusion operators in any combination to get as many `OperatorInfo` parameters as you wish.
 
 #### Comparison check
 For example `transaction { bob > alice }` can be distinguished from `transaction { bob < alice }` (note the change in comparison operator).
@@ -543,7 +543,7 @@ All identifiers defined in a pattern which have no match with one of [target fun
 See `Example-000`, `Example-001`, `Example-003`, `Example-004` etc.
 
 ### Minimum pollution principle
-All generated declarations are placed in the most narrow scope (package, class, nested classes) to reduce conflicts probability and to maintain your namespaces as clean as possible.
+All generated declarations are placed in the most narrow scope (package, class, nested class) to reduce conflicts probability and to maintain your namespaces as clean as possible.
 
 See `Example-016`.
 
