@@ -1,9 +1,11 @@
 package io.kabu.frontend.ksp.processor
 
 import com.tschuchort.compiletesting.KotlinCompilation
+import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
+@ExperimentalCompilerApi
 open class KotlinCompilationResultAssert {
 
     protected fun KotlinCompilation.Result.assertCompilationError(lineNumber: Int, vararg expectedMessages: String) {

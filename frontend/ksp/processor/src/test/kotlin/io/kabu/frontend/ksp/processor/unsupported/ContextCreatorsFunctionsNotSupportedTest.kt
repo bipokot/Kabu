@@ -2,10 +2,12 @@ package io.kabu.frontend.ksp.processor.unsupported
 
 import io.kabu.annotation.ContextCreator
 import io.kabu.frontend.ksp.processor.BaseKspFrontendProcessorTest
+import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.junit.Assume
 import org.junit.Ignore
 import org.junit.Test
 
+@ExperimentalCompilerApi
 class ContextCreatorsFunctionsNotSupportedTest : BaseKspFrontendProcessorTest() {
 
     private val role = ContextCreator::class.simpleName

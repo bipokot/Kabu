@@ -15,9 +15,16 @@ import io.kabu.backend.node.namespace.PackageNamespaceNode
 import io.kabu.backend.provider.group.FunDeclarationProviders
 import io.kabu.backend.util.poet.gatherTypeVariableNames
 
-
+/**
+ * Integrated node
+ *
+ * @property namespaceNode namespace node which encloses the node
+ * @property name short name associated with the node (class/function/property name etc.), may not be unique
+ * @property dependencies dependencies of the node, must be composed dynamically of the node's properties
+ * @property derivativeNodes nodes which depend on this node
+ */
 interface Node {
-    var namespaceNode: NamespaceNode?
+    var namespaceNode: NamespaceNode? //todo not all node types are enclosed into some namespace
     val name: String
     val dependencies: Iterable<Node> //todo make dependencies a set
     val derivativeNodes: MutableSet<Node>
@@ -27,6 +34,8 @@ interface Node {
 
 interface AbstractNode : Node {
 
+    // marks this node as 'derivative node' in its 'dependency node'-s
+    //todo must be called in leaf-classes, consider refactoring
     fun updateLinks() {
         try {
             dependencies.forEach {
@@ -71,8 +80,9 @@ abstract class TypeNode : AbstractNode {
     override fun toString() = className()
 }
 
+// for given types (not generated ones: user types or Kotlin types)
 class FixedTypeNode(
-    override val typeName: TypeName,
+    override val typeName: TypeName, // unchanged
     override var namespaceNode: NamespaceNode?,
 ) : TypeNode() {
     override val name: String
@@ -107,7 +117,7 @@ class DerivativeTypeNode(
     override val dependencies: Iterable<Node>
         get() = generatorDependencies.toMutableList()
             .apply { namespaceNode?.let { add(it) } }
-            .filterNot { it is FixedTypeNode }
+            .filterNot { it is FixedTypeNode } //todo attention
 
     override val derivativeNodes = mutableSetOf<Node>()
     override val typeName: TypeName
@@ -134,15 +144,15 @@ class DerivativeTypeNode(
 
 
 abstract class GeneratedTypeNode(
-    override var name: String,
+    override var name: String, // mutable as it isn't defined or fixed by pattern
 ) : TypeNode() {
     override val derivativeNodes = mutableSetOf<Node>()
-    open val desiredName: String? get() = null
+    open val desiredName: String? get() = null //todo optional user given name for that type
 }
 
 open class ObjectTypeNode(
     name: String,
-    override var namespaceNode: NamespaceNode?,
+    override var namespaceNode: NamespaceNode?, //todo consider non-nullable for majority of node types
 ) : GeneratedTypeNode(name) {
     override val derivativeNodes = mutableSetOf<Node>()
     override val dependencies: Iterable<Node>
@@ -183,7 +193,7 @@ open class HolderTypeNode(
     override val derivativeNodes = mutableSetOf<Node>()
     override val dependencies: Iterable<Node>
         get() = fieldTypes
-            .filterNot { it is FixedTypeNode }
+            .filterNot { it is FixedTypeNode } //todo attention
             .mapTo(mutableListOf<Node>()) { it }
             .apply { namespaceNode?.let { add(it) } }
 
@@ -304,7 +314,7 @@ interface FunctionNode : AbstractNode {
     override val dependencies: Iterable<Node>
         get() = (parameters.map { it.typeNode } + returnTypeNode).toMutableList<Node>()
             .apply { namespaceNode?.let { add(it) } }
-            .filterNot { it is FixedTypeNode }
+            .filterNot { it is FixedTypeNode } //todo attention
 }
 
 abstract class BaseFunctionNode(
@@ -323,7 +333,7 @@ abstract class BaseFunctionNode(
 interface PropertyNode : AbstractNode {
     var receiverTypeNode: TypeNode?
     var returnTypeNode: TypeNode
-    val isTerminal: Boolean
+    val isTerminal: Boolean //todo isTerminal is property of getter or setter, not the property itself
 
     override fun replaceDependency(replaced: Node, replaceBy: Node) {
         if (receiverTypeNode === replaced) receiverTypeNode = replaceBy as TypeNode
@@ -333,7 +343,7 @@ interface PropertyNode : AbstractNode {
 
     override val dependencies: Iterable<Node>
         get() = listOfNotNull(receiverTypeNode, returnTypeNode, namespaceNode)
-            .filterNot { it is FixedTypeNode }
+            .filterNot { it is FixedTypeNode } //todo attention
 }
 
 open class BasePropertyNode(

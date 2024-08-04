@@ -9,6 +9,7 @@ import com.tschuchort.compiletesting.kspWithCompilation
 import com.tschuchort.compiletesting.symbolProcessorProviders
 import io.kabu.backend.common.log.InterceptingLogging
 import org.intellij.lang.annotations.Language
+import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -17,6 +18,7 @@ import java.io.File
 import java.nio.file.Path
 import kotlin.test.assertEquals
 
+@ExperimentalCompilerApi
 open class BaseKspFrontendProcessorTest : KotlinCompilationResultAssert() {
 
     @Rule
@@ -118,7 +120,7 @@ open class BaseKspFrontendProcessorTest : KotlinCompilationResultAssert() {
 
     private fun createClassPath(): String {
         val projectRoot = "../../../"
-        val mainKtsLib = "${projectRoot}frontend/ksp/testing/lib/kotlin-main-kts-1.9.0.jar"
+        val mainKtsLib = "${projectRoot}frontend/ksp/testing/lib/kotlin-main-kts-2.0.0.jar"
         val runtimeClassFiles = "${projectRoot}runtime/build/classes/kotlin/main"
         val annotationClassFiles = "${projectRoot}annotation/build/classes/kotlin/main"
         val classFiles = "${projectRoot}frontend/ksp/processor/build/ksptesting/classes"

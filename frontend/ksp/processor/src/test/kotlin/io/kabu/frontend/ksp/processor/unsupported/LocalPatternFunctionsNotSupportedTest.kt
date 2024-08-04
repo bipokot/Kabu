@@ -2,9 +2,11 @@ package io.kabu.frontend.ksp.processor.unsupported
 
 import io.kabu.annotation.LocalPattern
 import io.kabu.frontend.ksp.processor.BaseKspFrontendProcessorTest
+import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.junit.Ignore
 import org.junit.Test
 
+@ExperimentalCompilerApi
 class LocalPatternFunctionsNotSupportedTest : BaseKspFrontendProcessorTest() {
 
     private val role = LocalPattern::class.simpleName

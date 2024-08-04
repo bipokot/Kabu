@@ -6,9 +6,11 @@ import io.kabu.frontend.ksp.processor.BaseKspFrontendProcessorTest
 import io.kabu.frontend.ksp.processor.TestCase.ScriptResult.Termination
 import io.kabu.frontend.ksp.processor.minus
 import io.kabu.frontend.ksp.processor.sample
+import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.junit.Test
 
 
+@ExperimentalCompilerApi
 class MultipleContextCreatorsForOneContextName2Test : BaseKspFrontendProcessorTest() {
 
     @Test

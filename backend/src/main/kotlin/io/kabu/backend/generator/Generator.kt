@@ -42,7 +42,7 @@ class Generator(private val testMode: Boolean = false) {
 
     private fun getCodeForPackage(packageNode: PackageNode): String {
         val nodesInPackage = packageNode.derivativeNodes
-        val writtenNodes = mutableSetOf<Node>(packageNode)
+        val writtenNodes = mutableSetOf<Node>(packageNode) // starting with "writing" node itself
         val unwrittenNodes = nodesInPackage.toMutableList()
 
         val gatheredDeclarations = gatherDeclarationsForNodes(unwrittenNodes, writtenNodes)
@@ -77,7 +77,7 @@ class Generator(private val testMode: Boolean = false) {
         val innerNodes = node.derivativeNodes.filter { it.namespaceNode == node }
 
         val unwrittenNodes = innerNodes.toMutableList()
-        val writtenNodes = mutableSetOf(node)
+        val writtenNodes = mutableSetOf(node) // starting with "writing" node itself
         return gatherDeclarationsForNodes(unwrittenNodes, writtenNodes)
     }
 
