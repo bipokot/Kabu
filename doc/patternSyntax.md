@@ -23,7 +23,7 @@ Following operations are supported:
         - `-`: `foo - bar`
     - range
 	    - `..`: `foo .. bar`
-	    - `..<`: `foo ..< bar` (requires opt-in and language version 1.8)
+	    - `..<`: `foo ..< bar`
     - inclusion checks
     	- `in`: `foo in bar`
     	- `!in`: `foo !in bar`
