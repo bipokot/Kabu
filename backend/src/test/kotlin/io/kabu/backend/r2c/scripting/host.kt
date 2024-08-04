@@ -9,7 +9,6 @@ import java.io.File
 import kotlin.script.experimental.api.EvaluationResult
 import kotlin.script.experimental.api.ResultWithDiagnostics
 import kotlin.script.experimental.api.ScriptCompilationConfiguration
-import kotlin.script.experimental.api.compilerOptions
 import kotlin.script.experimental.host.toScriptSource
 import kotlin.script.experimental.jvm.dependenciesFromCurrentContext
 import kotlin.script.experimental.jvm.jvm
@@ -50,7 +49,7 @@ private fun scriptCompilationConfiguration(): ScriptCompilationConfiguration =
             // variant 4: explicit classpath
             //updateClasspath(listOf(File("/path/to/jar")))
         }
-        compilerOptions.append("-language-version=1.8", "-opt-in=kotlin.ExperimentalStdlibApi")
+        //compilerOptions.append("-language-version=1.8", "-opt-in=kotlin.ExperimentalStdlibApi")
     }
 
 fun main(vararg args: String) {

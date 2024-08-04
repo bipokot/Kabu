@@ -31,11 +31,4 @@ dependencies {
     testImplementation deps.scripting.jvmHost
 }
 
-compileKotlin {
-    kotlinOptions.freeCompilerArgs = ["-Xallow-result-return-type", "-Xopt-in=kotlin.RequiresOptIn"]
-}
-compileTestKotlin {
-    kotlinOptions.freeCompilerArgs = ["-Xallow-result-return-type", "-Xopt-in=kotlin.RequiresOptIn"]
-}
-
 configurePublishing(getProject())
